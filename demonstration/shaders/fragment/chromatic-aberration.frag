@@ -9,13 +9,14 @@ uniform sampler2D colorTexture;
 
 uniform vec2 enabled;
 uniform vec2 mouseFocusPoint;
+uniform vec4 parameters;
 
 out vec4 fragColor;
 
 void main() {
-  float redOffset   =  0.009;
-  float greenOffset =  0.006;
-  float blueOffset  = -0.006;
+  float redOffset   = parameters.x;
+  float greenOffset = parameters.y;
+  float blueOffset  = parameters.z;
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;

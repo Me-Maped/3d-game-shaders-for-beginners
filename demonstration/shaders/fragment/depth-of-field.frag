@@ -13,13 +13,14 @@ uniform sampler2D outOfFocusTexture;
 uniform vec2 mouseFocusPoint;
 uniform vec2 nearFar;
 uniform vec2 enabled;
+uniform vec2 parameters;
 
 out vec4 fragColor;
 out vec4 fragColor1;
 
 void main() {
-  float minDistance =  8.0;
-  float maxDistance = 12.0;
+  float minDistance = parameters.x;
+  float maxDistance = parameters.y;
 
   float far  = nearFar.y;
 

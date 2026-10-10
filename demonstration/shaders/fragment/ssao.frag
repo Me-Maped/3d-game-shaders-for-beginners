@@ -17,14 +17,15 @@ uniform sampler2D positionTexture;
 uniform sampler2D normalTexture;
 
 uniform vec2 enabled;
+uniform vec4 parameters;
 
 out vec4 fragColor;
 
 void main() {
-  float radius    = 0.6;
-  float bias      = 0.005;
-  float magnitude = 1.1;
-  float contrast  = 1.1;
+  float radius    = parameters.x;
+  float bias      = parameters.y;
+  float magnitude = parameters.z;
+  float contrast  = parameters.w;
 
   fragColor = vec4(1);
 

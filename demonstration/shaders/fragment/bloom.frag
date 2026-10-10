@@ -8,14 +8,16 @@
 uniform sampler2D colorTexture;
 
 uniform vec2 enabled;
+uniform vec4 parameters;
 
 out vec4 fragColor;
 
 void main() {
-  int   size       = 3;
-  float separation = 4.0;
-  float threshold  = 0.6;
-  float amount     = 0.6;
+  const int kMaxSize = 5;
+  int   size       = int(clamp(parameters.x, 0.0, float(kMaxSize)));
+  float separation = parameters.y;
+  float threshold  = parameters.z;
+  float amount     = parameters.w;
 
   if (enabled.x != 1 || size <= 0) { fragColor = vec4(0); return; }
 
@@ -27,8 +29,10 @@ void main() {
   float value = 0.0;
   float count = 0.0;
 
-  for (int i = -size; i <= size; ++i) {
-    for (int j = -size; j <= size; ++j) {
+  for (int i = -kMaxSize; i <= kMaxSize; ++i) {
+    if (i < -size || i > size) { continue; }
+    for (int j = -kMaxSize; j <= kMaxSize; ++j) {
+      if (j < -size || j > size) { continue; }
       color =
         texture
           ( colorTexture

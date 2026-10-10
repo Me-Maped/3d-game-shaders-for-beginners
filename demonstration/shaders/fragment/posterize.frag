@@ -11,11 +11,12 @@ uniform sampler2D colorTexture;
 uniform sampler2D positionTexture;
 
 uniform vec2 enabled;
+uniform vec2 parameters;
 
 out vec4 fragColor;
 
 void main() {
-  float levels = 6.0;
+  float levels = max(parameters.x, 1.0);
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;

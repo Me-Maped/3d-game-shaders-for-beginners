@@ -15,12 +15,13 @@ uniform sampler2D fogTexture;
 
 uniform vec2 nearFar;
 uniform vec2 enabled;
+uniform vec2 parameters;
 
 out vec4 fragColor;
 
 void main() {
-  float minSeparation = 1.0;
-  float maxSeparation = 1.0;
+  float minSeparation = parameters.x;
+  float maxSeparation = parameters.x;
   float minDistance   = 1.5;
   float maxDistance   = 2.0;
   float noiseScale    = 1.0;

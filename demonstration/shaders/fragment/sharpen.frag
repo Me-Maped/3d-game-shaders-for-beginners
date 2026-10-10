@@ -8,11 +8,12 @@
 uniform sampler2D colorTexture;
 
 uniform vec2 enabled;
+uniform vec2 parameters;
 
 out vec4 fragColor;
 
 void main() {
-  float amount = 0.3;
+  float amount = parameters.x;
 
   vec2 texSize   = textureSize(colorTexture, 0).xy;
   vec2 fragCoord = gl_FragCoord.xy;

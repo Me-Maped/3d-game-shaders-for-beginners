@@ -5,5 +5,6 @@ blends/**
 *main.o*
 *3d-game-shaders-for-beginners.o*
 *3d-game-shaders-for-beginners*
+demonstration/build/
 !blends/*
 !blends/mill-scene/mill-scene-low-poly-backup.blend

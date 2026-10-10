@@ -12,6 +12,7 @@
 #include <algorithm>
 
 #include "pandaFramework.h" // Panda3D 1.10.9
+#include "inputDevice.h"
 #include "renderBuffer.h"
 #include "load_prc_file.h"
 #include "pStatClient.h"
@@ -45,6 +46,9 @@
 #include "linearEulerIntegrator.h"
 #include "audioManager.h"
 #include "audioSound.h"
+
+#include "imgui_host.h"
+#include "debug_panel.h"
 
 // STRUCTURES
 
@@ -268,6 +272,7 @@ std::uniform_real_distribution<float>
 std::default_random_engine generator;
 
 PT(AsyncTaskManager) taskManager = AsyncTaskManager::get_global_ptr();
+PT(GraphicsWindow)   keyboardWindow = nullptr;
 
 PT(AudioManager) audioManager = AudioManager::create_AudioManager();
 
@@ -403,6 +408,7 @@ int main
 
   PT(WindowFramework)         window                = framework.open_window();
   PT(GraphicsWindow)          graphicsWindow        = window->get_graphics_window();
+  keyboardWindow = graphicsWindow;
   PT(GraphicsOutput)          graphicsOutput        = window->get_graphics_output();
   PT(GraphicsStateGuardian)   graphicsStateGuardian = graphicsOutput->get_gsg();
   PT(GraphicsEngine)          graphicsEngine        = graphicsStateGuardian->get_engine();
@@ -1299,6 +1305,71 @@ int main
   weatherVaneAnimationCollection.loop("weather-vane-shake", true);
   bannerAnimationCollection.loop(     "banner-swing",       true);
 
+  std::vector<std::string> bufferNames;
+  bufferNames.reserve(bufferArray.size());
+  for (const auto& buffer : bufferArray) {
+    bufferNames.push_back(std::get<0>(buffer));
+  }
+
+  ShaderDebugState debug;
+  debug.sound_enabled    = &soundEnabled;
+  debug.animate_sun      = &animateSunlight;
+  debug.buffer_index     = &showBufferIndex;
+  debug.buffer_names     = &bufferNames;
+  debug.ssao             = &ssaoEnabled;
+  debug.blinn_phong      = &blinnPhongEnabled;
+  debug.fresnel          = &fresnelEnabled;
+  debug.rim_light        = &rimLightEnabled;
+  debug.refraction       = &refractionEnabled;
+  debug.reflection       = &reflectionEnabled;
+  debug.fog              = &fogEnabled;
+  debug.outline          = &outlineEnabled;
+  debug.cel              = &celShadingEnabled;
+  debug.normal_maps      = &normalMapsEnabled;
+  debug.bloom            = &bloomEnabled;
+  debug.sharpen          = &sharpenEnabled;
+  debug.depth_of_field   = &depthOfFieldEnabled;
+  debug.film_grain       = &filmGrainEnabled;
+  debug.flow_maps        = &flowMapsEnabled;
+  debug.lookup_table     = &lookupTableEnabled;
+  debug.painterly        = &painterlyEnabled;
+  debug.motion_blur      = &motionBlurEnabled;
+  debug.posterize        = &posterizeEnabled;
+  debug.pixelize         = &pixelizeEnabled;
+  debug.chromatic        = &chromaticAberrationEnabled;
+  debug.fog_near         = &fogNear;
+  debug.fog_far          = &fogFar;
+  debug.foam_depth       = &foamDepth[0];
+  debug.ior              = &rior[0];
+  debug.sun_pitch        = &sunlightP;
+  debug.focus_x          = &mouseFocusPoint[0];
+  debug.focus_y          = &mouseFocusPoint[1];
+
+  ImGuiHost imguiHost(graphicsWindow, render2d);
+
+  bool  imguiCaptureMouse = false;
+  float imguiWheel        = 0.0f;
+
+  auto resetScene =
+    [&]() {
+      cameraRotateRadius = cameraRotateRadiusInitial;
+      cameraRotatePhi    = cameraRotatePhiInitial;
+      cameraRotateTheta  = cameraRotateThetaInitial;
+      cameraLookAt       = cameraLookAtInitial;
+
+      fogNear = fogNearInitial;
+      fogFar  = fogFarInitial;
+
+      foamDepth       = foamDepthInitial;
+      rior            = riorInitial;
+      mouseFocusPoint = mouseFocusPointInitial;
+      debug.particles_on = true;
+      debug.reset_tunables();
+
+      statusAlpha = 1.0;
+      statusText  = "Reset";
+    };
+
   int then          = microsecondsSinceEpoch();
   int loopStartedAt = then;
   int now           = then;
@@ -1390,6 +1461,40 @@ int main
     bool mouseLeftDown    = mouseWatcher->is_button_down(MouseButton::one());
     bool mouseMiddleDown  = mouseWatcher->is_button_down(MouseButton::two());
     bool mouseRightDown   = mouseWatcher->is_button_down(MouseButton::three());
+
+    const int winW = graphicsWindow->get_x_size();
+    const int winH = graphicsWindow->get_y_size();
+    float imguiMouseX = -1.0f;
+    float imguiMouseY = -1.0f;
+    bool  imguiMouseValid = mouseWatcher->has_mouse();
+    if (imguiMouseValid) {
+      imguiMouseX = (mouseWatcher->get_mouse_x() + 1.0f) * 0.5f * winW;
+      imguiMouseY = (1.0f - (mouseWatcher->get_mouse_y() + 1.0f) * 0.5f) * winH;
+    }
+    imguiHost.begin
+      ( delta
+      , winW
+      , winH
+      , imguiMouseX
+      , imguiMouseY
+      , imguiMouseValid
+      , mouseLeftDown
+      , mouseRightDown
+      , mouseMiddleDown
+      , imguiWheel
+      );
+    imguiWheel = 0.0f;
+    imguiCaptureMouse = imguiHost.want_capture_mouse();
+
+    // The panel only needs the pointer. Keyboard shortcuts keep working
+    // even while a slider is being dragged.
+    if (imguiCaptureMouse) {
+      mouseLeftDown   = false;
+      mouseMiddleDown = false;
+      mouseRightDown  = false;
+      mouseWheelUp    = false;
+      mouseWheelDown  = false;
+    }
 
     if (wDown) {
       cameraRotatePhi -= movement * 0.5;
@@ -1512,6 +1617,13 @@ int main
     foamDepth[1] = foamDepth[0];
 
     if (keyDebounced) {
+      if (isButtonDown(mouseWatcher, "f1")) {
+        debug.panel_open = !debug.panel_open;
+        keyTime = now;
+        statusAlpha = 1.0;
+        statusText = debug.panel_open ? "Debug Panel On" : "Debug Panel Off";
+      }
+
       if (tabDown) {
         if (shiftDown) {
           showBufferIndex -= 1;
@@ -1542,23 +1654,8 @@ int main
       }
 
       if (resetDown) {
-        cameraRotateRadius = cameraRotateRadiusInitial;
-        cameraRotatePhi    = cameraRotatePhiInitial;
-        cameraRotateTheta  = cameraRotateThetaInitial;
-        cameraLookAt       = cameraLookAtInitial;
-
-        fogNear = fogNearInitial;
-        fogFar  = fogFarInitial;
-
-        foamDepth = foamDepthInitial;
-        rior      = riorInitial;
-
-        mouseFocusPoint = mouseFocusPointInitial;
-
+        resetScene();
         keyTime = now;
-
-        statusAlpha = 1.0;
-        statusText  = "Reset";
       }
 
       auto toggleStatus =
@@ -1805,16 +1902,10 @@ int main
       }
 
       if (particlesDown) {
+        debug.particles_on = !debug.particles_on;
         keyTime = now;
         statusAlpha = 1.0;
-
-        if (smokeNP.is_hidden()) {
-          smokeNP.show();
-          statusText = "Particles On";
-        } else {
-          smokeNP.hide();
-          statusText = "Particles Off";
-        }
+        statusText = debug.particles_on ? "Particles On" : "Particles Off";
       }
 
       if (chromaticAberrationDown) {
@@ -1857,6 +1948,65 @@ int main
       }
     }
 
+    draw_shader_debug(debug, imguiHost.has_cjk_font());
+
+    if (debug.reset_requested) {
+      resetScene();
+    }
+
+    if (debug.sun_dragging) {
+      animateSunlight = false;
+      NodePath sunlightPivotNP = render.find("**/sunlightPivot");
+      if (!sunlightPivotNP.is_empty()) {
+        sunlightPivotNP.set_p(sunlightP);
+      }
+      sunlightP =
+        animateLights
+          ( render
+          , shuttersAnimationCollection
+          , delta
+          , 0.0
+          , closedShutters
+          , false
+          , false
+          );
+    } else if (debug.go_midday || debug.go_midnight) {
+      animateSunlight = false;
+      sunlightP =
+        animateLights
+          ( render
+          , shuttersAnimationCollection
+          , delta
+          , 0.0
+          , closedShutters
+          , debug.go_midday
+          , debug.go_midnight
+          );
+      statusAlpha = 1.0;
+      statusText = debug.go_midday ? "Midday" : "Midnight";
+    }
+
+    if (debug.buffer_changed && showBufferIndex >= 0 && showBufferIndex < (int)bufferArray.size()) {
+      std::string bufferName = std::get<0>(bufferArray[showBufferIndex]);
+      bool showAlpha =
+            bufferName == "Outline"
+        ||  bufferName == "Foam"
+        ||  bufferName == "Fog"
+        ;
+      showBuffer
+        ( render2d
+        , statusNP
+        , bufferArray[showBufferIndex]
+        , showAlpha
+        );
+      statusAlpha = 1.0;
+      statusText = bufferName + " Buffer";
+    }
+
+    foamDepth[1] = foamDepth[0];
+    rior[1] = rior[0];
+    if (debug.particles_on) { smokeNP.show(); } else { smokeNP.hide(); }
+
     cameraLookAt =
       calculateCameraLookAt
         ( cameraUpDownAdjust
@@ -1895,6 +2045,15 @@ int main
 
     ssaoNP.set_shader_input("lensProjection", geometryCameraLens0->get_projection_mat());
     ssaoNP.set_shader_input("enabled",        ssaoEnabled);
+    ssaoNP.set_shader_input
+      ( "parameters"
+      , LVecBase4f
+          ( debug.ssao_radius
+          , debug.ssao_bias
+          , debug.ssao_magnitude
+          , debug.ssao_contrast
+          )
+      );
     ssaoCamera->set_initial_state(ssaoNP.get_state());
 
     refractionUvNP.set_shader_input("lensProjection", geometryCameraLens1->get_projection_mat());
@@ -1912,9 +2071,19 @@ int main
     foamCamera->set_initial_state(foamNP.get_state());
 
     bloomNP.set_shader_input("enabled", bloomEnabled);
+    bloomNP.set_shader_input
+      ( "parameters"
+      , LVecBase4f
+          ( debug.bloom_size
+          , debug.bloom_separation
+          , debug.bloom_threshold
+          , debug.bloom_amount
+          )
+      );
     bloomCamera->set_initial_state(bloomNP.get_state());
 
-    outlineNP.set_shader_input("enabled",             outlineEnabled);
+    outlineNP.set_shader_input("enabled", outlineEnabled);
+    outlineNP.set_shader_input("parameters", LVecBase2f(debug.outline_separation, 0));
     outlineCamera->set_initial_state(outlineNP.get_state());
 
     baseNP.set_shader_input("sunPosition",       LVecBase2f(sunlightP, 0));
@@ -1930,6 +2099,7 @@ int main
     refractionCamera->set_initial_state(refractionNP.get_state());
 
     sharpenNP.set_shader_input("enabled", sharpenEnabled);
+    sharpenNP.set_shader_input("parameters", LVecBase2f(debug.sharpen_amount, 0));
     sharpenCamera->set_initial_state(sharpenNP.get_state());
 
     sceneCombineNP.set_shader_input("sunPosition", LVecBase2f(sunlightP, 0));
@@ -1937,24 +2107,38 @@ int main
 
     depthOfFieldNP.set_shader_input("mouseFocusPoint", mouseFocusPoint);
     depthOfFieldNP.set_shader_input("enabled",         depthOfFieldEnabled);
+    depthOfFieldNP.set_shader_input("parameters",      LVecBase2f(debug.dof_min, debug.dof_max));
     depthOfFieldCamera->set_initial_state(depthOfFieldNP.get_state());
 
-    painterlyNP.set_shader_input("parameters", LVecBase2f(painterlyEnabled[0] == 1 ? 3 : 0, 0));
+    painterlyNP.set_shader_input
+      ( "parameters"
+      , LVecBase2f(painterlyEnabled[0] == 1 ? debug.painterly_size : 0, 0)
+      );
     painterlyCamera->set_initial_state(painterlyNP.get_state());
 
     motionBlurNP.set_shader_input("previousViewWorldMat",   previousViewWorldMat);
     motionBlurNP.set_shader_input("worldViewMat",           render.get_transform(cameraNP)->get_mat());
     motionBlurNP.set_shader_input("lensProjection",         geometryCameraLens1->get_projection_mat());
     motionBlurNP.set_shader_input("motionBlurEnabled",      motionBlurEnabled);
+    motionBlurNP.set_shader_input
+      ( "parameters"
+      , LVecBase2f(debug.motion_size, debug.motion_separation)
+      );
     motionBlurCamera->set_initial_state(motionBlurNP.get_state());
 
     posterizeNP.set_shader_input("enabled", posterizeEnabled);
+    posterizeNP.set_shader_input("parameters", LVecBase2f(debug.posterize_levels, 0));
     posterizeCamera->set_initial_state(posterizeNP.get_state());
 
+    int pixelSize = (int)(debug.pixel_size + 0.5f);
+    if (pixelSize < 1) { pixelSize = 1; }
+    if ((pixelSize % 2) == 0) { pixelSize += 1; }
     pixelizeNP.set_shader_input("enabled", pixelizeEnabled);
+    pixelizeNP.set_shader_input("parameters", LVecBase2f(pixelSize, 0));
     pixelizeCamera->set_initial_state(pixelizeNP.get_state());
 
     filmGrainNP.set_shader_input("enabled", filmGrainEnabled);
+    filmGrainNP.set_shader_input("parameters", LVecBase2f(debug.film_grain_amount, 0));
     filmGrainCamera->set_initial_state(filmGrainNP.get_state());
 
     lookupTableNP.set_shader_input("enabled",     lookupTableEnabled);
@@ -1963,7 +2147,22 @@ int main
 
     chromaticAberrationNP.set_shader_input("mouseFocusPoint", mouseFocusPoint);
     chromaticAberrationNP.set_shader_input("enabled",         chromaticAberrationEnabled);
+    chromaticAberrationNP.set_shader_input
+      ( "parameters"
+      , LVecBase4f(debug.ca_red, debug.ca_green, debug.ca_blue, 0)
+      );
     chromaticAberrationCamera->set_initial_state(chromaticAberrationNP.get_state());
+
+    if (soundStarted) {
+      bool wantSound = soundEnabled && flowMapsEnabled[0] == 1;
+      for_each
+        ( sounds.begin()
+        , sounds.end()
+        , [&](PT(AudioSound) sound) { setSoundState(sound, wantSound); }
+        );
+    }
+
+    imguiHost.end();
 
     previousViewWorldMat = currentViewWorldMat;
 
@@ -2001,12 +2200,14 @@ int main
 
   auto setMouseWheelUp =
     [&]() {
-    mouseWheelUp = true;
+    if (imguiCaptureMouse) { imguiWheel += 1.0f; }
+    else { mouseWheelUp = true; }
     };
 
   auto setMouseWheelDown =
     [&]() {
-    mouseWheelDown = true;
+    if (imguiCaptureMouse) { imguiWheel -= 1.0f; }
+    else { mouseWheelDown = true; }
     };
 
   framework.define_key
@@ -2488,15 +2689,45 @@ int microsecondsSinceEpoch
       ).count();
   }
 
+bool rawButtonDown
+  ( ButtonHandle button
+  ) {
+  if (keyboardWindow == nullptr || button == ButtonHandle::none()) {
+    return false;
+  }
+
+  int deviceCount = keyboardWindow->get_num_input_devices();
+  for (int deviceIndex = 0; deviceIndex < deviceCount; ++deviceIndex) {
+    InputDevice *device = keyboardWindow->get_input_device(deviceIndex);
+    if (device != nullptr && device->find_button(button).is_pressed()) {
+      return true;
+    }
+  }
+  return false;
+  }
+
 bool isButtonDown
   ( PT(MouseWatcher) mouseWatcher
   , std::string character
   ) {
-  return
-    mouseWatcher
-      ->is_button_down
-        ( ButtonRegistry::ptr()->find_button(character)
-        );
+  ButtonHandle button = ButtonRegistry::ptr()->find_button(character);
+  if (mouseWatcher != nullptr && mouseWatcher->is_button_down(button)) {
+    return true;
+  }
+  if (rawButtonDown(button)) {
+    return true;
+  }
+
+  // MouseWatcher folds lshift/rshift into "shift". The window device does not.
+  if (character == "shift") {
+    return
+         rawButtonDown(ButtonRegistry::ptr()->find_button("lshift"))
+      || rawButtonDown(ButtonRegistry::ptr()->find_button("rshift"));
+  }
+  if (character == "delete") {
+    return rawButtonDown(ButtonRegistry::ptr()->find_button("del"));
+  }
+  return false;
   }
 
 PT(MouseWatcher) getMouseWatcher
