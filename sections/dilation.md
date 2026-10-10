@@ -12,10 +12,10 @@
 <img src="https://i.imgur.com/z751O74.gif" alt="Dilation" title="Dilation">
 </p>
 
-Dilation dilates or enlarges the brighter areas of an image while at the same time,
-contracts or shrinks the darker areas of an image.
-This tends to create a pillowy look.
-You can use dilation for a glow/bloom effect or to add bokeh to your [depth of field](depth-of-field.md).
+Dilation 扩大图像里较亮的区域，同时
+收缩较暗的区域。
+结果往往有一种蓬松感。
+可以用 dilation 做 glow 或 bloom，也可以给 [depth of field](depth-of-field.md) 加 bokeh。
 
 ```c
   // ...
@@ -28,10 +28,10 @@ You can use dilation for a glow/bloom effect or to add bokeh to your [depth of f
   // ...
 ```
 
-The `size` and `separation` parameters control how dilated the image becomes.
-A larger `size` will increase the dilation at the cost of performance.
-A larger `separation` will increase the dilation at the cost of quality.
-The `minThreshold` and `maxThreshold` parameters control which parts of the image become dilated.
+`size` 和 `separation` 控制图像膨胀多少。
+`size` 更大，膨胀更强，但性能更差。
+`separation` 更大，膨胀更强，但质量更差。
+`minThreshold` 和 `maxThreshold` 控制图像哪些部分会被膨胀。
 
 ```c
   // ...
@@ -44,7 +44,7 @@ The `minThreshold` and `maxThreshold` parameters control which parts of the imag
   // ...
 ```
 
-Sample the color at the current fragment's position.
+采样当前 fragment 位置的颜色。
 
 ```c
   // ...
@@ -61,8 +61,8 @@ Sample the color at the current fragment's position.
   // ...
 ```
 
-Loop through a `size` by `size` window, centered at the current fragment position.
-As you loop, find the brightest color based on the surrounding greyscale values.
+遍历以当前 fragment 为中心、`size` 乘 `size` 的 window。
+遍历时，根据周围的 greyscale 找出最亮的颜色。
 
 <p align="center">
 <img src="https://i.imgur.com/X3uIyIL.png" alt="Dilation Window" title="Dilation Window">
@@ -83,9 +83,9 @@ As you loop, find the brightest color based on the surrounding greyscale values.
       // ...
 ```
 
-The window shape will determine the shape of the dilated parts of the image.
-For a rectangular shape, you can use every fragment covered by the window.
-For any other shape, skip the fragments that fall outside the desired shape.
+window 的形状决定图像中被膨胀部分的形状。
+矩形可以直接使用 window 覆盖的每个 fragment。
+其他形状则跳过落在目标形状外面的 fragment。
 
 ```c
       // ...
@@ -102,7 +102,7 @@ For any other shape, skip the fragments that fall outside the desired shape.
       // ...
 ```
 
-Sample a fragment color from the surrounding window.
+从周围的 window 里采样一个 fragment 颜色。
 
 ```c
       // ...
@@ -112,7 +112,7 @@ Sample a fragment color from the surrounding window.
       // ...
 ```
 
-Convert the sampled color to a greyscale value.
+把采样颜色转成 greyscale。
 
 ```c
       // ...
@@ -125,8 +125,8 @@ Convert the sampled color to a greyscale value.
       // ...
 ```
 
-If the sampled greyscale value is larger than the current maximum greyscale value,
-update the maximum greyscale value and its corresponding color.
+如果采样的 greyscale 大于当前最大 greyscale，
+就更新最大 greyscale 以及对应的颜色。
 
 ```c
   // ...
@@ -141,22 +141,22 @@ update the maximum greyscale value and its corresponding color.
   // ...
 ```
 
-The new fragment color is a mixture between the existing fragment color and
-the brightest color found.
-If the maximum greyscale value found is less than `minThreshold`,
-the fragment color is unchanged.
-If the maximum greyscale value is greater than `maxThreshold`,
-the fragment color is replaced with the brightest color found.
-For any other case,
-the fragment color is a mix between the current fragment color and the brightest color.
+新的 fragment 颜色是现有 fragment 颜色和
+找到的最亮颜色的混合。
+如果找到的最大 greyscale 小于 `minThreshold`，
+fragment 颜色不变。
+如果最大 greyscale 大于 `maxThreshold`，
+fragment 颜色替换成找到的最亮颜色。
+其他情况则是
+当前 fragment 颜色和最亮颜色的混合。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [dilation.frag](../demonstration/shaders/fragment/dilation.frag)
 
-## Copyright
+## 版权
 
 (C) 2020 David Lettier
 <br>

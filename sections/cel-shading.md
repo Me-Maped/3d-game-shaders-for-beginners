@@ -12,12 +12,12 @@
 <img src="https://i.imgur.com/W80Ke1y.gif" alt="Cel Shaded" title="Cel Shaded">
 </p>
 
-Cel shading is a technique to make 3D objects look 2D or flat.
-In 2D,
-you can make an object look 3D by applying a smooth gradient.
-However, with cel shading, you're breaking up the gradients into abrupt transitions.
-Typically there is only one transition where the shading goes from fully lit to fully shadowed.
-When combined with [outlining](outlining.md), cel shading can really sell the 2D cartoon look.
+Cel shading 让 3D 物体看起来像 2D，或者更平。
+在 2D 里，
+可以用平滑渐变让物体看起来有体积。
+Cel shading 则是把渐变切成突然的跳变。
+通常只有一次跳变，shading 从完全受光变成完全处于 shadow。
+再配上 [outlining](outlining.md)，卡通的 2D 观感就很完整。
 
 ## Diffuse
 
@@ -30,17 +30,17 @@ When combined with [outlining](outlining.md), cel shading can really sell the 2D
     // ...
 ```
 
-Revisiting the [lighting](lighting.md#diffuse) model,
-modify the `diffuseIntensity` such that it is either zero or one.
+回到 [lighting](lighting.md#diffuse) 模型，
+把 `diffuseIntensity` 改成要么是 0，要么是 1。
 
 <p align="center">
-<img src="https://i.imgur.com/lyLweFc.png" alt="Step Function" title="Step Function">
+<img src="https://i.imgur.com/lyLweFc.png" alt="Step 函数" title="Step 函数">
 </p>
 
-The `step` function returns zero if the input is less than the edge and one otherwise.
+输入小于 edge 时，`step` 返回 0，否则返回 1。
 
 <p align="center">
-<img src="https://i.imgur.com/EI6QJ60.png" alt="Steps Function" title="Steps Function">
+<img src="https://i.imgur.com/EI6QJ60.png" alt="多级 Step" title="多级 Step">
 </p>
 
 ```c
@@ -54,8 +54,8 @@ The `step` function returns zero if the input is less than the edge and one othe
   // ...
 ```
 
-If you would like to have a few steps or transitions,
-you can perform something like the above.
+如果想要几级台阶或几次跳变，
+可以写成上面这样。
 
 <p align="center">
 <img src="https://i.imgur.com/7KK65mi.png" alt="Step Texture" title="Step Texture">
@@ -69,8 +69,8 @@ you can perform something like the above.
   // ...
 ```
 
-Another approach is to put your step values into a texture with the transitions going from darker to lighter.
-Using the `diffuseIntensity` as a U coordinate, it will automatically transform itself.
+另一种做法是把台阶值放进一张 texture，跳变从暗到亮排列。
+把 `diffuseIntensity` 当作 U 坐标，它会自动完成映射。
 
 ## Specular
 
@@ -84,17 +84,17 @@ Using the `diffuseIntensity` as a U coordinate, it will automatically transform 
       // ...
 ```
 
-Using the `step` function again, set the `specularIntensity` to be either zero or one.
-You can also use one of the other approaches described up above for the specular highlight as well.
-After you've altered the `specularIntensity`, the rest of the lighting calculations are the same.
+再次使用 `step`，把 `specularIntensity` 设成 0 或 1。
+specular highlight 也可以用上面提到的其他做法。
+改完 `specularIntensity` 之后，其余 lighting 计算不变。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## 版权
 
 (C) 2020 David Lettier
 <br>

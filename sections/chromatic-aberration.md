@@ -12,8 +12,8 @@
 <img src="https://i.imgur.com/bawgERm.gif" alt="Chromatic Aberration" title="Chromatic Aberration">
 </p>
 
-Chromatic aberration is a screen space technique that simulates lens distortion.
-Use it to give your scene a cinematic, lo-fi analog feel or to emphasize a chaotic event.
+Chromatic aberration 是一种 screen space 技术，用来模拟镜头畸变。
+可以用它给场景加上电影感、lo-fi 的模拟质感，或强调一场混乱的事件。
 
 ### Texture
 
@@ -23,9 +23,9 @@ uniform sampler2D colorTexture;
 // ...
 ```
 
-The input texture needed is the scene's colors captured into a framebuffer texture.
+需要的输入 texture 是写入 framebuffer texture 的场景颜色。
 
-### Parameters
+### 参数
 
 <p align="center">
 <img src="https://i.imgur.com/fNpMaPL.gif" alt="Chromatic Aberration" title="Chromatic Aberration">
@@ -41,11 +41,11 @@ The input texture needed is the scene's colors captured into a framebuffer textu
   // ...
 ```
 
-The adjustable parameters for this technique are the red, green, and blue offsets.
-Feel free to play around with these to get the particular color fringe you're looking for.
-These particular offsets produce a yellowish orange and blue fringe.
+这项技术可调的参数是 red、green、blue 的 offset。
+可以改这几个值，得到你想要的 color fringe。
+这里的 offset 会产生偏黄橙和蓝色的 fringe。
 
-### Direction
+### 方向
 
 ```c
 // ...
@@ -62,11 +62,11 @@ uniform vec2 mouseFocusPoint;
   // ...
 ```
 
-The offsets can occur horizontally, vertically, or radially.
-One approach is to radiate out from the [depth of field](depth-of-field.md) focal point.
-As the scene gets more out of focus, the chromatic aberration increases.
+offset 可以沿水平、垂直或径向发生。
+一种做法是从 [depth of field](depth-of-field.md) 的焦点向外辐射。
+场景越失焦，chromatic aberration 越强。
 
-### Samples
+### 采样
 
 ```c
 // ...
@@ -81,17 +81,17 @@ out vec4 fragColor;
 }
 ```
 
-With the direction and offsets,
-make three samples of the scene's colors—one for the red, green, and blue channels.
-These will be the final fragment color.
+有了方向和 offset，
+对场景颜色采三次样：分别给 red、green、blue channel。
+这三次采样就是最终的 fragment 颜色。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [chromatic-aberration.frag](../demonstration/shaders/fragment/chromatic-aberration.frag)
 
-## Copyright
+## 版权
 
 (C) 2021 David Lettier
 <br>

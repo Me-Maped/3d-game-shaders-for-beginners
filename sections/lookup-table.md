@@ -12,40 +12,40 @@
 <img src="https://i.imgur.com/WrPzVlW.gif" alt="LUT" title="LUT">
 </p>
 
-The lookup table or LUT shader allows you to transform the colors of your game
-using an image editor like the [GIMP](https://www.gimp.org/).
-From color grading to turning day into night,
-the LUT shader is a handy tool for tweaking the look of your game.
+Lookup table，也就是 LUT shader，让你用
+[GIMP](https://www.gimp.org/) 这类图像编辑器变换游戏的颜色。
+从 color grading 到把白天变成黑夜，
+LUT shader 都是调整游戏观感的顺手工具。
 
 <p align="center">
 <img src="https://i.imgur.com/NPdJNGj.png" alt="Neutral LUT" title="Neutral LUT">
 </p>
 
-Before you can get started,
-you'll need to find a neutral LUT image.
-Neutral meaning that it leaves the fragment colors unchanged.
-The LUT needs to be 256 pixels wide by 16 pixels tall and contain 16 blocks
-with each block being 16 by 16 pixels.
+开始之前，
+需要一张中性的 LUT 图像。
+中性是指它不改变 fragment 颜色。
+LUT 需要宽 256 pixel、高 16 pixel，并包含 16 个 block，
+每个 block 是 16 乘 16 pixel。
 
-The LUT is mapped out into 16 blocks.
-Each block has a different level of blue.
-As you move across the blocks, from left to right, the amount of blue increases.
-You can see the amount of blue in each block's upper-left corner.
-Within each block,
-the amount of red increases as you move from left to right and
-the amount of green increases as you move from top to bottom.
-The upper-left corner of the first block is black since every RGB channel is zero.
-The lower-right corner of the last block is white since every RGB channel is one.
+LUT 被划分成 16 个 block。
+每个 block 的 blue 级别不同。
+从左到右穿过这些 block，blue 的量增加。
+每个 block 左上角可以看到 blue 的量。
+在每个 block 内部，
+从左到右 red 增加，
+从上到下 green 增加。
+第一个 block 的左上角是黑的，因为每个 RGB 通道都是 0。
+最后一个 block 的右下角是白的，因为每个 RGB 通道都是 1。
 
 <p align="center">
 <img src="https://i.imgur.com/KyxPm1r.png" alt="LUT And Screenshot" title="LUT And Screenshot">
 </p>
 
-With the neutral LUT in hand, take a screenshot of your game and open it in your image editor.
-Add the neutral LUT as a new layer and merge it with the screenshot.
-As you manipulate the colors of the screenshot, the LUT will be altered in the same way.
-When you're done editing, select only the LUT and save it as a new image.
-You now have your new lookup table and can begin writing your shader.
+拿到中性 LUT 之后，给游戏截一张图，在图像编辑器里打开。
+把中性 LUT 作为新图层加进去，再和截图合并。
+你调整截图颜色时，LUT 会以同样的方式被改变。
+编辑完成后，只选中 LUT，另存为一张新图像。
+现在就有了新的 lookup table，可以开始写 shader。
 
 ```c
   // ...
@@ -57,8 +57,8 @@ You now have your new lookup table and can begin writing your shader.
   // ...
 ```
 
-The LUT shader is a screen space technique.
-Therefore, sample the scene's color at the current fragment or screen position.
+LUT shader 是一种 screen space 技术。
+因此，在当前 fragment 或屏幕位置采样场景颜色。
 
 ```c
   // ...
@@ -74,23 +74,22 @@ Therefore, sample the scene's color at the current fragment or screen position.
   // ...
 ```
 
-In order to transform the current fragment's color,
-using the LUT,
-you'll need to map the color to two UV coordinates on the lookup table texture.
-The first mapping (shown up above) is to the nearest left or lower bound block location and
-the second mapping (shown below) is to the nearest right or upper bound block mapping.
-At the end, you'll combine these two mappings to create the final color transformation.
+要用 LUT 变换当前 fragment 的颜色，
+需要把颜色映射到 lookup table texture 上的两个 UV 坐标。
+第一次映射（上面所示）是最近的左侧或下界 block 位置，
+第二次映射（下面所示）是最近的右侧或上界 block。
+最后把这两次映射合起来，得到最终的颜色变换。
 
 <p align="center">
 <img src="https://i.imgur.com/j2JmyQ2.png" alt="RGB Channel Mapping" title="RGB Channel Mapping">
 </p>
 
-Each of the red, green, and blue channels maps to one of 16 possibilities in the LUT.
-The blue channel maps to one of the 16 upper-left block corners.
-After the blue channel maps to a block,
-the red channel maps to one of the 16 horizontal pixel positions within the block and
-the green channel maps to one of the 16 vertical pixel positions within the block.
-These three mappings will determine the UV coordinate you'll need to sample a color from the LUT.
+red、green、blue 每个通道都映射到 LUT 里 16 种可能之一。
+blue 通道映射到 16 个 block 左上角之一。
+blue 映射到某个 block 之后，
+red 映射到该 block 内 16 个水平 pixel 位置之一，
+green 映射到该 block 内 16 个垂直 pixel 位置之一。
+这三次映射决定从 LUT 采样颜色时要用的 UV 坐标。
 
 ```c
   // ...
@@ -103,10 +102,10 @@ These three mappings will determine the UV coordinate you'll need to sample a co
   // ...
 ```
 
-To calculate the final U coordinate, divide it by 255 since the LUT is 256 pixels wide and U ranges from zero to one.
-To calculate the final V coordinate, divide it by 15 since the LUT is 16 pixels tall and V ranges from zero to one.
-You'll also need to subtract the normalized V coordinate from one since V ranges from zero at the bottom to one at the top while
-the green channel ranges from zero at the top to 15 at the bottom.
+计算最终 U 坐标时除以 255，因为 LUT 宽 256 pixel，而 U 的范围是 0 到 1。
+计算最终 V 坐标时除以 15，因为 LUT 高 16 pixel，而 V 的范围是 0 到 1。
+还要用 1 减去归一化后的 V，因为 V 从底部的 0 到顶部的 1，
+而 green 通道从顶部的 0 到底部的 15。
 
 ```c
   // ...
@@ -116,8 +115,8 @@ the green channel ranges from zero at the top to 15 at the bottom.
   // ...
 ```
 
-Using the UV coordinates, sample a color from the lookup table.
-This is the nearest left block color.
+用这些 UV 坐标从 lookup table 采样一个颜色。
+这是最近的左侧 block 颜色。
 
 ```c
   // ...
@@ -133,8 +132,8 @@ This is the nearest left block color.
   // ...
 ```
 
-Now you'll need to calculate the UV coordinates for the nearest right block color.
-Notice how `ceil` or ceiling is being used now instead of `floor`.
+现在计算最近的右侧 block 颜色的 UV 坐标。
+注意这里用的是 `ceil`，不再是 `floor`。
 
 <p align="center">
 <img src="https://i.imgur.com/uciq7Um.png" alt="Mixing" title="Mixing">
@@ -150,17 +149,17 @@ Notice how `ceil` or ceiling is being used now instead of `floor`.
   // ...
 ```
 
-Not every channel will map perfectly to one of its 16 possibilities.
-For example, `0.5` doesn't map perfectly.
-At the lower bound (`floor`),
-it maps to `0.4666666666666667` and at the upper bound (`ceil`),
-it maps to `0.5333333333333333`.
-Compare that with `0.4` which maps to `0.4` at the lower bound and `0.4` at the upper bound.
-For those channels which do not map perfectly,
-you'll need to mix the left and right sides based on where the channel falls between its lower and upper bound.
-For `0.5`, it falls directly between them making the final color a mixture of half left and half right.
-However,
-for `0.132` the mixture will be 98% right and 2% left since the fractional part of `0.123` times `15.0` is `0.98`.
+不是每个通道都能完美映射到 16 种可能之一。
+例如 `0.5` 就不能完美映射。
+在下界（`floor`），
+它映射到 `0.4666666666666667`；在上界（`ceil`），
+它映射到 `0.5333333333333333`。
+对比 `0.4`，它在下界和上界都映射到 `0.4`。
+对那些不能完美映射的通道，
+需要根据它落在下界和上界之间的位置，混合左右两侧。
+`0.5` 正好落在中间，最终颜色是一半左侧、一半右侧。
+而
+`0.132` 的混合会是 98% 右侧和 2% 左侧，因为 `0.123` 乘 `15.0` 的小数部分是 `0.98`。
 
 ```c
   // ...
@@ -170,15 +169,15 @@ for `0.132` the mixture will be 98% right and 2% left since the fractional part 
   // ...
 ```
 
-Set the fragment color to the final mix and you're done.
+把 fragment 颜色设为最终的混合结果，这一步就完成了。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [lookup-table.frag](../demonstration/shaders/fragment/lookup-table.frag)
 
-## Copyright
+## 版权
 
 (C) 2020 David Lettier
 <br>

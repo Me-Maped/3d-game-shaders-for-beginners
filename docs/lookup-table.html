@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
-    <meta property="og:title" content="Lookup Table | 3D Game Shaders For Beginners" />
-    <meta property="og:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
+    <meta property="og:title" content="Lookup Table | 3D Game Shaders
+For Beginners" />
+    <meta property="og:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:image" content="https://i.imgur.com/JIDwVTm.png" />
-    <meta name="twitter:title" content="Lookup Table | 3D Game Shaders For Beginners" />
-    <meta name="twitter:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="twitter:title" content="Lookup Table | 3D Game Shaders
+For Beginners" />
+    <meta name="twitter:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta name="twitter:image" content="https://i.imgur.com/JIDwVTm.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -21,19 +23,20 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
     </style>
     <style>
-      code.sourceCode > span { display: inline-block; line-height: 1.25; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      code.sourceCode > span:empty { height: 1.2em; }
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
       .sourceCode { overflow: visible; }
-      code.sourceCode { white-space: pre; position: relative; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
       div.sourceCode { margin: 1em 0; }
       pre.sourceCode { margin: 0; }
       @media screen {
       div.sourceCode { overflow: auto; }
       }
       @media print {
-      code.sourceCode { white-space: pre-wrap; }
-      code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -54,33 +57,33 @@
       div.sourceCode
         { color: #cfcfc2; background-color: #232629; }
       @media screen {
-      code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span. { color: #cfcfc2; } /* Normal */
-      code span.al { color: #95da4c; } /* Alert */
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
       code span.an { color: #3f8058; } /* Annotation */
       code span.at { color: #2980b9; } /* Attribute */
       code span.bn { color: #f67400; } /* BaseN */
       code span.bu { color: #7f8c8d; } /* BuiltIn */
-      code span.cf { color: #fdbc4b; } /* ControlFlow */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
       code span.ch { color: #3daee9; } /* Char */
-      code span.cn { color: #27aeae; } /* Constant */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
       code span.co { color: #7a7c7d; } /* Comment */
       code span.cv { color: #7f8c8d; } /* CommentVar */
       code span.do { color: #a43340; } /* Documentation */
       code span.dt { color: #2980b9; } /* DataType */
       code span.dv { color: #f67400; } /* DecVal */
-      code span.er { color: #da4453; } /* Error */
-      code span.ex { color: #0099ff; } /* Extension */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
       code span.fl { color: #f67400; } /* Float */
       code span.fu { color: #8e44ad; } /* Function */
       code span.im { color: #27ae60; } /* Import */
       code span.in { color: #c45b00; } /* Information */
-      code span.kw { color: #cfcfc2; } /* Keyword */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
       code span.op { color: #cfcfc2; } /* Operator */
       code span.ot { color: #27ae60; } /* Other */
       code span.pp { color: #27ae60; } /* Preprocessor */
-      code span.re { color: #2980b9; } /* RegionMarker */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
       code span.sc { color: #3daee9; } /* SpecialChar */
       code span.ss { color: #da4453; } /* SpecialString */
       code span.st { color: #f44f4f; } /* String */
@@ -94,103 +97,155 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-<p><a href="film-grain.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="gamma-correction.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
-<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For Beginners</h1>
+<p><a href="film-grain.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="gamma-correction.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
+<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For
+Beginners</h1>
 <h2 id="lookup-table-lut">Lookup Table (LUT)</h2>
 <p align="center">
 <img src="https://i.imgur.com/WrPzVlW.gif" alt="LUT" title="LUT">
 </p>
 
-<p>The lookup table or LUT shader allows you to transform the colors of your game using an image editor like the <a href="https://www.gimp.org/">GIMP</a>. From color grading to turning day into night, the LUT shader is a handy tool for tweaking the look of your game.</p>
+<p>Lookup table，也就是 LUT shader，让你用 <a
+href="https://www.gimp.org/">GIMP</a> 这类图像编辑器变换游戏的颜色。 从
+color grading 到把白天变成黑夜， LUT shader
+都是调整游戏观感的顺手工具。</p>
 <p align="center">
 <img src="https://i.imgur.com/NPdJNGj.png" alt="Neutral LUT" title="Neutral LUT">
 </p>
 
-<p>Before you can get started, you'll need to find a neutral LUT image. Neutral meaning that it leaves the fragment colors unchanged. The LUT needs to be 256 pixels wide by 16 pixels tall and contain 16 blocks with each block being 16 by 16 pixels.</p>
-<p>The LUT is mapped out into 16 blocks. Each block has a different level of blue. As you move across the blocks, from left to right, the amount of blue increases. You can see the amount of blue in each block's upper-left corner. Within each block, the amount of red increases as you move from left to right and the amount of green increases as you move from top to bottom. The upper-left corner of the first block is black since every RGB channel is zero. The lower-right corner of the last block is white since every RGB channel is one.</p>
+<p>开始之前， 需要一张中性的 LUT 图像。 中性是指它不改变 fragment 颜色。
+LUT 需要宽 256 pixel、高 16 pixel，并包含 16 个 block， 每个 block 是 16
+乘 16 pixel。</p>
+<p>LUT 被划分成 16 个 block。 每个 block 的 blue 级别不同。
+从左到右穿过这些 block，blue 的量增加。 每个 block 左上角可以看到 blue
+的量。 在每个 block 内部， 从左到右 red 增加， 从上到下 green 增加。
+第一个 block 的左上角是黑的，因为每个 RGB 通道都是 0。 最后一个 block
+的右下角是白的，因为每个 RGB 通道都是 1。</p>
 <p align="center">
 <img src="https://i.imgur.com/KyxPm1r.png" alt="LUT And Screenshot" title="LUT And Screenshot">
 </p>
 
-<p>With the neutral LUT in hand, take a screenshot of your game and open it in your image editor. Add the neutral LUT as a new layer and merge it with the screenshot. As you manipulate the colors of the screenshot, the LUT will be altered in the same way. When you're done editing, select only the LUT and save it as a new image. You now have your new lookup table and can begin writing your shader.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1"></a>  <span class="co">// ...</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>  vec2 texSize = textureSize(colorTexture, <span class="dv">0</span>).xy;</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>  vec4 color = texture(colorTexture, gl_FragCoord.xy / texSize);</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>The LUT shader is a screen space technique. Therefore, sample the scene's color at the current fragment or screen position.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="co">// ...</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="dt">float</span> u  =  floor(color.b * <span class="fl">15.0</span>) / <span class="fl">15.0</span> * <span class="fl">240.0</span>;</span>
-<span id="cb2-4"><a href="#cb2-4"></a>        u  = (floor(color.r * <span class="fl">15.0</span>) / <span class="fl">15.0</span> *  <span class="fl">15.0</span>) + u;</span>
-<span id="cb2-5"><a href="#cb2-5"></a>        u /= <span class="fl">255.0</span>;</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="dt">float</span> v  = ceil(color.g * <span class="fl">15.0</span>);</span>
-<span id="cb2-8"><a href="#cb2-8"></a>        v /= <span class="fl">15.0</span>;</span>
-<span id="cb2-9"><a href="#cb2-9"></a>        v  = <span class="fl">1.0</span> - v;</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>In order to transform the current fragment's color, using the LUT, you'll need to map the color to two UV coordinates on the lookup table texture. The first mapping (shown up above) is to the nearest left or lower bound block location and the second mapping (shown below) is to the nearest right or upper bound block mapping. At the end, you'll combine these two mappings to create the final color transformation.</p>
+<p>拿到中性 LUT 之后，给游戏截一张图，在图像编辑器里打开。 把中性 LUT
+作为新图层加进去，再和截图合并。 你调整截图颜色时，LUT
+会以同样的方式被改变。 编辑完成后，只选中 LUT，另存为一张新图像。
+现在就有了新的 lookup table，可以开始写 shader。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize <span class="op">=</span> textureSize<span class="op">(</span>colorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  vec4 color <span class="op">=</span> texture<span class="op">(</span>colorTexture<span class="op">,</span> gl_FragCoord<span class="op">.</span>xy <span class="op">/</span> texSize<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>LUT shader 是一种 screen space 技术。 因此，在当前 fragment
+或屏幕位置采样场景颜色。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> u  <span class="op">=</span>  floor<span class="op">(</span>color<span class="op">.</span>b <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span> <span class="fl">240.0</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        u  <span class="op">=</span> <span class="op">(</span>floor<span class="op">(</span>color<span class="op">.</span>r <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span>  <span class="fl">15.0</span><span class="op">)</span> <span class="op">+</span> u<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        u <span class="op">/=</span> <span class="fl">255.0</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> v  <span class="op">=</span> ceil<span class="op">(</span>color<span class="op">.</span>g <span class="op">*</span> <span class="fl">15.0</span><span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        v <span class="op">/=</span> <span class="fl">15.0</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        v  <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> v<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>要用 LUT 变换当前 fragment 的颜色， 需要把颜色映射到 lookup table
+texture 上的两个 UV 坐标。 第一次映射（上面所示）是最近的左侧或下界
+block 位置， 第二次映射（下面所示）是最近的右侧或上界 block。
+最后把这两次映射合起来，得到最终的颜色变换。</p>
 <p align="center">
 <img src="https://i.imgur.com/j2JmyQ2.png" alt="RGB Channel Mapping" title="RGB Channel Mapping">
 </p>
 
-<p>Each of the red, green, and blue channels maps to one of 16 possibilities in the LUT. The blue channel maps to one of the 16 upper-left block corners. After the blue channel maps to a block, the red channel maps to one of the 16 horizontal pixel positions within the block and the green channel maps to one of the 16 vertical pixel positions within the block. These three mappings will determine the UV coordinate you'll need to sample a color from the LUT.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="co">// ...</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>        u /= <span class="fl">255.0</span>;</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a>        v /= <span class="fl">15.0</span>;</span>
-<span id="cb3-6"><a href="#cb3-6"></a>        v  = <span class="fl">1.0</span> - v;</span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>To calculate the final U coordinate, divide it by 255 since the LUT is 256 pixels wide and U ranges from zero to one. To calculate the final V coordinate, divide it by 15 since the LUT is 16 pixels tall and V ranges from zero to one. You'll also need to subtract the normalized V coordinate from one since V ranges from zero at the bottom to one at the top while the green channel ranges from zero at the top to 15 at the bottom.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="co">// ...</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  vec3 left = texture(lookupTableTexture, vec2(u, v)).rgb;</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>Using the UV coordinates, sample a color from the lookup table. This is the nearest left block color.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1"></a>  <span class="co">// ...</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>  u  =  ceil(color.b * <span class="fl">15.0</span>) / <span class="fl">15.0</span> * <span class="fl">240.0</span>;</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  u  = (ceil(color.r * <span class="fl">15.0</span>) / <span class="fl">15.0</span> *  <span class="fl">15.0</span>) + u;</span>
-<span id="cb5-5"><a href="#cb5-5"></a>  u /= <span class="fl">255.0</span>;</span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a>  v  = <span class="fl">1.0</span> - (ceil(color.g * <span class="fl">15.0</span>) / <span class="fl">15.0</span>);</span>
-<span id="cb5-8"><a href="#cb5-8"></a></span>
-<span id="cb5-9"><a href="#cb5-9"></a>  vec3 right = texture(lookupTableTexture, vec2(u, v)).rgb;</span>
-<span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>Now you'll need to calculate the UV coordinates for the nearest right block color. Notice how <code>ceil</code> or ceiling is being used now instead of <code>floor</code>.</p>
+<p>red、green、blue 每个通道都映射到 LUT 里 16 种可能之一。 blue
+通道映射到 16 个 block 左上角之一。 blue 映射到某个 block 之后， red
+映射到该 block 内 16 个水平 pixel 位置之一， green 映射到该 block 内 16
+个垂直 pixel 位置之一。 这三次映射决定从 LUT 采样颜色时要用的 UV
+坐标。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        u <span class="op">/=</span> <span class="fl">255.0</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        v <span class="op">/=</span> <span class="fl">15.0</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        v  <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> v<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>计算最终 U 坐标时除以 255，因为 LUT 宽 256 pixel，而 U 的范围是 0 到
+1。 计算最终 V 坐标时除以 15，因为 LUT 高 16 pixel，而 V 的范围是 0 到
+1。 还要用 1 减去归一化后的 V，因为 V 从底部的 0 到顶部的 1， 而 green
+通道从顶部的 0 到底部的 15。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec3 left <span class="op">=</span> texture<span class="op">(</span>lookupTableTexture<span class="op">,</span> vec2<span class="op">(</span>u<span class="op">,</span> v<span class="op">)).</span>rgb<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>用这些 UV 坐标从 lookup table 采样一个颜色。 这是最近的左侧 block
+颜色。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  u  <span class="op">=</span>  ceil<span class="op">(</span>color<span class="op">.</span>b <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span> <span class="fl">240.0</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  u  <span class="op">=</span> <span class="op">(</span>ceil<span class="op">(</span>color<span class="op">.</span>r <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span>  <span class="fl">15.0</span><span class="op">)</span> <span class="op">+</span> u<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  u <span class="op">/=</span> <span class="fl">255.0</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  v  <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> <span class="op">(</span>ceil<span class="op">(</span>color<span class="op">.</span>g <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span><span class="op">);</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  vec3 right <span class="op">=</span> texture<span class="op">(</span>lookupTableTexture<span class="op">,</span> vec2<span class="op">(</span>u<span class="op">,</span> v<span class="op">)).</span>rgb<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>现在计算最近的右侧 block 颜色的 UV 坐标。 注意这里用的是
+<code>ceil</code>，不再是 <code>floor</code>。</p>
 <p align="center">
 <img src="https://i.imgur.com/uciq7Um.png" alt="Mixing" title="Mixing">
 </p>
 
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1"></a>  <span class="co">// ...</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>  color.r = mix(left.r, right.r, fract(color.r * <span class="fl">15.0</span>));</span>
-<span id="cb6-4"><a href="#cb6-4"></a>  color.g = mix(left.g, right.g, fract(color.g * <span class="fl">15.0</span>));</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  color.b = mix(left.b, right.b, fract(color.b * <span class="fl">15.0</span>));</span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>Not every channel will map perfectly to one of its 16 possibilities. For example, <code>0.5</code> doesn't map perfectly. At the lower bound (<code>floor</code>), it maps to <code>0.4666666666666667</code> and at the upper bound (<code>ceil</code>), it maps to <code>0.5333333333333333</code>. Compare that with <code>0.4</code> which maps to <code>0.4</code> at the lower bound and <code>0.4</code> at the upper bound. For those channels which do not map perfectly, you'll need to mix the left and right sides based on where the channel falls between its lower and upper bound. For <code>0.5</code>, it falls directly between them making the final color a mixture of half left and half right. However, for <code>0.132</code> the mixture will be 98% right and 2% left since the fractional part of <code>0.123</code> times <code>15.0</code> is <code>0.98</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1"></a>  <span class="co">// ...</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>  fragColor = color;</span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>Set the fragment color to the final mix and you're done.</p>
-<h3 id="source">Source</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>r <span class="op">=</span> mix<span class="op">(</span>left<span class="op">.</span>r<span class="op">,</span> right<span class="op">.</span>r<span class="op">,</span> fract<span class="op">(</span>color<span class="op">.</span>r <span class="op">*</span> <span class="fl">15.0</span><span class="op">));</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>g <span class="op">=</span> mix<span class="op">(</span>left<span class="op">.</span>g<span class="op">,</span> right<span class="op">.</span>g<span class="op">,</span> fract<span class="op">(</span>color<span class="op">.</span>g <span class="op">*</span> <span class="fl">15.0</span><span class="op">));</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>b <span class="op">=</span> mix<span class="op">(</span>left<span class="op">.</span>b<span class="op">,</span> right<span class="op">.</span>b<span class="op">,</span> fract<span class="op">(</span>color<span class="op">.</span>b <span class="op">*</span> <span class="fl">15.0</span><span class="op">));</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>不是每个通道都能完美映射到 16 种可能之一。 例如 <code>0.5</code>
+就不能完美映射。 在下界（<code>floor</code>）， 它映射到
+<code>0.4666666666666667</code>；在上界（<code>ceil</code>）， 它映射到
+<code>0.5333333333333333</code>。 对比
+<code>0.4</code>，它在下界和上界都映射到 <code>0.4</code>。
+对那些不能完美映射的通道，
+需要根据它落在下界和上界之间的位置，混合左右两侧。 <code>0.5</code>
+正好落在中间，最终颜色是一半左侧、一半右侧。 而 <code>0.132</code>
+的混合会是 98% 右侧和 2% 左侧，因为 <code>0.123</code> 乘
+<code>15.0</code> 的小数部分是 <code>0.98</code>。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> color<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>把 fragment 颜色设为最终的混合结果，这一步就完成了。</p>
+<h3 id="源码">源码</h3>
 <ul>
 <li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/src/main.cxx" target="_blank" rel="noopener noreferrer">main.cxx</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/vertex/basic.vert" target="_blank" rel="noopener noreferrer">basic.vert</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/fragment/lookup-table.frag" target="_blank" rel="noopener noreferrer">lookup-table.frag</a></li>
+<li><a
+href="../demonstration/shaders/vertex/basic.vert">basic.vert</a></li>
+<li><a
+href="../demonstration/shaders/fragment/lookup-table.frag">lookup-table.frag</a></li>
 </ul>
-<h2 id="copyright">Copyright</h2>
-<p>(C) 2020 David Lettier <br> <a href="https://www.lettier.com">lettier.com</a></p>
-<p><a href="film-grain.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="gamma-correction.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
+<h2 id="版权">版权</h2>
+<p>(C) 2020 David Lettier <br> <a
+href="https://www.lettier.com">lettier.com</a></p>
+<p><a href="film-grain.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="gamma-correction.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
   </body>
 </html>

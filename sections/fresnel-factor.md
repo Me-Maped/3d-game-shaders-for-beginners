@@ -12,18 +12,18 @@
 <img src="https://i.imgur.com/3lQL51m.gif" alt="Fresnel" title="Fresnel">
 </p>
 
-The fresnel factor alters the reflectiveness of a surface based on the camera or viewing angle.
-As a surface points away from the camera, its reflectiveness goes up.
-Similarly, as a surface points towards the camera, its reflectiveness goes down.
+Fresnel factor 根据 camera 或观察角度改变表面的反射程度。
+表面越是背离 camera，反射越强。
+同样，表面越是朝向 camera，反射越弱。
 
 <p align="center">
 <img src="https://i.imgur.com/WolRRhX.png" alt="" title="">
 </p>
 
-In other words, as a surface becomes perpendicular with the camera, it becomes more mirror like.
-Utilizing this property, you can vary the opacity of reflections
-(such as [specular](lighting.md#specular) and [screen space reflections](screen-space-reflection.md))
-and/or vary a surface's alpha values for a more plausible or realistic look.
+换句话说，表面与 camera 越接近垂直，就越像镜子。
+利用这一点，可以改变 reflection 的不透明度
+（例如 [specular](lighting.md#specular) 和 [screen space reflection](screen-space-reflection.md)），
+也可以改变表面的 alpha，让结果更可信、更真实。
 
 ### Specular Reflection
 
@@ -37,13 +37,13 @@ and/or vary a surface's alpha values for a more plausible or realistic look.
                   * pow(max(dot(eye, reflection), 0.0), shininess);
 ```
 
-In the [lighting](lighting.md#specular) section,
-the specular component was a combination of the
-material's specular color,
-the light's specular color,
-and by how much the camera pointed into the light's reflection direction.
-Incorporating the fresnel factor,
-you'll now vary the material specular color based on the angle between the camera and the surface it's pointed at.
+在 [lighting](lighting.md#specular) 一节里，
+specular 分量由这些东西合成：
+材质的 specular 颜色、
+光的 specular 颜色，
+以及 camera 有多对准光的 reflection 方向。
+加入 fresnel factor 之后，
+现在会根据 camera 和它所对表面之间的夹角改变材质的 specular 颜色。
 
 ```c
   // ...
@@ -53,10 +53,10 @@ you'll now vary the material specular color based on the angle between the camer
   // ...
 ```
 
-The first vector you'll need is the eye/view/camera vector.
-Recall that the eye vector points from the vertex position to the camera's position.
-If the vertex position is in view or camera space,
-the eye vector is the vertex position pointed in the opposite direction.
+首先需要 eye、view 或 camera vector。
+回忆一下，eye vector 从 vertex position 指向 camera 位置。
+如果 vertex position 在 view space 或 camera space，
+eye vector 就是指向相反方向的 vertex position。
 
 ```c
   // ...
@@ -67,10 +67,10 @@ the eye vector is the vertex position pointed in the opposite direction.
   // ...
 ```
 
-The fresnel factor is calculated using two vectors.
-The simplest two vectors to use are the eye and normal vector.
-However, if you're using the halfway vector (from the [Blinn-Phong](blinn-phong.md) section),
-you can instead calculate the fresnel factor using the halfway and eye vector.
+Fresnel factor 用两个 vector 计算。
+最简单的一对是 eye 和 normal。
+如果用的是 halfway vector（见 [Blinn-Phong](blinn-phong.md)），
+也可以用 halfway 和 eye 来算 fresnel factor。
 
 ```c
 
@@ -84,23 +84,23 @@ you can instead calculate the fresnel factor using the halfway and eye vector.
   // ...
 ```
 
-With the needed vectors in hand,
-you can now compute the fresnel factor.
-The fresnel factor ranges from zero to one.
-When the dot product is one,
-the fresnel factor is zero.
-When the dot product is less than or equal to zero,
-the fresnel factor is one.
-This equation comes from
-[Schlick's approximation](https://en.wikipedia.org/wiki/Schlick%27s_approximation).
+拿到需要的 vector 之后，
+就可以计算 fresnel factor。
+它的范围是 0 到 1。
+点积为 1 时，
+fresnel factor 为 0。
+点积小于等于 0 时，
+fresnel factor 为 1。
+这个式子来自
+[Schlick's approximation](https://en.wikipedia.org/wiki/Schlick%27s_approximation)。
 
 <p align="center">
 <img src="https://i.imgur.com/AAFI8p1.gif" alt="Fresnel Power" title="Fresnel Power">
 </p>
 
-In Schlick's approximation,
-the `fresnelPower` is five but you can alter this to your liking.
-The demo code varies it using the blue channel of the specular map with a maximum value of five.
+在 Schlick's approximation 里，
+`fresnelPower` 是 5，但你可以按需要改。
+Demo 用 specular map 的 blue 通道改变它，最大值是 5。
 
 ```c
   // ...
@@ -110,10 +110,10 @@ The demo code varies it using the blue channel of the specular map with a maximu
   // ...
 ```
 
-Once the fresnel factor is determined,
-use it to modulate the material's specular color.
-As the fresnel factor approaches one,
-the material becomes more like a mirror or fully reflective.
+得到 fresnel factor 之后，
+用它调制材质的 specular 颜色。
+fresnel factor 越接近 1，
+材质就越像镜子，也就是越接近完全反射。
 
 ```c
   // ...
@@ -129,22 +129,22 @@ the material becomes more like a mirror or fully reflective.
   // ...
 ```
 
-As before,
-the specular component is a combination of the
-material's specular color,
-the light's specular color,
-and by how much the camera points into the direction of the light's reflection.
-However,
-using the fresnel factor,
-the material's specular color various depending on the orientation of the camera and the surface it's looking at.
+和之前一样，
+specular 分量由这些东西合成：
+材质的 specular 颜色、
+光的 specular 颜色，
+以及 camera 有多对准光的 reflection 方向。
+不过，
+使用 fresnel factor 之后，
+材质的 specular 颜色会随 camera 和它所看表面的朝向变化。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## 版权
 
 (C) 2020 David Lettier
 <br>

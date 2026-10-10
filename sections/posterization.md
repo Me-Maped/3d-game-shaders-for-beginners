@@ -12,17 +12,17 @@
 <img src="https://i.imgur.com/hpP5G9z.gif" alt="Posterization" title="Posterization">
 </p>
 
-Posterization or color quantization is the process of reducing the number of unique colors in an image.
-You can use this shader to give your game a comic book or retro look.
-Combine it with [outlining](outlining.md) for a full-on cartoon art style.
+Posterization，也叫 color quantization，是减少图像里不重复颜色数量的过程。
+可以用这个 shader 让游戏看起来像漫画或复古画面。
+再配上 [outlining](outlining.md)，就是完整的卡通风格。
 
-There are various different ways to implement posterization.
-This method works directly with the greyscale values and indirectly with the RGB values of the image.
-For each fragment, it maps the RGB color to a greyscale value.
-This greyscale value is then mapped to both its lower and upper level value.
-The closest level to the original greyscale value is then mapped back to an RGB value
-This new RGB value becomes the fragment color.
-I find this method produces nicer results than the more typical methods you'll find.
+实现 posterization 有很多办法。
+这里直接处理 greyscale 值，间接处理图像的 RGB 值。
+对每个 fragment，先把 RGB 颜色映射成 greyscale。
+再把这个 greyscale 映射到它的下一级和上一级。
+离原始 greyscale 更近的那一级再映射回 RGB。
+这个新的 RGB 就是 fragment 颜色。
+我觉得这个办法比常见做法的结果更好看。
 
 ```c
   // ...
@@ -32,9 +32,9 @@ I find this method produces nicer results than the more typical methods you'll f
   // ...
 ```
 
-The `levels` parameter controls how many discrete bands or steps there are.
-This will break up the continuous values from zero to one into chunks.
-With four levels, `0.0` to `1.0` becomes `0.0`, `0.25`, `0.5`, `0.75`, and `1.0`.
+`levels` 控制有多少个离散色带或台阶。
+它会把 0 到 1 的连续值切成一段一段。
+四级时，`0.0` 到 `1.0` 变成 `0.0`、`0.25`、`0.5`、`0.75` 和 `1.0`。
 
 
 ```c
@@ -45,7 +45,7 @@ With four levels, `0.0` to `1.0` becomes `0.0`, `0.25`, `0.5`, `0.75`, and `1.0`
   // ...
 ```
 
-Sample the current fragment's color.
+采样当前 fragment 的颜色。
 
 ```c
   // ...
@@ -55,8 +55,8 @@ Sample the current fragment's color.
   // ...
 ```
 
-Map the RGB values to a greyscale value.
-In this instance, the greyscale value is the maximum value of the R, G, and B values.
+把 RGB 映射成 greyscale。
+这里 greyscale 取 R、G、B 中的最大值。
 
 ```c
   // ...
@@ -67,10 +67,10 @@ In this instance, the greyscale value is the maximum value of the R, G, and B va
   // ...
 ```
 
-Map the greyscale value to its lower level and
-then calculate the difference between its lower level and itself.
-For example,
-if the greyscale value is `0.87` and there are four levels, its lower level is `0.75` and the difference is `0.12`.
+把 greyscale 映射到下一级，
+再算下一级和它自己的差。
+例如，
+greyscale 是 `0.87`、有四级时，下一级是 `0.75`，差值是 `0.12`。
 
 
 ```c
@@ -82,8 +82,8 @@ if the greyscale value is `0.87` and there are four levels, its lower level is `
   // ...
 ```
 
-Now calculate the upper level and the difference.
-Keeping with the example up above, the upper level is `1.0` and the difference is `0.13`.
+接着算上一级和差值。
+沿用上面的例子，上一级是 `1.0`，差值是 `0.13`。
 
 ```c
   // ...
@@ -94,9 +94,9 @@ Keeping with the example up above, the upper level is `1.0` and the difference i
   // ...
 ```
 
-The closest level is used to calculate the adjustment.
-The adjustment is the ratio between the quantized and unquantized greyscale value.
-This adjustment is used to map the quantized greyscale value back to an RGB value.
+用更近的那一级计算 adjustment。
+adjustment 是量化后 greyscale 和未量化 greyscale 的比值。
+用它把量化后的 greyscale 映射回 RGB。
 
 
 ```c
@@ -107,16 +107,16 @@ This adjustment is used to map the quantized greyscale value back to an RGB valu
   // ...
 ```
 
-After multiplying `rgb` by the adjustment, `max(r, max(g, b))` will now equal the quantized greyscale value.
-This maps the quantized greyscale value back to a red, green, and blue vector.
+`rgb` 乘上 adjustment 之后，`max(r, max(g, b))` 会等于量化后的 greyscale。
+这样就把量化后的 greyscale 映射回 red、green、blue vector。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [posterize.frag](../demonstration/shaders/fragment/posterize.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

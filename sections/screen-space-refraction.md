@@ -12,51 +12,51 @@
 <img src="https://i.imgur.com/8Mdcn4y.gif" alt="Screen Space Refraction" title="Screen Space Refraction">
 </p>
 
-Screen space refraction,
-much like
-[screen space reflection](screen-space-reflection.md),
-adds a touch of realism you can't find anywhere else.
-Glass, plastic, water, and other transparent/translucent materials spring to life.
+Screen space refraction
+和
+[screen space reflection](screen-space-reflection.md)
+一样，能加上别处很难得到的一点真实感。
+玻璃、塑料、水，以及其他透明或半透明材质会一下子活起来。
 
 [Screen space reflection](screen-space-reflection.md)
-and screen space refraction work almost identically expect for one major difference.
-Instead of using the reflected vector, screen space refraction uses the
-[refracted vector](http://asawicki.info/news_1301_reflect_and_refract_functions.html).
-It's a slight change in code but a big difference visually.
+和 screen space refraction 几乎一样，只有一个主要差别。
+Screen space refraction 不用 reflected vector，而用
+[refracted vector](http://asawicki.info/news_1301_reflect_and_refract_functions.html)。
+代码改动很小，视觉差别很大。
 
 ### Vertex Positions
 
-Like SSAO, you'll need the vertex positions in view space.
-Referrer back to [SSAO](ssao.md#vertex-positions) for details.
+和 SSAO 一样，需要 view space 里的 vertex position。
+细节见 [SSAO](ssao.md#vertex-positions)。
 
-However,
-unlike SSAO,
-you'll need the scene's vertex positions with and without the refractive objects.
-Refractive surfaces are translucent, meaning you can see through them.
-Since you can see through them, you'll need the vertex positions behind the refractive surface.
-Having both the foreground and background vertex positions will allow you to calculate
-UV coordinates and depth.
+不过，
+和 SSAO 不同，
+你需要有折射物体和没有折射物体两种情况下的场景 vertex position。
+折射表面是半透明的，也就是可以看穿。
+既然能看穿，就需要折射表面后面的 vertex position。
+同时有前景和背景的 vertex position，才能计算
+UV 坐标和 depth。
 
 ### Vertex Normals
 
-To compute the refractions, you'll need the scene's foreground vertex normals in view space.
-The background vertex normals aren't needed unless you need to incorporate the background surface detail
-while calculating the refracted UV coordinates and distances.
-Referrer back to [SSAO](ssao.md#vertex-normals) for details.
+计算 refraction 需要场景前景在 view space 里的 vertex normal。
+除非计算折射后的 UV 坐标和距离时要带上背景表面细节，
+否则不需要背景的 vertex normal。
+细节见 [SSAO](ssao.md#vertex-normals)。
 
 <p align="center">
 <img src="https://i.imgur.com/MZ2R8I6.gif" alt="Normal maps versus no normal maps." title="Normal maps versus no normal maps.">
 </p>
 
-Here you see the water refracting the light with and without normal maps.
-If available, be sure to use the normal mapped normals instead of the vertex normals.
-The smoother and flatter the surface, the harder it is to tell the light is being refracted.
-There will be some distortion but not enough to make it worthwhile.
+这里可以看到水在有和没有 normal map 时如何折射光。
+如果有 normal map，一定要用 normal map 里的 normal，而不是 vertex normal。
+表面越光滑、越平，就越难看出来光被折射了。
+会有一些扭曲，但不足以值得这样做。
 
-To use the normal maps instead,
-you'll need to transform the normal mapped normals from tangent space to view space
-just like you did in the [lighting](normal-mapping.md#fragment) calculations.
-You can see this being done in [normal.frag](../demonstration/shaders/fragment/normal.frag).
+如果改用 normal map，
+需要像 [lighting](normal-mapping.md#fragment) 计算那样，把 normal map 里的 normal
+从 tangent space 变换到 view space。
+[normal.frag](../demonstration/shaders/fragment/normal.frag) 里就是这样做的。
 
 ### Position Transformations
 
@@ -64,30 +64,30 @@ You can see this being done in [normal.frag](../demonstration/shaders/fragment/n
 <img src="https://i.imgur.com/bXtXDyu.gif" alt="Position Transformations" title="Position Transformations">
 </p>
 
-Just like
-[SSAO](ssao.md) and [screen space reflection](screen-space-reflection.md),
-screen space refraction goes back and forth between the screen and view space.
-You'll need the camera lens' projection matrix to transform points in view space to clip space.
-From clip space, you'll have to transform the points again to UV space.
-Once in UV space,
-you can sample a vertex/fragment position from the scene
-which will be the closest position in the scene to your sample.
-This is the _screen space_ part in _screen space refraction_
-since the "screen" is a texture UV mapped over a screen shaped rectangle.
+和
+[SSAO](ssao.md)、[screen space reflection](screen-space-reflection.md) 一样，
+screen space refraction 在屏幕和 view space 之间来回。
+需要 camera lens 的 projection matrix，把 view space 的点变到 clip space。
+再从 clip space 变到 UV space。
+到了 UV space，
+就可以从场景里采样一个 vertex 或 fragment position，
+它是场景中离你的采样最近的位置。
+这就是 _screen space refraction_ 里的 _screen space_：
+"screen" 是一张 UV 映射到屏幕形状矩形上的 texture。
 
-### Refracted UV Coordinates
+### 折射后的 UV 坐标
 
-Recall that UV coordinates range from zero to one for both U and V.
-The screen is just a 2D texture UV mapped over a screen-sized rectangle.
-Knowing this, the example code doesn't actually need the final rendering of the scene
-to compute the refraction.
-It can instead calculate what UV coordinate each screen pixel will eventually use.
-These calculated UV coordinates can be saved to a framebuffer texture
-and used later when the scene has been rendered.
+回忆一下，U 和 V 都从 0 到 1。
+屏幕只是一张 UV 映射到屏幕尺寸矩形上的 2D texture。
+知道这一点之后，示例代码计算 refraction 时
+其实不需要场景的最终渲染结果。
+它可以先算出每个屏幕 pixel 最终会用的 UV 坐标。
+这些算出来的 UV 坐标可以存进 framebuffer texture，
+等场景渲染完再使用。
 
-The process of refracting the UV coordinates is very similar to the process of
-[reflecting the UV coordinates](screen-space-reflection.md#reflected-uv-coordinates).
-Below are the adjustments you'll need to turn reflection into refraction.
+折射 UV 坐标的过程和
+[反射 UV 坐标](screen-space-reflection.md#reflected-uv-coordinates) 非常像。
+下面是把 reflection 改成 refraction 需要的调整。
 
 ```c
 // ...
@@ -99,21 +99,20 @@ uniform sampler2D normalFromTexture;
 // ...
 ```
 
-Reflection only deals with what is in front of the reflective surface.
-Refraction, however, deals with what is behind the refractive surface.
-To accommodate this, you'll need both the vertex positions of the scene
-with the refracting surfaces taken out and the vertex positions of the scene
-with the refracting surfaces left in.
+Reflection 只处理反射表面前面的东西。
+Refraction 处理的是折射表面后面的东西。
+为此需要两套场景 vertex position：
+一套去掉折射表面，一套保留折射表面。
 
 <p align="center">
 <img src="https://i.imgur.com/FjQtjsm.gif" alt="Without and with refractive surfaces." title="Without and with refractive surfaces.">
 </p>
 
-`positionFromTexture` are the scene's vertex positions with the refracting surfaces left in.
-`positionToTexture` are the scene's vertex positions with the refracting surfaces taken out.
-`normalFromTexture` are the scene's vertex normals with the refraction surfaces left in.
-There's no need for the vertex normals behind the refractive surfaces unless
-you want to incorporate the surface detail for the background geometry.
+`positionFromTexture` 是保留折射表面的场景 vertex position。
+`positionToTexture` 是去掉折射表面的场景 vertex position。
+`normalFromTexture` 是保留折射表面的场景 vertex normal。
+除非想带上背景几何体的表面细节，
+否则不需要折射表面后面的 vertex normal。
 
 ```c
 // ...
@@ -123,46 +122,46 @@ uniform vec2 rior;
 // ...
 ```
 
-Refraction has one more adjustable parameter than reflection.
-`rior` is the relative index of refraction or relative refractive index.
-It is the ratio of the refraction indexes of two mediums.
-So for example, going from water to air is `1 / 1.33 ≈ 0.75`.
-The numerator is the refractive index of the medium the light is leaving and
-the denominator is the refractive index of the medium the light is entering.
-An `rior` of one means the light passes right through without being refracted or bent.
-As `rior` grows, the refraction will become a
-[reflection](https://en.wikipedia.org/wiki/Total_internal_reflection).
+Refraction 比 reflection 多一个可调参数。
+`rior` 是 relative index of refraction，也就是相对 refractive index。
+它是两种介质 refraction index 的比值。
+例如从水到空气是 `1 / 1.33 ≈ 0.75`。
+分子是光离开的介质的 refractive index，
+分母是光进入的介质的 refractive index。
+`rior` 为 1 时，光直接穿过，不折射也不弯曲。
+`rior` 变大时，refraction 会变成
+[reflection](https://en.wikipedia.org/wiki/Total_internal_reflection)。
 
-There's no requirement that `rior` must adhere to the real world.
-The demo uses `1.05`.
-This is completely unrealistic (light does not travel faster through water than air)
-but the realistic setting produced too many artifacts.
-In the end, the distortion only has to be believable—not realistic.
+并不要求 `rior` 符合真实世界。
+Demo 用的是 `1.05`。
+这完全不真实（光在水里并不会比在空气里更快），
+但真实设置会产生太多 artifact。
+最终扭曲只需要可信，不必真实。
 
 <p align="center">
 <img src="https://i.imgur.com/dDOnobK.gif" alt="Adjusting the relative index of refraction." title="Adjusting the relative index of refraction.">
 </p>
 
-`rior` values above one tend to elongate the refraction while
-numbers below one tend to shrink the refraction.
+大于 1 的 `rior` 往往会拉长 refraction，
+小于 1 则会缩小 refraction。
 
-As it was with screen space reflection,
-the screen doesn't have the entire geometry of the scene.
-A refracted ray may march through the screen space and never hit a captured surface.
-Or it may hit a surface but it's the backside not captured by the camera.
-When this happened during reflection, the fragment was left blank.
-This indicated no reflection or not enough information to determine a reflection.
-Leaving the fragment blank was fine for reflection since the reflective surface would fill in the gaps.
+和 screen space reflection 一样，
+屏幕并没有场景的全部几何体。
+折射 ray 可能在 screen space 里走完也碰不到被捕获的表面。
+或者碰到的是 camera 没拍到的背面。
+reflection 遇到这种情况时，fragment 会留空。
+这表示没有 reflection，或信息不够确定 reflection。
+reflection 留空没问题，因为反射表面会补上缺口。
 
 <p align="center">
 <img src="https://i.imgur.com/vcQDAYU.gif" alt="Refraction Holes" title="Refraction Holes">
 </p>
 
-For refraction, however, we must set the fragment to some UV.
-If the fragment is left blank,
-the refractive surface will contain holes that let the detail behind it come through.
-This would be okay for a completely transparent surface but usually
-the refractive surface will have some tint to it, reflection, etc.
+但 refraction 必须给 fragment 某个 UV。
+如果留空，
+折射表面会出现孔，让后面的细节直接透出来。
+完全透明的表面可以接受，但通常
+折射表面会有一点 tint、reflection 等。
 
 ```c
   // ...
@@ -175,18 +174,18 @@ the refractive surface will have some tint to it, reflection, etc.
   // ...
 ```
 
-The best choice is to select the UV as if the `rior` was one.
-This will leave the UV coordinate unchanged,
-allowing the background to show through instead
-of there being a hole in the refractive surface.
+最好的选择是按 `rior` 为 1 来选 UV。
+这样 UV 坐标不变，
+背景能透出来，
+折射表面也不会出现孔。
 
 <p align="center">
 <img src="https://i.imgur.com/9fybLUO.png" alt="Refraction UV Map" title="Refraction UV Map">
 </p>
 
-Here you see the refracted UV texture for the mill scene.
-The wheel and waterway disturb what is otherwise a smooth gradient.
-The disruptions shift the UV coordinates from their screen position to their refracted screen position.
+这里是磨坊场景的折射 UV texture。
+水车和水渠扰乱了原本平滑的渐变。
+这些扰动把 UV 坐标从屏幕位置移到折射后的屏幕位置。
 
 ```c
   // ...
@@ -198,8 +197,8 @@ The disruptions shift the UV coordinates from their screen position to their ref
   // ...
 ```
 
-The most important difference is the calculation of the refracted vector versus the reflected vector.
-Both use the unit position and normal but `refract` takes an additional parameter specifying the relative refractive index.
+最重要的差别是计算 refracted vector 还是 reflected vector。
+两者都用单位 position 和 normal，但 `refract` 还多一个参数，指定相对 refractive index。
 
 ```c
     // ...
@@ -211,31 +210,31 @@ Both use the unit position and normal but `refract` takes an additional paramete
     // ...
 ```
 
-The `positionTo`, sampled by the `uv` coordinates, uses the `positionToTexture`.
-For reflection,
-you only need one framebuffer texture containing the scene's interpolated vertex positions in view space.
-However,
-for refraction,
-`positionToTexture` contains the vertex positions of the scene minus the refractive surfaces since
-the refraction ray typically goes behind the surface.
-If `positionFromTexture` and `positionToTexture` were the same for refraction,
-the refracted ray would hit the refractive surface instead of what is behind it.
+由 `uv` 坐标采样的 `positionTo` 使用 `positionToTexture`。
+Reflection
+只需要一张 framebuffer texture，里面是场景在 view space 里插值后的 vertex position。
+但
+refraction 的
+`positionToTexture` 是去掉折射表面之后的场景 vertex position，因为
+折射 ray 通常走到表面后面。
+如果 refraction 的 `positionFromTexture` 和 `positionToTexture` 相同，
+折射 ray 会打到折射表面本身，而不是它后面的东西。
 
-### Refraction Mask
+### Refraction 遮罩
 
 <p align="center">
 <img src="https://i.imgur.com/iuFYVWB.gif" alt="Material Specular" title="Material Specular">
 </p>
 
-You'll need a mask to filter out the non-refractive parts of the scene.
-This mask will determine which fragment does and does not receive a refracted color.
-You could use this mask during the refracted UV calculation step or later when you
-actually sample the colors at the refracted UV coordinates.
+需要一张 mask 滤掉场景里不折射的部分。
+这张 mask 决定哪些 fragment 会收到折射颜色。
+可以在计算折射 UV 时用它，也可以稍后
+真正按折射 UV 采样颜色时再用。
 
-The mill scene uses the models' material specular as a mask.
-For the demo's purposes,
-the specular map is sufficient but you may want to use a more specialized map.
-Refer back to [screen space reflection](screen-space-reflection.md#specular-map) for how to render the specular map.
+磨坊场景用模型材质的 specular 作为 mask。
+对 demo 来说，
+specular map 够用，但你可能想用更专门的 map。
+如何渲染 specular map，见 [screen space reflection](screen-space-reflection.md#specular-map)。
 
 ## Background Colors
 
@@ -243,10 +242,10 @@ Refer back to [screen space reflection](screen-space-reflection.md#specular-map)
 <img src="https://i.imgur.com/AmT9RrU.gif" alt="Background Colors" title="Background Colors">
 </p>
 
-You'll need to render the parts of the scene behind the refractive objects.
-This can be done by hiding the refractive objects and then rendering the scene to a framebuffer texture.
+需要渲染折射物体后面的场景部分。
+可以把折射物体隐藏，再把场景渲染到一张 framebuffer texture。
 
-### Foreground Colors
+### 前景颜色
 
 <p align="center">
 <img src="https://i.imgur.com/6RPHULr.gif" alt="Foreground Colors" title="Foreground Colors">
@@ -264,11 +263,11 @@ uniform sampler2D backgroundColorTexture;
 // ...
 ```
 
-To render the actual refractions or foreground colors,
-you'll need the refracted UV coordinates,
-refraction mask,
-the foreground and background vertex positions,
-and the background colors.
+要渲染真正的 refraction 或前景颜色，
+需要折射后的 UV 坐标、
+refraction mask、
+前景和背景的 vertex position，
+以及背景颜色。
 
 ```c
   // ...
@@ -279,12 +278,12 @@ and the background colors.
   // ...
 ```
 
-`tintColor` and `depthMax` are adjustable parameters.
-`tintColor` colorizes the background color.
-`depthMax` ranges from zero to infinity.
-When the distance between the foreground and background position reaches `depthMax`,
-the foreground color will be the fully tinted background color.
-At distance zero, the foreground will be the background color.
+`tintColor` 和 `depthMax` 是可调参数。
+`tintColor` 给背景颜色染色。
+`depthMax` 从 0 到无穷大。
+前景和背景 position 的距离达到 `depthMax` 时，
+前景颜色就是完全染色后的背景颜色。
+距离为 0 时，前景就是背景颜色。
 
 ```c
   // ...
@@ -303,13 +302,13 @@ At distance zero, the foreground will be the background color.
   // ...
 ```
 
-Pull out the uv coordinates,
-mask,
-background position,
-foreground position,
-and the background color.
+取出 uv 坐标、
+mask、
+背景 position、
+前景 position，
+以及背景颜色。
 
-If the refraction mask is turned off for this fragment, return nothing.
+如果这个 fragment 的 refraction mask 是关的，就什么都不返回。
 
 ```c
   // ...
@@ -328,10 +327,10 @@ If the refraction mask is turned off for this fragment, return nothing.
 <img src="https://i.imgur.com/IEFKerB.gif" alt="Refraction Depth" title="Refraction Depth">
 </p>
 
-Calculate the depth or distance between the foreground position and the background position.
-At zero depth, the foreground color will be the shallow color.
-At `depthMax`, the foreground color will be the deep color.
-The deep color is the background color tinted with `tintColor`.
+计算前景 position 和背景 position 之间的 depth 或距离。
+depth 为 0 时，前景颜色是浅处的颜色。
+到 `depthMax` 时，前景颜色是深处的颜色。
+深处颜色是用 `tintColor` 染色后的背景颜色。
 
 ```c
   // ...
@@ -341,12 +340,12 @@ The deep color is the background color tinted with `tintColor`.
   // ...
 ```
 
-Recall that the blue channel, in the refracted UV texture, is set to the visibility.
-The visibility declines as the refracted ray points back at the camera.
-While the visibility should always be one, it is put here for completeness.
-As the visibility lessens, the fragment color will receive less and less of the foreground color.
+回忆一下，折射 UV texture 的 blue 通道被设成 visibility。
+折射 ray 越指向 camera，visibility 越低。
+visibility 本应始终是 1，放在这里是为了完整。
+visibility 越低，fragment 颜色里的前景颜色就越少。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
@@ -358,7 +357,7 @@ As the visibility lessens, the fragment color will receive less and less of the 
 - [refraction.frag](../demonstration/shaders/fragment/refraction.frag)
 - [base-combine.frag](../demonstration/shaders/fragment/base-combine.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

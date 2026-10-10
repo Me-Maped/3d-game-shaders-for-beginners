@@ -12,9 +12,9 @@
 <img src="https://i.imgur.com/IbnyYZN.gif" alt="Pixelization" title="Pixelization">
 </p>
 
-Pixelizing your 3D game can give it a interesting look and
-possibly save you time by not having to create all of the pixel art by hand.
-Combine it with the posterization for a true retro look.
+给 3D 游戏做 Pixelization，可以得到一种有意思的画面，
+也可能省下手工绘制全部 pixel art 的时间。
+再叠上 posterization，就是比较正宗的复古观感。
 
 ```c
   // ...
@@ -24,11 +24,11 @@ Combine it with the posterization for a true retro look.
   // ...
 ```
 
-Feel free to adjust the pixel size.
-The bigger the pixel size, the blockier the image will be.
+pixel 尺寸可以按需要调整。
+pixel 越大，画面就越方块。
 
 <p align="center">
-<img src="https://i.imgur.com/WF5MmM0.gif" alt="Pixelization Process" title="Pixelization Process">
+<img src="https://i.imgur.com/WF5MmM0.gif" alt="Pixelization 过程" title="Pixelization 过程">
 </p>
 
 ```c
@@ -46,10 +46,10 @@ The bigger the pixel size, the blockier the image will be.
   // ...
 ```
 
-The technique works by mapping each fragment to the center of its closest, non-overlapping
-pixel-sized window.
-These windows are laid out in a grid over the input texture.
-The center-of-the-window fragments determine the color for the other fragments in their window.
+做法是把每个 fragment 映射到它所在的、互不重叠的
+pixel 尺寸窗口的中心。
+这些窗口在输入 texture 上排成网格。
+窗口中心的 fragment 决定该窗口里其他 fragment 的颜色。
 
 ```c
     // ...
@@ -59,16 +59,16 @@ The center-of-the-window fragments determine the color for the other fragments i
     // ...
 ```
 
-Once you have determined the correct fragment coordinate to use,
-pull its color from the input texture and assign that to the fragment color.
+确定该使用的 fragment 坐标之后，
+从输入 texture 取出它的颜色，赋给当前 fragment。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [pixelize.frag](../demonstration/shaders/fragment/pixelize.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

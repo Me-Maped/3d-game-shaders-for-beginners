@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
-    <meta property="og:title" content="Gamma Correction | 3D Game Shaders For Beginners" />
-    <meta property="og:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
+    <meta property="og:title" content="Gamma Correction | 3D Game
+Shaders For Beginners" />
+    <meta property="og:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:image" content="https://i.imgur.com/JIDwVTm.png" />
-    <meta name="twitter:title" content="Gamma Correction | 3D Game Shaders For Beginners" />
-    <meta name="twitter:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="twitter:title" content="Gamma Correction | 3D Game
+Shaders For Beginners" />
+    <meta name="twitter:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta name="twitter:image" content="https://i.imgur.com/JIDwVTm.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -21,19 +23,20 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
     </style>
     <style>
-      code.sourceCode > span { display: inline-block; line-height: 1.25; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      code.sourceCode > span:empty { height: 1.2em; }
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
       .sourceCode { overflow: visible; }
-      code.sourceCode { white-space: pre; position: relative; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
       div.sourceCode { margin: 1em 0; }
       pre.sourceCode { margin: 0; }
       @media screen {
       div.sourceCode { overflow: auto; }
       }
       @media print {
-      code.sourceCode { white-space: pre-wrap; }
-      code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -54,33 +57,33 @@
       div.sourceCode
         { color: #cfcfc2; background-color: #232629; }
       @media screen {
-      code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span. { color: #cfcfc2; } /* Normal */
-      code span.al { color: #95da4c; } /* Alert */
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
       code span.an { color: #3f8058; } /* Annotation */
       code span.at { color: #2980b9; } /* Attribute */
       code span.bn { color: #f67400; } /* BaseN */
       code span.bu { color: #7f8c8d; } /* BuiltIn */
-      code span.cf { color: #fdbc4b; } /* ControlFlow */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
       code span.ch { color: #3daee9; } /* Char */
-      code span.cn { color: #27aeae; } /* Constant */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
       code span.co { color: #7a7c7d; } /* Comment */
       code span.cv { color: #7f8c8d; } /* CommentVar */
       code span.do { color: #a43340; } /* Documentation */
       code span.dt { color: #2980b9; } /* DataType */
       code span.dv { color: #f67400; } /* DecVal */
-      code span.er { color: #da4453; } /* Error */
-      code span.ex { color: #0099ff; } /* Extension */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
       code span.fl { color: #f67400; } /* Float */
       code span.fu { color: #8e44ad; } /* Function */
       code span.im { color: #27ae60; } /* Import */
       code span.in { color: #c45b00; } /* Information */
-      code span.kw { color: #cfcfc2; } /* Keyword */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
       code span.op { color: #cfcfc2; } /* Operator */
       code span.ot { color: #27ae60; } /* Other */
       code span.pp { color: #27ae60; } /* Preprocessor */
-      code span.re { color: #2980b9; } /* RegionMarker */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
       code span.sc { color: #3daee9; } /* SpecialChar */
       code span.ss { color: #da4453; } /* SpecialString */
       code span.st { color: #f44f4f; } /* String */
@@ -94,81 +97,136 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-<p><a href="lookup-table.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="setup.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
-<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For Beginners</h1>
+<p><a href="lookup-table.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a href="setup.html"><span
+class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
+<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For
+Beginners</h1>
 <h2 id="gamma-correction">Gamma Correction</h2>
 <p align="center">
 <img src="https://i.imgur.com/IG7A6cj.gif" alt="Gamma Correction" title="Gamma Correction">
 </p>
 
-<p>Correcting for gamma will make your color calculations look correct. This isn't to say they'll look amazing but with gamma correction, you'll find that the colors meld together better, the shadows are more nuanced, and the highlights are more subtle. Without gamma correction, the shadowed areas tend to get crushed while the highlighted areas tend to get blown-out and over saturated making for a harsh contrast overall.</p>
-<p>If you're aiming for realism, gamma correction is especially important. As you perform more and more calculations, the tiny errors add up making it harder to achieve photorealism. The equations will be correct but the inputs and outputs will be wrong leaving you frustrated.</p>
-<p>It's easy to get twisted around when thinking about gamma correction but essentially it boils down to knowing what color space a color is in and how to convert that color to the color space you need. With those two pieces of the puzzle, gamma correction becomes a tedious yet simple chore you'll have to perform from time to time.</p>
-<h3 id="color-spaces">Color Spaces</h3>
+<p>做 gamma correction 会让颜色计算看起来正确。
+这不是说它们会立刻惊艳，但有了 gamma correction， 颜色会更融洽， shadow
+更有层次， highlight 也更克制。 没有 gamma correction 时，
+暗部容易被压死，亮部容易过曝并且 过度饱和，整体对比会很硬。</p>
+<p>如果目标是真实感， gamma correction 尤其重要。 计算越来越多时，
+细小误差会累积，photorealism 就更难达到。
+公式可以是对的，但输入和输出是错的，结果会让人受挫。</p>
+<p>思考 gamma correction 时很容易绕晕，
+但本质上就是两件事：知道颜色在哪个 color
+space，以及如何把它转换到你需要的 color space。 有了这两块， gamma
+correction 就变成一件时不时要做、繁琐但简单的事。</p>
+<h3 id="颜色空间">颜色空间</h3>
 <p align="center">
 <img src="https://i.imgur.com/a1U5oBq.png" alt="sRGB vs RGB" title="sRGB vs RGB">
 </p>
 
-<p>The two color spaces you'll need to be aware of are sRGB (standard Red Green Blue) and RGB or linear color space.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">identify</span> -format <span class="st">&quot;%[colorspace]\n&quot;</span> house-diffuse-srgb.png</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="ex">sRGB</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="ex">identify</span> -format <span class="st">&quot;%[colorspace]\n&quot;</span> house-diffuse-rgb.png</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="ex">RGB</span></span></code></pre></div>
-<p>Knowing what color space a color texture is in will determine how you handle it in your shaders. To determine the color space of a texture, use ImageMagick's <code>identify</code>. You'll find that most textures are in sRGB.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">convert</span> house-diffuse-srgb -colorspace rgb house-diffuse-rgb.png</span></code></pre></div>
-<p>To convert a texture to a particular color space, use ImageMagick's <code>convert</code> program. Notice how a texture is darkened when transforming from sRGB to RGB.</p>
-<h3 id="decoding">Decoding</h3>
-<p>The red, green, and blue values in a sRGB color texture are encoded and cannot be modified directly. Modifying them directly would be like running spellcheck on an encrypted message. Before you can run spellcheck, you first have to decrypt the message. Similarly, to modify the values of an sRGB texture, you first have to decode or transform them to RGB or linear color space.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="co">// ...</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>  color     = texture(color_texture, uv);</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  color.rgb = pow(color.rgb, <span class="fl">2.2</span>);</span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>To decode a sRGB encoded color, raise the <code>rgb</code> values to the power of <code>2.2</code>. Once you have decoded the color, you are now free to add, subtract, multiply, and divide it.</p>
-<p>By raising the color values to the power of <code>2.2</code>, you're converting them from sRGB to RGB or linear color space. This conversion has the effect of darkening the colors.</p>
+<p>需要留意的两个 color space 是 sRGB（standard Red Green Blue）和
+RGB，也就是 linear color space。</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">identify</span> <span class="at">-format</span> <span class="st">&quot;%[colorspace]\n&quot;</span> house-diffuse-srgb.png</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sRGB</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">identify</span> <span class="at">-format</span> <span class="st">&quot;%[colorspace]\n&quot;</span> house-diffuse-rgb.png</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">RGB</span></span></code></pre></div>
+<p>颜色 texture 处于哪个 color space，决定你在 shader 里怎么处理它。
+可以用 ImageMagick 的 <code>identify</code> 判断 texture 的 color
+space。 你会发现大多数 texture 都是 sRGB。</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">convert</span> house-diffuse-srgb <span class="at">-colorspace</span> rgb house-diffuse-rgb.png</span></code></pre></div>
+<p>要把 texture 转到某个 color space，用 ImageMagick 的
+<code>convert</code>。 注意从 sRGB 转到 RGB 时，texture 会变暗。</p>
+<h3 id="解码">解码</h3>
+<p>sRGB 颜色 texture 里的 red、green、blue 是编码过的，不能直接修改。
+直接修改就像对一条加密消息做拼写检查。 做拼写检查之前， 得先把消息解密。
+同样， 要修改 sRGB texture 的值， 得先把它们 decode，也就是变换到 RGB 或
+linear color space。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  color     <span class="op">=</span> texture<span class="op">(</span>color_texture<span class="op">,</span> uv<span class="op">);</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>rgb <span class="op">=</span> pow<span class="op">(</span>color<span class="op">.</span>rgb<span class="op">,</span> <span class="fl">2.2</span><span class="op">);</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>要 decode 一个 sRGB 编码的颜色， 把 <code>rgb</code> 值升到
+<code>2.2</code> 次方。 decode 之后， 就可以对它做加、减、乘、除。</p>
+<p>把颜色值升到 <code>2.2</code> 次方， 就是把它们从 sRGB 转到 RGB 或
+linear color space。 这个转换会让颜色变暗。</p>
 <p align="center">
 <img src="https://i.imgur.com/E5nkRfG.png" alt="Color Darkening" title="Color Darkening">
 </p>
 
-<p>For example, <code>vec3(0.9, 0.2, 0.3)</code> becomes <code>vec3(0.793, 0.028, 0.07)</code>.</p>
+<p>例如， <code>vec3(0.9, 0.2, 0.3)</code> 会变成
+<code>vec3(0.793, 0.028, 0.07)</code>。</p>
 <p align="center">
 <img src="https://i.imgur.com/TOEb0EC.gif" alt="Gamma Curves" title="Gamma Curves">
 </p>
 
-<p>The <code>2.2</code> value is known as gamma. Loosely speaking, gamma can either be <code>1.0 / 2.2</code>, <code>2.2</code>, or <code>1.0</code>. As you've seen, <code>2.2</code> is for decoding sRGB encoded color textures. As you will see, <code>1.0 / 2.2</code> is for encoding linear or RGB color textures. And <code>1.0</code> is RGB or linear color space since <code>y = 1 * x + 0</code> and any base raised to the power of <code>1.0</code> is itself.</p>
-<h4 id="non-color-data">Non-color Data</h4>
+<p><code>2.2</code> 这个值就是 gamma。 粗略地说，gamma 可以是
+<code>1.0 / 2.2</code>、<code>2.2</code> 或 <code>1.0</code>。
+如你所见，<code>2.2</code> 用来 decode sRGB 编码的颜色 texture。
+后面会看到，<code>1.0 / 2.2</code> 用来 encode linear 或 RGB 颜色
+texture。 <code>1.0</code> 就是 RGB 或 linear color space，因为
+<code>y = 1 * x + 0</code>， 而且任何底数的 <code>1.0</code>
+次方都是它自己。</p>
+<h4 id="非颜色数据">非颜色数据</h4>
 <p align="center">
 <img src="https://i.imgur.com/reA2qjs.png" alt="Non-color Data" title="Non-color Data">
 </p>
 
-<p>One important exception to decoding is when the "colors" of a texture represent non-color data. Some examples of non-color data would be the normals in a normal map, the alpha channel, the heights in a height map, and the directions in a flow map. Only decode color related data or data that represents color. When dealing with non-color data, treat the sRGB color values as RGB or linear and skip the decoding process.</p>
-<h3 id="encoding">Encoding</h3>
+<p>Decode 有一个重要例外：texture 的 "颜色" 表示的是非颜色数据。
+非颜色数据的例子包括 normal map 里的 normal、 alpha 通道、 height map
+里的高度， 以及 flow map 里的方向。 只 decode
+和颜色有关、或本身表示颜色的数据。 处理非颜色数据时， 把 sRGB 颜色值当作
+RGB 或 linear，跳过 decode。</p>
+<h3 id="编码">编码</h3>
 <p align="center">
 <img src="https://i.imgur.com/tRxkKNe.gif" alt="Perceptually versus Actually Linear" title="Perceptually versus Actually Linear">
 </p>
 
-<p>The necessity for encoding and decoding stems from the fact that humans do not perceive lightness linearly and most displays (like a monitor) lack the precision or number of bits to accurately show both lighter and darker tonal values or shades. With only so many bits to go around, colors are encoded in such a way that more bits are devoted to the darker shades than the lighter shades since humans are more sensitive to darker tones than lighter tones. Encoding it this way uses the limited number of bits more effectively for human perception. Still, the only thing to remember is that your display is expecting sRGB encoded values. Therefore, if you decoded a sRGB value, you have to encode it before it makes its way to your display.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="co">// ...</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  color     = texture(color_texture, uv);</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  color.rgb = pow(color.rgb, <span class="fl">1.0</span> / <span class="fl">2.2</span>);</span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>To encode a linear value or convert RGB to sRGB, raise the <code>rgb</code> values to the power of <code>1.0 / 2.2</code>. Notice how <code>1.1 / 2.2</code> is the reciprocal of <code>2.2</code> or <code>2.2 / 1.0</code>. Here you see the symmetry in decoding and encoding.</p>
+<p>需要 encode 和 decode，是因为人感知明度并不是线性的，
+而且大多数显示器（例如监视器）没有足够的精度或 bit
+数来同时准确显示较亮和较暗的色调。 bit 只有这么多，
+颜色的编码方式会把更多 bit 分给较暗的色调，而不是较亮的色调，
+因为人对暗调比对亮调更敏感。 这样编码能让有限的 bit 更符合人的感知。
+不过你只需要记住：显示器期望的是 sRGB 编码的值。 因此，如果 decode
+了一个 sRGB 值，在它送到显示器之前必须再 encode。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  color     <span class="op">=</span> texture<span class="op">(</span>color_texture<span class="op">,</span> uv<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>rgb <span class="op">=</span> pow<span class="op">(</span>color<span class="op">.</span>rgb<span class="op">,</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fl">2.2</span><span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>要 encode 一个 linear 值，或把 RGB 转成 sRGB， 把 <code>rgb</code>
+值升到 <code>1.0 / 2.2</code> 次方。 注意 <code>1.1 / 2.2</code> 被当作
+<code>2.2</code> 的倒数，也就是 <code>2.2 / 1.0</code>。 这里可以看到
+decode 和 encode 的对称。</p>
 <p align="center">
 <img src="https://i.imgur.com/4km0pdv.gif" alt="Not Gamma Corrected versus Gamma Corrected" title="Not Gamma Corrected versus Gamma Corrected">
 </p>
 
-<h3 id="source">Source</h3>
+<h3 id="源码">源码</h3>
 <ul>
 <li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/src/main.cxx" target="_blank" rel="noopener noreferrer">main.cxx</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/vertex/basic.vert" target="_blank" rel="noopener noreferrer">basic.vert</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/fragment/gamma-correction.frag" target="_blank" rel="noopener noreferrer">gamma-correction.frag</a></li>
+<li><a
+href="../demonstration/shaders/vertex/basic.vert">basic.vert</a></li>
+<li><a
+href="../demonstration/shaders/fragment/gamma-correction.frag">gamma-correction.frag</a></li>
 </ul>
-<h2 id="copyright">Copyright</h2>
-<p>(C) 2020 David Lettier <br> <a href="https://www.lettier.com">lettier.com</a></p>
-<p><a href="lookup-table.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="setup.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
+<h2 id="版权">版权</h2>
+<p>(C) 2020 David Lettier <br> <a
+href="https://www.lettier.com">lettier.com</a></p>
+<p><a href="lookup-table.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a href="setup.html"><span
+class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
   </body>
 </html>

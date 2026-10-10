@@ -4,31 +4,31 @@
 
 # 3D Game Shaders For Beginners
 
-Interested in adding
-textures,
-lighting,
-shadows,
-normal maps,
-glowing objects,
-ambient occlusion,
-reflections,
-refractions,
-and more to your 3D game?
-Great!
-Below is a collection of shading techniques that will take your game visuals to new heights.
-I've explained each technique in such a way that you can take what you learn here and apply/port it to
-whatever stack you use—be it Godot, Unity, Unreal, or something else.
-For the glue in between the shaders,
-I've chosen the fabulous Panda3D game engine and the OpenGL Shading Language (GLSL).
-So if that is your stack, then you'll also get the benefit of learning how to use these
-shading techniques with Panda3D and OpenGL specifically.
+想给你的 3D 游戏加上
+texture、
+lighting、
+shadow、
+normal map、
+发光物体、
+ambient occlusion、
+reflection、
+refraction，
+以及其他效果吗？
+很好！
+下面是一组 shading 技术，可以把画面再推高一层。
+每一种技术我都讲到你可以把这里学到的东西应用或移植到
+你正在用的技术栈，无论是 Godot、Unity、Unreal，还是别的引擎。
+shader 之间的胶水层，
+我选了出色的 Panda3D game engine 和 OpenGL Shading Language (GLSL)。
+如果你用的正是这套技术栈，你还会具体学到如何在 Panda3D 和 OpenGL 里使用这些
+shading 技术。
 
-## Table Of Contents
+## 目录
 
-- [Setup](sections/setup.md)
-- [Building The Demo](sections/building-the-demo.md)
-- [Running The Demo](sections/running-the-demo.md)
-- [Reference Frames](sections/reference-frames.md)
+- [环境准备](sections/setup.md)
+- [构建 Demo](sections/building-the-demo.md)
+- [运行 Demo](sections/running-the-demo.md)
+- [参考坐标系](sections/reference-frames.md)
 - [GLSL](sections/glsl.md)
 - [Render To Texture](sections/render-to-texture.md)
 - [Texturing](sections/texturing.md)
@@ -59,17 +59,17 @@ shading techniques with Panda3D and OpenGL specifically.
 - [Lookup Table (LUT)](sections/lookup-table.md)
 - [Gamma Correction](sections/gamma-correction.md)
 
-## License
+## 许可
 
-The included license applies only to the software portion of 3D Game Shaders For Beginners—
-specifically the `.cxx`, `.vert`, and `.frag` source code files.
-No other portion of 3D Game Shaders For Beginners has been licensed for use.
+随附的 license 只适用于 3D Game Shaders For Beginners 的软件部分，
+具体是 `.cxx`、`.vert` 和 `.frag` 源码文件。
+3D Game Shaders For Beginners 的其余部分并未授权使用。
 
-## Attributions
+## 署名
 
 - [Kiwi Soda Font](https://fontenddev.com/fonts/kiwi-soda/)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

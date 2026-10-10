@@ -12,19 +12,19 @@
 <img src="https://i.imgur.com/3WDO9xW.gif" alt="Flow Mapping" title="Flow Mapping">
 </p>
 
-Flow mapping is useful when you need to animate some fluid material.
-Much like diffuse maps map UV coordinates to diffuse colors and normal maps map UV coordinates to normals,
-flow maps map UV coordinates to 2D translations or flows.
+需要给某种流体材质做动画时，flow mapping 很有用。
+diffuse map 把 UV 坐标映射到 diffuse 颜色，normal map 把 UV 坐标映射到 normal，
+flow map 则把 UV 坐标映射到 2D 平移，也就是 flow。
 
 <p align="center">
 <img src="https://i.imgur.com/b9Vw94N.png" alt="Flow Map" title="Flow Map">
 </p>
 
-Here you see a flow map that maps UV coordinates to translations in the positive y-axis direction.
-Flow maps use the red and green channels to store translations in the x and y direction.
-The red channel is for the x-axis and the green channel is the y-axis.
-Both range from zero to one which translates to flows that range from `(-1, -1)` to `(1, 1)`.
-This flow map is all one color consisting of 0.5 red and 0.6 green.
+这里的 flow map 把 UV 坐标映射到正 y 轴方向的平移。
+Flow map 用 red 和 green 通道保存 x、y 方向的平移。
+red 通道是 x 轴，green 通道是 y 轴。
+两者都从 0 到 1，对应的 flow 范围是 `(-1, -1)` 到 `(1, 1)`。
+这张 flow map 只有一种颜色：0.5 的 red 和 0.6 的 green。
 
 ```c
 [r, g, b] =
@@ -32,8 +32,8 @@ This flow map is all one color consisting of 0.5 red and 0.6 green.
     [ x, y, z]
 ```
 
-Recall how the colors in a normal map are converted to actual normals.
-There is a similar process for flow maps.
+回忆一下 normal map 里的颜色如何转成真正的 normal。
+Flow map 有类似的过程。
 
 ```c
 // ...
@@ -46,8 +46,8 @@ uniform sampler2D flowTexture;
   // ...
 ```
 
-To convert a flow map color to a flow,
-you minus 0.5 from the channel (red and green) and multiply by two.
+把 flow map 颜色转成 flow 时，
+对通道（red 和 green）减去 0.5，再乘以 2。
 
 ```c
 (r, g) =
@@ -61,11 +61,11 @@ you minus 0.5 from the channel (red and green) and multiply by two.
       (0, 0.2)
 ```
 
-The flow map above maps each UV coordinate to the flow `(0, 0.2)`.
-This indicates zero movement in the x direction and a movement of 0.2 in the y direction.
+上面这张 flow map 把每个 UV 坐标映射到 flow `(0, 0.2)`。
+这表示 x 方向没有移动，y 方向移动 0.2。
 
-The flows can be used to translate all sorts of things but they're typically used to
-offset the UV coordinates of a another texture.
+Flow 可以用来平移各种东西，但通常用来
+偏移另一张 texture 的 UV 坐标。
 
 <p align="center">
 <img src="https://i.imgur.com/N6TWBw8.gif" alt="Foam Mask" title="Foam Mask">
@@ -89,11 +89,11 @@ offset the UV coordinates of a another texture.
   // ...
 ```
 
-For example, the demo program uses a flow map to animate the water.
-Here you see the flow map being used to animate the
-[foam mask](foam.md#mask).
-This continuously moves the diffuse UV coordinates directly up,
-giving the foam mask the appearance of moving down stream.
+例如，demo 用 flow map 给水面做动画。
+这里用 flow map 来动画化
+[foam mask](foam.md#mask)。
+它持续把 diffuse UV 坐标往正上方移动，
+让 foam mask 看起来像在顺流而下。
 
 ```c
           // ...
@@ -104,21 +104,20 @@ giving the foam mask the appearance of moving down stream.
           // ...
 ```
 
-You'll need how many seconds have passed since the first frame
-in order to animate the UV coordinates in the direction indicated by the flow.
-`osg_FrameTime` is
-[provided](https://github.com/panda3d/panda3d/blob/daa57733cb9b4ccdb23e28153585e8e20b5ccdb5/panda/src/display/graphicsStateGuardian.cxx#L930)
-by Panda3D.
-It is a timestamp of how many seconds have passed since the first frame.
+要按 flow 指示的方向动画化 UV 坐标，
+需要知道从第一帧到现在过了多少秒。
+`osg_FrameTime` 由 Panda3D
+[提供](https://github.com/panda3d/panda3d/blob/daa57733cb9b4ccdb23e28153585e8e20b5ccdb5/panda/src/display/graphicsStateGuardian.cxx#L930)。
+它是从第一帧起经过的秒数时间戳。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [normal.frag](../demonstration/shaders/fragment/normal.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

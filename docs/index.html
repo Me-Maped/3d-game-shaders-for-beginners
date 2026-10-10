@@ -3,12 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:title" content="3D Game Shaders For Beginners" />
-    <meta property="og:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta property="og:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:image" content="https://i.imgur.com/JIDwVTm.png" />
-    <meta name="twitter:title" content="3D Game Shaders For Beginners" />
-    <meta name="twitter:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="twitter:title" content="3D Game Shaders For
+Beginners" />
+    <meta name="twitter:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta name="twitter:image" content="https://i.imgur.com/JIDwVTm.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -30,14 +31,22 @@
 <img src="https://i.imgur.com/x8rtGr4.gif" alt="3D Game Shaders For Beginners" title="3D Game Shaders For Beginners">
 </p>
 
-<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For Beginners</h1>
-<p>Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! Below is a collection of shading techniques that will take your game visuals to new heights. I've explained each technique in such a way that you can take what you learn here and apply/port it to whatever stack you use—be it Godot, Unity, Unreal, or something else. For the glue in between the shaders, I've chosen the fabulous Panda3D game engine and the OpenGL Shading Language (GLSL). So if that is your stack, then you'll also get the benefit of learning how to use these shading techniques with Panda3D and OpenGL specifically.</p>
-<h2 id="table-of-contents">Table Of Contents</h2>
+<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For
+Beginners</h1>
+<p>想给你的 3D 游戏加上 texture、 lighting、 shadow、 normal map、
+发光物体、 ambient occlusion、 reflection、 refraction，
+以及其他效果吗？ 很好！ 下面是一组 shading 技术，可以把画面再推高一层。
+每一种技术我都讲到你可以把这里学到的东西应用或移植到
+你正在用的技术栈，无论是 Godot、Unity、Unreal，还是别的引擎。 shader
+之间的胶水层， 我选了出色的 Panda3D game engine 和 OpenGL Shading
+Language (GLSL)。 如果你用的正是这套技术栈，你还会具体学到如何在 Panda3D
+和 OpenGL 里使用这些 shading 技术。</p>
+<h2 id="目录">目录</h2>
 <ul>
-<li><a href="setup.html">Setup</a></li>
-<li><a href="building-the-demo.html">Building The Demo</a></li>
-<li><a href="running-the-demo.html">Running The Demo</a></li>
-<li><a href="reference-frames.html">Reference Frames</a></li>
+<li><a href="setup.html">环境准备</a></li>
+<li><a href="building-the-demo.html">构建 Demo</a></li>
+<li><a href="running-the-demo.html">运行 Demo</a></li>
+<li><a href="reference-frames.html">参考坐标系</a></li>
 <li><a href="glsl.html">GLSL</a></li>
 <li><a href="render-to-texture.html">Render To Texture</a></li>
 <li><a href="texturing.html">Texturing</a></li>
@@ -53,9 +62,12 @@
 <li><a href="bloom.html">Bloom</a></li>
 <li><a href="ssao.html">SSAO</a></li>
 <li><a href="motion-blur.html">Motion Blur</a></li>
-<li><a href="chromatic-aberration.html">Chromatic Aberration</a></li>
-<li><a href="screen-space-reflection.html">Screen Space Reflection</a></li>
-<li><a href="screen-space-refraction.html">Screen Space Refraction</a></li>
+<li><a href="chromatic-aberration.html">Chromatic
+Aberration</a></li>
+<li><a href="screen-space-reflection.html">Screen Space
+Reflection</a></li>
+<li><a href="screen-space-refraction.html">Screen Space
+Refraction</a></li>
 <li><a href="foam.html">Foam</a></li>
 <li><a href="flow-mapping.html">Flow Mapping</a></li>
 <li><a href="outlining.html">Outlining</a></li>
@@ -68,13 +80,17 @@
 <li><a href="lookup-table.html">Lookup Table (LUT)</a></li>
 <li><a href="gamma-correction.html">Gamma Correction</a></li>
 </ul>
-<h2 id="license">License</h2>
-<p>The included license applies only to the software portion of 3D Game Shaders For Beginners— specifically the <code>.cxx</code>, <code>.vert</code>, and <code>.frag</code> source code files. No other portion of 3D Game Shaders For Beginners has been licensed for use.</p>
-<h2 id="attributions">Attributions</h2>
+<h2 id="许可">许可</h2>
+<p>随附的 license 只适用于 3D Game Shaders For Beginners 的软件部分，
+具体是 <code>.cxx</code>、<code>.vert</code> 和 <code>.frag</code>
+源码文件。 3D Game Shaders For Beginners 的其余部分并未授权使用。</p>
+<h2 id="署名">署名</h2>
 <ul>
-<li><a href="https://fontenddev.com/fonts/kiwi-soda/">Kiwi Soda Font</a></li>
+<li><a href="https://fontenddev.com/fonts/kiwi-soda/">Kiwi Soda
+Font</a></li>
 </ul>
-<h2 id="copyright">Copyright</h2>
-<p>(C) 2019 David Lettier <br> <a href="https://www.lettier.com">lettier.com</a></p>
+<h2 id="版权">版权</h2>
+<p>(C) 2019 David Lettier <br> <a
+href="https://www.lettier.com">lettier.com</a></p>
   </body>
 </html>

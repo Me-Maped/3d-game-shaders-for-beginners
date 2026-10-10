@@ -12,9 +12,9 @@
 <img src="https://i.imgur.com/b5vw2AJ.gif" alt="Kuwahara Filter" title="Kuwahara Filter">
 </p>
 
-The need to blur this or that can come up quite often as you try to obtain
-a particular look or perform some technique like motion blur.
-Below are just some of ways you can blur your game's imagery.
+想得到某种观感，或做 motion blur 这类技术时，
+经常需要把这个或那个模糊掉。
+下面只是几种模糊游戏画面的办法。
 
 ### Box Blur
 
@@ -22,9 +22,9 @@ Below are just some of ways you can blur your game's imagery.
 <img src="https://i.imgur.com/uaXC1JM.gif" alt="Box Blur" title="Box Blur">
 </p>
 
-The box blur or mean filter algorithm is a simple to implement blurring effect.
-It's fast and gets the job done.
-If you need more finesse, you can upgrade to a Gaussian blur.
+Box blur，也就是 mean filter，是一种实现简单的模糊。
+它很快，也够用。
+如果需要更细腻，可以升级到 Gaussian blur。
 
 ```c
   // ...
@@ -38,8 +38,8 @@ If you need more finesse, you can upgrade to a Gaussian blur.
   // ...
 ```
 
-The `size` parameter controls how blurry the result is.
-If the `size` is zero or less, return the fragment untouched.
+`size` 控制结果有多模糊。
+`size` 小于等于 0 时，原样返回 fragment。
 
 ```c
   // ...
@@ -50,8 +50,8 @@ If the `size` is zero or less, return the fragment untouched.
   // ...
 ```
 
-The `separation` parameter spreads out the blur without having to sample additional fragments.
-`separation` ranges from one to infinity.
+`separation` 在不增加采样的情况下把 blur 散开。
+`separation` 的范围从 1 到无穷大。
 
 <p align="center">
 <img src="https://i.imgur.com/bRw0OkX.png" alt="Blur Kernel" title="Blur Kernel">
@@ -69,10 +69,10 @@ The `separation` parameter spreads out the blur without having to sample additio
   // ...
 ```
 
-Like the [outlining](outlining.md) technique,
-the box blur technique uses a kernel/matrix/window centered around the current fragment.
-The size of the window is `size * 2 + 1` by `size * 2 + 1`.
-So for example, with a `size` setting of two, the window uses `(2 * 2 + 1)^2 = 25` samples per fragment.
+和 [outlining](outlining.md) 一样，
+box blur 使用以当前 fragment 为中心的 kernel、matrix 或 window。
+window 的尺寸是 `size * 2 + 1` 乘 `size * 2 + 1`。
+例如 `size` 为 2 时，每个 fragment 使用 `(2 * 2 + 1)^2 = 25` 个采样。
 
 ```c
       // ...
@@ -89,8 +89,8 @@ So for example, with a `size` setting of two, the window uses `(2 * 2 + 1)^2 = 2
       // ...
 ```
 
-To compute the mean or average of the samples in the window,
-start by loop through the window, adding up each color vector.
+要计算 window 内采样的 mean，也就是平均，
+先遍历 window，把每个颜色 vector 加起来。
 
 
 ```c
@@ -101,8 +101,8 @@ start by loop through the window, adding up each color vector.
   // ...
 ```
 
-To finish computing the mean, divide the sum of the colors sampled by the number of samples taken.
-The final fragment color is the mean or average of the fragments sampled inside the window.
+要完成 mean 的计算，用采样颜色的和除以采样次数。
+最终的 fragment 颜色就是 window 内采样 fragment 的平均。
 
 ### Median Filter
 
@@ -110,24 +110,24 @@ The final fragment color is the mean or average of the fragments sampled inside 
 <img src="https://i.imgur.com/T1nEEn3.gif" alt="Median Filter" title="Median Filter">
 </p>
 
-The box blur uses the mean color of the samples taken.
-The median filter uses the median color of the samples taken.
-By using the median instead of the mean,
-the edges in the image are preserved—meaning the edges stay nice and crisp.
-For example, look at the windows in the box blurred image versus the median filtered image.
+Box blur 用的是采样的平均颜色。
+Median filter 用的是采样的中位颜色。
+用 median 而不是 mean，
+图像边缘会被保留，也就是边缘仍然清晰。
+例如比较 box blur 图像和 median filter 图像里的窗户。
 
-Unfortunately, finding the median can be slower than finding the mean.
-You could sort the values and choose the middle one but that would take at least quasilinear time.
-There is a technique to find the median in linear time but it can be quite awkward inside a shader.
-The numerical approach below approximates the median in linear time.
-How well it approximates the median can be controlled.
+可惜找 median 可能比找 mean 慢。
+可以把值排序再取中间那个，但至少是准线性时间。
+有线性时间找 median 的办法，但写在 shader 里会很别扭。
+下面的数值方法用线性时间近似 median。
+近似得好不好可以控制。
 
 <p align="center">
 <img src="https://i.imgur.com/AnbzUmN.png" alt="Painterly" title="Painterly">
 </p>
 
-At lower quality approximations,
-you end up with a nice [painterly](https://en.wikipedia.org/wiki/Painterliness) look.
+近似质量较低时，
+会得到一种不错的 [painterly](https://en.wikipedia.org/wiki/Painterliness) 观感。
 
 ```c
 // ...
@@ -139,7 +139,7 @@ you end up with a nice [painterly](https://en.wikipedia.org/wiki/Painterliness) 
 // ...
 ```
 
-These are the hard limits for the `size` parameter, window size, and `bins` array.
+这些是 `size` 参数、window 尺寸和 `bins` 数组的硬上限。
 
 
 ```c
@@ -156,10 +156,10 @@ These are the hard limits for the `size` parameter, window size, and `bins` arra
   // ...
 ```
 
-The `size` parameter controls how blurry or smeared the effect is.
-If the size is at or below zero, return the current fragment untouched.
-From the `size` parameter, calculate the total size of the kernel or window.
-This is how many samples you'll be taking per fragment.
+`size` 控制效果有多模糊或涂抹。
+size 小于等于 0 时，原样返回当前 fragment。
+由 `size` 算出 kernel 或 window 的总尺寸。
+这就是每个 fragment 要取的采样数。
 
 ```c
   // ...
@@ -170,7 +170,7 @@ This is how many samples you'll be taking per fragment.
   // ...
 ```
 
-Set up the `binsSize`, making sure to limit it by the `MAX_BINS_SIZE`.
+设置 `binsSize`，并确保用 `MAX_BINS_SIZE` 限制它。
 
 ```c
   // ...
@@ -183,10 +183,10 @@ Set up the `binsSize`, making sure to limit it by the `MAX_BINS_SIZE`.
   // ...
 ```
 
-`i` and `j` are used to sample the given texture around the current fragment.
-`i` is also used as a general for loop count.
-`count` is used in the initialization of the `colors` array which you'll see later.
-`binIndex` is used to approximate the median color.
+`i` 和 `j` 用来在当前 fragment 周围采样给定 texture。
+`i` 也当作一般的 for 循环计数。
+`count` 用于后面会看到的 `colors` 数组初始化。
+`binIndex` 用来近似 median 颜色。
 
 ```c
   // ...
@@ -198,11 +198,11 @@ Set up the `binsSize`, making sure to limit it by the `MAX_BINS_SIZE`.
   // ...
 ```
 
-The `colors` array holds the sampled colors taken from the input texture.
-`bins` is used to approximate the median of the sampled colors.
-Each bin holds a count of how many colors fall into its range when converting each color into a greyscale value (between zero and one).
-As `binsSize` approaches 100, the algorithm finds the true median almost always.
-`binIndexes` stores the `bins` index or which bin each sample falls into.
+`colors` 数组保存从输入 texture 取出的采样颜色。
+`bins` 用来近似采样颜色的 median。
+把每个颜色转成 0 到 1 的 greyscale 后，每个 bin 记录有多少颜色落进它的范围。
+`binsSize` 接近 100 时，算法几乎总是能找到真正的 median。
+`binIndexes` 保存每个采样落进的 `bins` 下标。
 
 ```c
   // ...
@@ -213,10 +213,10 @@ As `binsSize` approaches 100, the algorithm finds the true median almost always.
   // ...
 ```
 
-`total` keeps track of how many colors you've come across as you loop through `bins`.
-When `total` reaches `limit`, you return whatever `bins` index you're at.
-The `limit` is the median index.
-For example, if the window size is 81, `limit` is 41 which is directly in the middle (40 samples below and 40 samples above).
+遍历 `bins` 时，`total` 记录已经遇到多少颜色。
+`total` 达到 `limit` 时，返回当前所在的 `bins` 下标。
+`limit` 就是 median 的下标。
+例如 window 尺寸是 81 时，`limit` 是 41，正好在中间（下面 40 个采样，上面 40 个采样）。
 
 ```c
   // ...
@@ -227,9 +227,9 @@ For example, if the window size is 81, `limit` is 41 which is directly in the mi
   // ...
 ```
 
-These are used to covert and hold each color sample's greyscale value.
-Instead of dividing red, green, and blue by one third,
-it uses 30% of red, 59% of green, and 11% of blue for a total of 100%.
+这些用来转换并保存每个颜色采样的 greyscale。
+它不是把 red、green、blue 各除以三分之一，
+而是用 30% 的 red、59% 的 green 和 11% 的 blue，合计 100%。
 
 ```c
   // ...
@@ -251,7 +251,7 @@ it uses 30% of red, 59% of green, and 11% of blue for a total of 100%.
   // ...
 ```
 
-Loop through the window and collect the color samples into `colors`.
+遍历 window，把颜色采样收进 `colors`。
 
 ```c
   // ...
@@ -263,7 +263,7 @@ Loop through the window and collect the color samples into `colors`.
   // ...
 ```
 
-Initialize the `bins` array with zeros.
+用 0 初始化 `bins` 数组。
 
 ```c
   // ...
@@ -279,13 +279,13 @@ Initialize the `bins` array with zeros.
   // ...
 ```
 
-Loop through the colors and convert each one to a greyscale value.
-`dot(colors[i].rgb, valueRatios)` is the weighted sum `colors.r * 0.3 + colors.g * 0.59 + colors.b * 0.11`.
+遍历颜色，把每一个转成 greyscale。
+`dot(colors[i].rgb, valueRatios)` 就是加权和 `colors.r * 0.3 + colors.g * 0.59 + colors.b * 0.11`。
 
-Each value will fall into some bin.
-Each bin covers some range of values.
-For example, if the number of bins is 10, the first bin covers everything from zero up to but not including 0.1.
-Increment the number of colors that fall into this bin and remember the color sample's bin index so you can look it up later.
+每个值都会落进某个 bin。
+每个 bin 覆盖一段值。
+例如 bin 数量是 10 时，第一个 bin 覆盖从 0 到但不包括 0.1 的一切。
+增加落进这个 bin 的颜色计数，并记住该颜色采样的 bin 下标，方便以后查找。
 
 ```c
   // ...
@@ -303,8 +303,8 @@ Increment the number of colors that fall into this bin and remember the color sa
   // ...
 ```
 
-Loop through the bins, tallying up the number of colors seen so far.
-When you reach the median index, exit the loop and remember the last `bins` index reached.
+遍历 bin，累计到目前为止见过的颜色数量。
+到达 median 下标时退出循环，并记住最后到达的 `bins` 下标。
 
 ```c
   // ...
@@ -321,9 +321,9 @@ When you reach the median index, exit the loop and remember the last `bins` inde
   // ...
 ```
 
-Now loop through the `binIndexes` and find the first color with the last `bins` indexed reached.
-Its greyscale value is the approximated median which in many cases will be the true median value.
-Set this color as the fragColor and exit the loop and shader.
+现在遍历 `binIndexes`，找到第一个落在最后到达的 `bins` 下标上的颜色。
+它的 greyscale 就是近似的 median，很多情况下也是真正的 median。
+把这个颜色设为 fragColor，然后退出循环和 shader。
 
 ### Kuwahara Filter
 
@@ -331,10 +331,10 @@ Set this color as the fragColor and exit the loop and shader.
 <img src="https://i.imgur.com/b5vw2AJ.gif" alt="Kuwahara Filter" title="Kuwahara Filter">
 </p>
 
-Like the median filter, the kuwahara filter preserves the major edges found in the image.
-You'll notice that it has a more block like or chunky pattern to it.
-In practice,
-the Kuwahara filter runs faster than the median filter, allowing for larger `size` values without a noticeable slowdown.
+和 median filter 一样，Kuwahara filter 保留图像里的主要边缘。
+你会注意到它更偏方块，或者更粗。
+实际使用时，
+Kuwahara filter 比 median filter 更快，因此可以用更大的 `size`，又不会明显变慢。
 
 ```c
 // ...
@@ -345,7 +345,7 @@ the Kuwahara filter runs faster than the median filter, allowing for larger `siz
 // ...
 ```
 
-Set a hard limit for the `size` parameter and the number of samples taken.
+给 `size` 参数和采样数量设一个硬上限。
 
 ```c
 // ...
@@ -357,7 +357,7 @@ int count = 0;
 // ...
 ```
 
-These are used to sample the input texture and set up the `values` array.
+这些用来采样输入 texture，并设置 `values` 数组。
 
 ```c
 // ...
@@ -367,7 +367,7 @@ vec3  valueRatios = vec3(0.3, 0.59, 0.11);
 // ...
 ```
 
-Like the median filter, you'll be converting the color samples into greyscale values.
+和 median filter 一样，这里会把颜色采样转成 greyscale。
 
 ```c
 // ...
@@ -377,8 +377,8 @@ float values[MAX_KERNEL_SIZE];
 // ...
 ```
 
-Initialize the `values` array.
-This will hold the greyscale values for the color samples.
+初始化 `values` 数组。
+它保存颜色采样的 greyscale。
 
 ```c
 // ...
@@ -393,7 +393,7 @@ float minVariance = -1;
 // ...
 ```
 
-The Kuwahara filter works by computing the variance of four subwindows and then using the mean of the subwindow with the smallest variance.
+Kuwahara filter 计算四个 subwindow 的 variance，然后使用 variance 最小的那个 subwindow 的 mean。
 
 ```c
 // ...
@@ -403,8 +403,8 @@ void findMean(int i0, int i1, int j0, int j1) {
 // ...
 ```
 
-`findMean` is a function defined outside of `main`.
-Each run of `findMean` will remember the mean of the given subwindow that has the lowest variance seen so far.
+`findMean` 是定义在 `main` 外面的函数。
+每次调用 `findMean` 都会记住目前为止 variance 最低的那个 subwindow 的 mean。
 
 ```c
   // ...
@@ -415,7 +415,7 @@ Each run of `findMean` will remember the mean of the given subwindow that has th
   // ...
 ```
 
-Make sure to reset `count` and `meanTemp` before computing the mean of the given subwindow.
+计算给定 subwindow 的 mean 之前，记得重置 `count` 和 `meanTemp`。
 
 ```c
   // ...
@@ -440,8 +440,8 @@ Make sure to reset `count` and `meanTemp` before computing the mean of the given
   // ...
 ```
 
-Similar to the box blur, loop through the given subwindow and add up each color.
-At the same time, make sure to store the greyscale value for this sample in `values`.
+和 box blur 类似，遍历给定 subwindow，把每个颜色加起来。
+同时把这个采样的 greyscale 存进 `values`。
 
 ```c
   // ...
@@ -452,8 +452,8 @@ At the same time, make sure to store the greyscale value for this sample in `val
   // ...
 ```
 
-To compute the mean, divide the samples sum by the number of samples taken.
-Calculate the greyscale value for the mean.
+计算 mean 时，用采样的和除以采样次数。
+再算出这个 mean 的 greyscale。
 
 ```c
   // ...
@@ -467,8 +467,8 @@ Calculate the greyscale value for the mean.
   // ...
 ```
 
-Now calculate the variance for this given subwindow.
-The variance is the average squared difference between each sample's greyscale value the mean greyscale value.
+现在计算这个 subwindow 的 variance。
+Variance 是每个采样 greyscale 与 mean greyscale 之差的平方的平均。
 
 ```c
   // ...
@@ -482,8 +482,8 @@ The variance is the average squared difference between each sample's greyscale v
 // ...
 ```
 
-If the variance is smaller than what you've seen before or this is the first variance you've seen,
-set the mean of this subwindow as the final mean and update the minimum variance seen so far.
+如果这个 variance 比之前见过的更小，或者这是第一次见到 variance，
+就把这个 subwindow 的 mean 设为最终 mean，并更新目前为止的最小 variance。
 
 ```c
 // ...
@@ -495,8 +495,8 @@ void main() {
   // ...
 ```
 
-Back in `main`, set the `size` parameter.
-If the size is at or below zero, return the fragment unchanged.
+回到 `main`，设置 `size` 参数。
+size 小于等于 0 时，原样返回 fragment。
 
 <p align="center">
 <img src="https://i.imgur.com/iuLbLKO.gif" alt="Kuwahara Kernal" title="Kuwahara Kernal">
@@ -524,10 +524,10 @@ If the size is at or below zero, return the fragment unchanged.
   // ...
 ```
 
-As stated above,
-the Kuwahara filter works by computing the variance of four subwindows
-and then using the mean of the subwindow with the lowest variance as the final fragment color.
-Note that the four subwindows overlap each other.
+如上所述，
+Kuwahara filter 计算四个 subwindow 的 variance，
+然后用 variance 最低的 subwindow 的 mean 作为最终 fragment 颜色。
+注意这四个 subwindow 彼此重叠。
 
 ```c
   // ...
@@ -538,10 +538,10 @@ Note that the four subwindows overlap each other.
   // ...
 ```
 
-After computing the variance and mean for each subwindow,
-set the fragment color to the mean of the subwindow with the lowest variance.
+算出每个 subwindow 的 variance 和 mean 之后，
+把 fragment 颜色设为 variance 最低的 subwindow 的 mean。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
@@ -550,7 +550,7 @@ set the fragment color to the mean of the subwindow with the lowest variance.
 - [median-filter.frag](../demonstration/shaders/fragment/median-filter.frag)
 - [kuwahara-filter.frag](../demonstration/shaders/fragment/kuwahara-filter.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

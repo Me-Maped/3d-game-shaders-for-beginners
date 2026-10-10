@@ -12,8 +12,8 @@
 <img src="https://i.imgur.com/zQrA8tr.gif" alt="Lighting" title="Lighting">
 </p>
 
-Completing the lighting involves calculating and combining the ambient, diffuse, specular, and emission light aspects.
-The example code uses either Phong or Blinn-Phong lighting.
+完成 lighting，就是计算并合成 ambient、diffuse、specular 和 emission。
+示例代码使用 Phong 或 Blinn-Phong lighting。
 
 ### Vertex
 
@@ -49,9 +49,9 @@ uniform struct p3d_LightSourceParameters
 // ...
 ```
 
-For every light, minus the ambient light, Panda3D gives you this convenient
-struct which is available to both the vertex and fragment shaders.
-The biggest convenience being the shadow map and shadow view matrix for transforming vertexes to shadow or light space.
+除了 ambient light，每一盏灯 Panda3D 都会给你这个方便的
+struct，vertex shader 和 fragment shader 都能用。
+最大的便利是 shadow map，以及把 vertex 变换到 shadow space 或 light space 的 shadow view matrix。
 
 ```c
   // ...
@@ -67,14 +67,14 @@ The biggest convenience being the shadow map and shadow view matrix for transfor
   // ...
 ```
 
-Starting in the vertex shader, you'll need to transform and
-output the vertex from view space to shadow or light space for each light in your scene.
-You'll need this later in the fragment shader in order to render the shadows.
-Shadow or light space is where every coordinate is relative to the light position (the light is the origin).
+从 vertex shader 开始，需要为场景里的每一盏灯把 vertex
+从 view space 变换到 shadow space 或 light space 并输出。
+后面在 fragment shader 里渲染 shadow 时会用到。
+Shadow space 或 light space 里，每个坐标都相对光源位置，光源就是原点。
 
 ### Fragment
 
-The fragment shader is where most of the lighting calculations take place.
+大部分 lighting 计算发生在 fragment shader。
 
 #### Material
 
@@ -93,7 +93,7 @@ uniform struct
 // ...
 ```
 
-Panda3D gives us the material (in the form of a struct) for the mesh or model you are currently rendering.
+Panda3D 会给出当前正在渲染的 mesh 或模型的 material（以 struct 的形式）。
 
 #### Multiple Lights
 
@@ -106,7 +106,7 @@ Panda3D gives us the material (in the form of a struct) for the mesh or model yo
   // ...
 ```
 
-Before you loop through the scene's lights, create an accumulator for both the diffuse and specular colors.
+遍历场景光源之前，为 diffuse 和 specular 颜色各准备一个累加器。
 
 ```c
   // ...
@@ -118,7 +118,7 @@ Before you loop through the scene's lights, create an accumulator for both the d
   // ...
 ```
 
-Now you can loop through the lights, calculating the diffuse and specular colors for each one.
+现在可以遍历光源，为每一盏计算 diffuse 和 specular 颜色。
 
 #### Light Related Vectors
 
@@ -126,11 +126,11 @@ Now you can loop through the lights, calculating the diffuse and specular colors
 <img src="https://i.imgur.com/0pzNh5d.gif" alt="Phong Lighting Model" title="Phong Lighting Model">
 </p>
 
-Here you see the four major vectors you'll need to calculate the diffuse and specular colors contributed by each light.
-The light direction vector is the light blue arrow pointing to the light.
-The normal vector is the green arrow standing straight up.
-The reflection vector is the dark blue arrow mirroring the light direction vector.
-The eye or view vector is the orange arrow pointing towards the camera.
+这里是计算每盏灯贡献的 diffuse 和 specular 颜色所需的四个主要 vector。
+Light direction 是指向光源的浅蓝色箭头。
+Normal 是竖直向上的绿色箭头。
+Reflection vector 是与 light direction 镜像的深蓝色箭头。
+Eye 或 view vector 是指向 camera 的橙色箭头。
 
 ```c
     // ...
@@ -143,13 +143,13 @@ The eye or view vector is the orange arrow pointing towards the camera.
     // ...
 ```
 
-The light direction is from the vertex's position to the light's position.
+Light direction 从 vertex 的 position 指向光源的 position。
 
-Panda3D sets `p3d_LightSource[i].position.w` to zero if this is a directional light.
-Directional lights do not have a position as they only have a direction.
-So if this is a directional light,
-the light direction will be the negative or opposite direction of the light as Panda3D sets
-`p3d_LightSource[i].position.xyz` to be `-direction` for directional lights.
+如果是 directional light，Panda3D 会把 `p3d_LightSource[i].position.w` 设为 0。
+Directional light 没有位置，只有方向。
+所以如果是 directional light，
+light direction 会是光源方向的相反方向，因为 Panda3D 会把
+directional light 的 `p3d_LightSource[i].position.xyz` 设为 `-direction`。
 
 ```c
   // ...
@@ -159,8 +159,8 @@ the light direction will be the negative or opposite direction of the light as P
   // ...
 ```
 
-You'll need the vertex normal to be a unit vector.
-Unit vectors have a length of magnitude of one.
+Vertex normal 需要是单位 vector。
+单位 vector 的长度是 1。
 
 ```c
     // ...
@@ -172,25 +172,24 @@ Unit vectors have a length of magnitude of one.
     // ...
 ```
 
-Next you'll need three more vectors.
+接下来还需要三个 vector。
 
-You'll need to take the dot product involving the light direction so its best to normalize it.
-This gives it a distance or magnitude of one (unit vector).
+后面要点乘 light direction，所以最好先 normalize。
+这样它的长度是 1，也就是单位 vector。
 
-The eye direction is the opposite of the vertex/fragment position since the vertex/fragment position is relative to the camera's position.
-Remember that the vertex/fragment position is in view space.
-So instead of going from the camera (eye) to the vertex/fragment, you go from the vertex/fragment to the eye (camera).
+Eye direction 是 vertex 或 fragment position 的相反方向，因为这个 position 相对 camera 的位置。
+记住 vertex 或 fragment position 在 view space。
+所以不是从 camera（eye）走向 vertex 或 fragment，而是从 vertex 或 fragment 走向 eye（camera）。
 
-The
 [reflection vector](http://asawicki.info/news_1301_reflect_and_refract_functions.html)
-is a reflection of the light direction at the surface normal.
-As the light "ray" hits the surface, it bounces off at the same angle it came in at.
-The angle between the light direction vector and the normal is known as the "angle of incidence".
-The angle between the reflection vector and the normal is known as the "angle of reflection".
+是 light direction 相对表面 normal 的反射。
+光 "ray" 打到表面后，以入射时相同的角度弹开。
+Light direction 和 normal 之间的夹角叫 "angle of incidence"。
+Reflection vector 和 normal 之间的夹角叫 "angle of reflection"。
 
-You'll have to negate the reflected light vector as it needs to point in the same direction as the eye vector.
-Remember the eye direction is from the vertex/fragment to the camera position.
-You'll use the reflection vector to calculate the intensity of the specular highlight.
+需要把反射后的 light vector 取反，因为它要和 eye vector 同向。
+记住 eye direction 从 vertex 或 fragment 指向 camera 位置。
+后面用 reflection vector 计算 specular highlight 的强度。
 
 #### Diffuse
 
@@ -204,16 +203,16 @@ You'll use the reflection vector to calculate the intensity of the specular high
     // ...
 ```
 
-The diffuse intensity is the dot product between the surface normal and the unit vector light direction.
-The dot product can range from negative one to one.
-If both vectors point in the same direction, the intensity is one.
-Any other case will be less than one.
+Diffuse 强度是表面 normal 和单位 light direction 的点积。
+点积范围可以是 -1 到 1。
+两个 vector 同向时，强度是 1。
+其他情况都小于 1。
 
 <p align="center">
 <img src="https://i.imgur.com/Nb78z96.gif" alt="The light direction versus the normal direction." title="The light direction versus the normal direction.">
 </p>
 
-As the light vector approaches the same direction as the normal, the diffuse intensity approaches one.
+Light vector 越接近 normal 的方向，diffuse 强度越接近 1。
 
 ```c
     // ...
@@ -223,7 +222,7 @@ As the light vector approaches the same direction as the normal, the diffuse int
     // ...
 ```
 
-If the diffuse intensity is zero or less, move on to the next light.
+Diffuse 强度小于等于 0 时，继续处理下一盏灯。
 
 ```c
     // ...
@@ -245,17 +244,17 @@ If the diffuse intensity is zero or less, move on to the next light.
     // ...
 ```
 
-You can now calculate the diffuse color contributed by this light.
-If the diffuse intensity is one, the diffuse color will be a mix between the diffuse texture color and the lights color.
-Any other intensity will cause the diffuse color to be darker.
+现在可以计算这盏灯贡献的 diffuse 颜色。
+Diffuse 强度为 1 时，diffuse 颜色是 diffuse texture 颜色和光颜色的混合。
+其他强度都会让 diffuse 颜色更暗。
 
-Notice how I clamp the diffuse color to be only as bright as the diffuse texture color is.
-This will protect the scene from being over exposed.
-When creating your diffuse textures, make sure to create them as if they were fully lit.
+注意我把 diffuse 颜色 clamp 到不超过 diffuse texture 颜色的亮度。
+这样可以避免场景过曝。
+制作 diffuse texture 时，要按完全受光的样子来做。
 
 #### Specular
 
-After diffuse, comes specular.
+Diffuse 之后是 specular。
 
 <p align="center">
 <img src="https://i.imgur.com/FnOhXxv.gif" alt="Specular Intensity" title="Specular Intensity">
@@ -281,17 +280,17 @@ After diffuse, comes specular.
     // ...
 ```
 
-The specular intensity is the dot product between the eye vector and the reflection vector.
-As with the diffuse intensity, if the two vectors point in the same direction, the specular intensity is one.
-Any other intensity will diminish the amount of specular color contributed by this light.
+Specular 强度是 eye vector 和 reflection vector 的点积。
+和 diffuse 强度一样，两个 vector 同向时 specular 强度是 1。
+其他强度都会减少这盏灯贡献的 specular 颜色。
 
 <p align="center">
 <img src="https://i.imgur.com/4r6wqLP.gif" alt="Shininess" title="Shininess">
 </p>
 
-The material shininess determines how spread out the specular highlight is.
-This is typically set in a modeling program like Blender.
-In Blender it's known as the specular hardness.
+材质的 shininess 决定 specular highlight 散开多少。
+这通常在 Blender 这类建模软件里设置。
+在 Blender 里它叫 specular hardness。
 
 #### Spotlights
 
@@ -310,13 +309,13 @@ In Blender it's known as the specular hardness.
 }
 ```
 
-This snippet keeps fragments outside of a spotlight's cone or frustum from being affected by the light.
-Fortunately, Panda3D
-[sets up](https://github.com/panda3d/panda3d/blob/daa57733cb9b4ccdb23e28153585e8e20b5ccdb5/panda/src/display/graphicsStateGuardian.cxx#L1705)
-`spotDirection` and `spotCosCutoff` to also work for directional lights and points lights.
-Spotlights have both a position and direction.
-However, directional lights only have a direction and point lights only have a position.
-Still, this code works for all three lights avoiding the need for noisy if statements.
+这段代码让 spotlight 锥体或 frustum 外面的 fragment 不受这盏灯影响。
+好在 Panda3D
+[设置](https://github.com/panda3d/panda3d/blob/daa57733cb9b4ccdb23e28153585e8e20b5ccdb5/panda/src/display/graphicsStateGuardian.cxx#L1705)
+了 `spotDirection` 和 `spotCosCutoff`，使它们也能用于 directional light 和 point light。
+Spotlight 既有位置也有方向。
+Directional light 只有方向，point light 只有位置。
+这段代码对三种灯都有效，因此不需要一堆 if。
 
 ```c
         // ...
@@ -326,20 +325,20 @@ Still, this code works for all three lights avoiding the need for noisy if state
         // ...
 ```
 
-You must negate `unitLightDirection`.
-`unitLightDirection` goes from the fragment to the spotlight and you need it to go from the spotlight to the fragment
-since the `spotDirection` goes directly down the center of the spotlight's frustum some distance away from the spotlight's position.
+必须把 `unitLightDirection` 取反。
+`unitLightDirection` 从 fragment 指向 spotlight，而你需要它从 spotlight 指向 fragment，
+因为 `spotDirection` 从 spotlight 的位置出发，沿 frustum 中心向前一段距离。
 
 ```c
 spotCosCutoff = cosine(0.5 * spotlightLensFovAngle);
 ```
 
-For a spotlight, if the dot product between the fragment-to-light vector and the spotlight's direction vector is less than the cosine
-of half the spotlight's field of view angle, the shader disregards this light's influence.
+对 spotlight 来说，如果 fragment 到光的 vector 和 spotlight 方向 vector 的点积小于
+spotlight 视场角一半的余弦，shader 就忽略这盏灯的影响。
 
-For directional lights and point lights, Panda3D sets `spotCosCutoff` to negative one.
-Recall that the dot product ranges from negative one to one.
-So it doesn't matter what the `unitLightDirectionDelta` is because it will always be greater than or equal to negative one.
+对 directional light 和 point light，Panda3D 把 `spotCosCutoff` 设为 -1。
+回忆一下，点积范围是 -1 到 1。
+所以 `unitLightDirectionDelta` 是多少都没关系，因为它总是大于等于 -1。
 
 ```c
     // ...
@@ -349,10 +348,10 @@ So it doesn't matter what the `unitLightDirectionDelta` is because it will alway
     // ...
 ```
 
-Like the `unitLightDirectionDelta` snippet, this snippet also works for all three light types.
-For spotlights, this will make the fragments brighter as you move closer to the center of the spotlight's frustum.
-For directional lights and point lights, `spotExponent` is zero.
-Recall that anything to the power of zero is one so the diffuse color is one times itself meaning it is unchanged.
+和 `unitLightDirectionDelta` 那段一样，这段也对三种灯都有效。
+对 spotlight，越靠近 frustum 中心，fragment 越亮。
+对 directional light 和 point light，`spotExponent` 是 0。
+任何数的 0 次方都是 1，所以 diffuse 颜色乘以 1，保持不变。
 
 #### Shadows
 
@@ -371,28 +370,28 @@ Recall that anything to the power of zero is one so the diffuse color is one tim
     // ...
 ```
 
-Panda3D makes applying shadows relatively easy by providing the shadow map and shadow transformation matrix for every scene light.
-To create the shadow transformation matrix yourself,
-you'll need to assemble a matrix that transforms view space coordinates to light space (coordinates are relative to the light's position).
-To create the shadow map yourself, you'll need to render the scene from the perspective of the light to a framebuffer texture.
-The framebuffer texture must hold the distances from the light to the fragments.
-This is known as a "depth map".
-Lastly, you'll need to manually give to your shader your DIY depth map as a `uniform sampler2DShadow`
-and your DIY shadow transformation matrix as a `uniform mat4`.
-At this point, you've recreated what Panda3D does for you automatically.
+Panda3D 为每盏场景光提供 shadow map 和 shadow 变换 matrix，让加 shadow 相对容易。
+如果自己做 shadow 变换 matrix，
+需要组装一个把 view space 坐标变到 light space 的 matrix（坐标相对光源位置）。
+如果自己做 shadow map，需要从光源视角把场景渲染到一张 framebuffer texture。
+这张 framebuffer texture 必须保存光源到 fragment 的距离。
+这叫 "depth map"。
+最后，要把自己做的 depth map 作为 `uniform sampler2DShadow`，
+把自己做的 shadow 变换 matrix 作为 `uniform mat4` 交给 shader。
+到这里，你就复现了 Panda3D 自动做的事。
 
-The shadow snippet shown uses `textureProj` which is different from the `texure` function shown earlier.
-`textureProj` first divides `vertexInShadowSpaces[i].xyz` by `vertexInShadowSpaces[i].w`.
-After this, it uses `vertexInShadowSpaces[i].xy` to locate the depth stored in the shadow map.
-Next it uses `vertexInShadowSpaces[i].z` to compare this vertex's depth against the shadow map depth at
-`vertexInShadowSpaces[i].xy`.
-If the comparison passes, `textureProj` will return one.
-Otherwise, it will return zero.
-Zero meaning this vertex/fragment is in the shadow and one meaning this vertex/fragment is not in the shadow.
+这里的 shadow 代码用的是 `textureProj`，和前面的 `texure` 函数不同。
+`textureProj` 先用 `vertexInShadowSpaces[i].xyz` 除以 `vertexInShadowSpaces[i].w`。
+然后用 `vertexInShadowSpaces[i].xy` 定位 shadow map 里存的 depth。
+再用 `vertexInShadowSpaces[i].z` 比较这个 vertex 的 depth 和 shadow map 在
+`vertexInShadowSpaces[i].xy` 处的 depth。
+比较通过时，`textureProj` 返回 1。
+否则返回 0。
+0 表示这个 vertex 或 fragment 在 shadow 里，1 表示不在 shadow 里。
 
-`textureProj` can also return a value between zero and one depending on how the shadow map was set up.
-In this instance, `textureProj` performs multiple depth tests using neighboring depth values and returns a weighted average.
-This weighted average can give shadows a softer look.
+根据 shadow map 的设置，`textureProj` 也可以返回 0 到 1 之间的值。
+这时 `textureProj` 会用邻近的 depth 做多次 depth test，并返回加权平均。
+这个加权平均可以让 shadow 看起来更软。
 
 #### Attenuation
 
@@ -420,15 +419,15 @@ This weighted average can give shadows a softer look.
     // ...
 ```
 
-The light's distance is just the magnitude or length of the light direction vector.
-Notice it's not using the normalized light direction as that distance would be one.
+光的距离就是 light direction vector 的长度。
+注意这里不用归一化后的 light direction，因为那样距离会是 1。
 
-You'll need the light distance to calculate the attenuation.
-Attenuation meaning the light's influence diminishes as you get further away from it.
+计算 attenuation 需要光的距离。
+Attenuation 是指离光越远，光的影响越弱。
 
-You can set `constantAttenuation`, `linearAttenuation`, and `quadraticAttenuation` to whatever values you would like.
-A good starting point is `constantAttenuation = 1`, `linearAttenuation = 0`, and `quadraticAttenuation = 1`.
-With these settings, the attenuation is one at the light's position and approaches zero as you move further away.
+`constantAttenuation`、`linearAttenuation` 和 `quadraticAttenuation` 可以设成你想要的值。
+一个好的起点是 `constantAttenuation = 1`、`linearAttenuation = 0`、`quadraticAttenuation = 1`。
+这样在光源位置 attenuation 是 1，离得越远越接近 0。
 
 #### Final Light Color
 
@@ -441,8 +440,8 @@ With these settings, the attenuation is one at the light's position and approach
     // ...
 ```
 
-To calculate the final light color, add the diffuse and specular together.
-Be sure to add this to the accumulator as you loop through the scene's lights.
+计算最终的光颜色时，把 diffuse 和 specular 加起来。
+遍历场景光源时，记得把结果加进累加器。
 
 #### Ambient
 
@@ -473,13 +472,13 @@ in vec2 diffuseCoord;
 // ...
 ```
 
-The ambient component to the lighting model is based on the material's ambient color,
-the ambient light's color, and the diffuse texture color.
+Lighting 模型里的 ambient 分量基于材质的 ambient 颜色、
+ambient light 的颜色，以及 diffuse texture 颜色。
 
-There should only ever be one ambient light.
-Because of this, the ambient color calculation only needs to occur once.
-Contrast this with the diffuse and specular color which must be accumulated for each spot/directional/point light.
-When you reach [SSAO](ssao.md), you'll revisit the ambient color calculation.
+Ambient light 应该始终只有一盏。
+因此 ambient 颜色只需要算一次。
+这和 diffuse、specular 不同，那两者必须对每盏 spot、directional、point light 累加。
+到 [SSAO](ssao.md) 时会再回到 ambient 颜色的计算。
 
 #### Putting It All Together
 
@@ -491,15 +490,15 @@ When you reach [SSAO](ssao.md), you'll revisit the ambient color calculation.
   // ...
 ```
 
-The final color is the sum of the ambient color, diffuse color, specular color, and the emission color.
+最终颜色是 ambient、diffuse、specular 和 emission 颜色的和。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

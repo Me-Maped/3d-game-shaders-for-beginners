@@ -6,12 +6,12 @@
 
 # 3D Game Shaders For Beginners
 
-## Reference Frames
+## 参考坐标系
 
-Before you write any shaders, you should be familiar with the following frames of reference or coordinate systems.
-All of them boil down to what origin `(0, 0, 0)` are these coordinates currently relative to?
-Once you know that, you can then transform them, via some matrix, to some other vector space if need be.
-Typically, when the output of some shader looks wrong, it's because of some coordinate system mix up.
+写 shader 之前，先熟悉下面这些参考系，也就是 coordinate system。
+它们最终都归结为一个问题：这些坐标当前是相对哪个原点 `(0, 0, 0)` 的？
+知道这一点之后，就可以用某个 matrix 把它们变换到另一个 vector space。
+shader 输出看起来不对时，通常就是 coordinate system 搞混了。
 
 ### Model
 
@@ -19,8 +19,8 @@ Typically, when the output of some shader looks wrong, it's because of some coor
 <img src="https://i.imgur.com/8xptajU.gif" alt="Model Space" title="Model Space">
 </p>
 
-The model or object coordinate system is relative to the origin of the model.
-This is typically set to the center of the model's geometry in a modeling program like Blender.
+model 或 object coordinate system 相对于模型自身的原点。
+在 Blender 这类建模软件里，这个原点通常放在模型几何体的中心。
 
 ### World
 
@@ -28,7 +28,7 @@ This is typically set to the center of the model's geometry in a modeling progra
 <img src="https://i.imgur.com/fHl4ohX.gif" alt="World Space" title="World Space">
 </p>
 
-The world space is relative to the origin of the scene/level/universe that you've created.
+world space 相对于你所创建的 scene、level 或 universe 的原点。
 
 ### View
 
@@ -36,7 +36,7 @@ The world space is relative to the origin of the scene/level/universe that you'v
 <img src="https://i.imgur.com/3b4SGGH.gif" alt="View Space" title="View Space">
 </p>
 
-The view or eye coordinate space is relative to the position of the active camera.
+view 或 eye coordinate space 相对于当前活动 camera 的位置。
 
 ### Clip
 
@@ -44,16 +44,16 @@ The view or eye coordinate space is relative to the position of the active camer
 <img src="https://i.imgur.com/iSEWS9Y.png" alt="Clip Space" title="Clip Space">
 </p>
 
-The clip space is relative to the center of the camera's film.
-All coordinates are now homogeneous, ranging from negative one to one `(-1, 1)`.
-X and y are parallel with the camera's film and the z coordinate is the depth.
+clip space 相对于 camera 胶片的中心。
+此时所有坐标都是齐次坐标，范围从负一到一 `(-1, 1)`。
+x 和 y 与 camera 胶片平行，z 坐标是 depth。
 
 <p align="center">
 <img src="https://i.imgur.com/MhgmOLv.gif" alt="Frustum" title="Frustum">
 </p>
 
-Any vertex not within the bounds of the camera's frustum or view volume is clipped or discarded.
-You can see this happening with the cube towards the back, clipped by the camera's far plane, and the cube off to the side.
+不在 camera 的 frustum 或 view volume 范围内的 vertex 会被 clip，也就是丢弃。
+可以看到靠后的那个 cube 被 camera 的 far plane 裁掉，侧面的那个 cube 也被裁掉了。
 
 ### Screen
 
@@ -61,11 +61,11 @@ You can see this happening with the cube towards the back, clipped by the camera
 <img src="https://i.imgur.com/bHHrjOl.png" alt="Screen Space" title="Screen Space">
 </p>
 
-The screen space is (typically) relative to the lower left corner of the screen.
-X goes from zero to the screen width.
-Y goes from zero to the screen height.
+screen space（通常）相对于屏幕左下角。
+x 从 0 到屏幕宽度。
+y 从 0 到屏幕高度。
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

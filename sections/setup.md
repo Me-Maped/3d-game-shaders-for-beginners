@@ -6,17 +6,17 @@
 
 # 3D Game Shaders For Beginners
 
-## Setup
+## 环境准备
 
 <p align="center">
 <img src="https://i.imgur.com/fYpIWNk.gif" alt="Setup" title="Setup">
 </p>
 
-Below is the setup used to develop and test the example code.
+下面是开发和测试示例代码时使用的环境。
 
-### Environment
+### 环境
 
-The example code was developed and tested using the following environment.
+示例代码在下面这个环境里开发和测试。
 
 - Linux manjaro 5.10.42-1-MANJARO
 - OpenGL renderer string: GeForce GTX 970/PCIe/SSE2
@@ -24,10 +24,10 @@ The example code was developed and tested using the following environment.
 - g++ (GCC) 11.1.0
 - Panda3D 1.10.9
 
-### Materials
+### 材质
 
-Each [Blender](https://blender.org) material used to build `mill-scene.egg` has five textures
-in the following order.
+用来构建 `mill-scene.egg` 的每个 [Blender](https://blender.org) 材质都有五张 texture，
+顺序如下。
 
 - Diffuse
 - Normal
@@ -35,18 +35,18 @@ in the following order.
 - Reflection
 - Refraction
 
-By having the same maps in the same positions for all models,
-the shaders can be generalized, reducing the need to duplicate code.
+所有模型都把同样的 map 放在同样的位置，
+shader 就可以通用，减少重复代码。
 
-If an object uses its vertex normals, a "flat blue" normal map is used.
+如果物体使用自己的 vertex normal，就会用一张 "flat blue" normal map。
 
 <p align="center">
-<img src="https://i.imgur.com/tFmKgoH.png" alt="A flat normal map." title="A flat normal map.">
+<img src="https://i.imgur.com/tFmKgoH.png" alt="一张 flat normal map。" title="一张 flat normal map。">
 </p>
 
-Here is an example of a flat normal map.
-The only color it contains is flat blue `(red = 128, green = 128, blue = 255)`.
-This color represents a unit (length one) normal pointing in the positive z-axis `(0, 0, 1)`.
+这是一张 flat normal map 的例子。
+它只包含一种 flat blue `(red = 128, green = 128, blue = 255)`。
+这个颜色表示指向正 z 轴、长度为 1 的单位 normal `(0, 0, 1)`。
 
 ```c
 (0, 0, 1) =
@@ -62,53 +62,53 @@ This color represents a unit (length one) normal pointing in the positive z-axis
         (0, 0, 1)
 ```
 
-Here you see the unit normal `(0, 0, 1)`
-converted to flat blue `(128, 128, 255)`
-and flat blue converted to the unit normal.
-You'll learn more about this in the [normal mapping](normal-mapping.md) technique.
+这里可以看到单位 normal `(0, 0, 1)`
+转换成 flat blue `(128, 128, 255)`，
+以及 flat blue 转回单位 normal。
+[normal mapping](normal-mapping.md) 一节会进一步说明。
 
 <p align="center">
 <img src="https://i.imgur.com/R9FgZKx.png" alt="Specular Map" title="Specular Map">
 </p>
 
-Up above is one of the specular maps used.
-The red and blue channel work to control the amount of specular reflection seen based on the camera angle.
-The green channel controls the shininess factor.
-You'll learn more about this in the [lighting](lighting.md) and [fresnel factor](fresnel-factor.md) sections.
+上面是用到的一张 specular map。
+red 和 blue 通道根据 camera 角度控制能看到多少 specular reflection。
+green 通道控制 shininess。
+更多内容见 [lighting](lighting.md) 和 [fresnel factor](fresnel-factor.md)。
 
-The reflection and refraction textures mask off the objects that are either reflective, refractive, or both.
-For the reflection texture, the red channel controls the amount of reflection and the green channel controls how
-clear or blurry the reflection is.
+reflection 和 refraction texture 用来标出反射、折射，或两者都有的物体。
+reflection texture 的 red 通道控制 reflection 的量，green 通道控制
+reflection 有多清晰或模糊。
 
 ### Panda3D
 
-The example code uses
+示例代码用
 [Panda3D](https://www.panda3d.org/)
-as the glue between the shaders.
-This has no real influence over the techniques described,
-meaning you'll be able to take what you learn here and apply it to your stack or game engine of choice.
-Panda3D does provide some conveniences.
-I have pointed these out so you can either find an equivalent convenience provided by your stack or
-replicate it yourself, if your stack doesn't provide something equivalent.
+把各个 shader 粘在一起。
+这并不影响这里讲的技术本身，
+你可以把学到的东西用到自己的技术栈或游戏引擎上。
+Panda3D 确实提供了一些便利。
+我把它们标出来，这样你可以在自己的技术栈里找等价功能，
+如果没有，也可以自己复现。
 
-Three Panda3D configurations were changed for the purposes of the demo program.
-You can find these in [config.prc](../demonstration/config.prc).
-The configurations changed were
-`gl-coordinate-system default`,
-`textures-power-2 down`, and
-`textures-auto-power-2 1`.
-Refer to the
-[Panda3D configuration](http://www.panda3d.org/manual/?title=Configuring_Panda3D)
-page in the manual for more details.
+为了这个 demo，改了三项 Panda3D 配置。
+它们在 [config.prc](../demonstration/config.prc)。
+改动的是
+`gl-coordinate-system default`、
+`textures-power-2 down` 和
+`textures-auto-power-2 1`。
+更多细节见手册里的
+[Panda3D 配置](http://www.panda3d.org/manual/?title=Configuring_Panda3D)
+页面。
 
-Panda3D defaults to a z-up, right-handed coordinate system while OpenGL uses a y-up, right-handed system.
-`gl-coordinate-system default` keeps you from having to translate between the two inside your shaders.
-`textures-auto-power-2 1` allows us to use texture sizes that are not a power of two if the system supports it.
-This comes in handy when doing SSAO and other screen/window sized related techniques since the screen/window size
-is usually not a power of two.
-`textures-power-2 down` downsizes our textures to a power of two if the system only supports texture sizes being a power of two.
+Panda3D 默认是 z 轴朝上的右手坐标系，OpenGL 使用 y 轴朝上的右手坐标系。
+`gl-coordinate-system default` 让你不用在 shader 里在两者之间转换。
+`textures-auto-power-2 1` 允许在系统支持时使用不是 2 的幂的 texture 尺寸。
+做 SSAO 以及其他和屏幕或窗口尺寸相关的技术时这很有用，因为屏幕或窗口尺寸
+通常不是 2 的幂。
+如果系统只支持 2 的幂的 texture 尺寸，`textures-power-2 down` 会把 texture 缩小到 2 的幂。
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

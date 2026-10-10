@@ -12,15 +12,15 @@
 <img src="https://i.imgur.com/7b5MCBG.gif" alt="" title="">
 </p>
 
-Instead of using the
+这里不使用
 [fixed-function](https://en.wikipedia.org/wiki/Fixed-function)
-pipeline,
-you'll be using the programmable GPU rendering pipeline.
-Since it is programmable, it is up to you to supply the programming in the form of shaders.
-A shader is a (typically small) program you write using a syntax reminiscent of C.
-The programmable GPU rendering pipeline has various different stages that you can program with shaders.
-The different types of shaders include vertex, tessellation, geometry, fragment, and compute.
-You'll only need to focus on the vertex and fragment stages for the techniques below.
+pipeline，
+而是使用可编程的 GPU rendering pipeline。
+既然它可编程，就要由你用 shader 提供这段程序。
+shader 是一段（通常很小的）程序，语法让人想起 C。
+可编程 GPU rendering pipeline 有多个可以用 shader 编程的阶段。
+shader 类型包括 vertex、tessellation、geometry、fragment 和 compute。
+下面这些技术只需要关注 vertex 和 fragment 阶段。
 
 ```c
 #version 150
@@ -28,7 +28,7 @@ You'll only need to focus on the vertex and fragment stages for the techniques b
 void main() {}
 ```
 
-Here is a bare-bones GLSL shader consisting of the GLSL version number and the main function.
+这是一份最简 GLSL shader，只包含 GLSL 版本号和 main 函数。
 
 ```c
 #version 150
@@ -43,15 +43,15 @@ void main()
 }
 ```
 
-Here is a stripped down GLSL vertex shader that transforms an incoming vertex to clip space
-and outputs this new position as the vertex's homogeneous position.
-The `main` procedure doesn't return anything since it is `void` and the `gl_Position` variable is a built-in output.
+这是一份精简的 GLSL vertex shader。它把传入的 vertex 变换到 clip space，
+并把这个新位置作为该 vertex 的齐次位置输出。
+`main` 的返回类型是 `void`，所以它不返回值；`gl_Position` 是内置输出变量。
 
-Take note of the keywords `uniform` and `in`.
-The `uniform` keyword means this global variable is the same for all vertexes.
-Panda3D sets the `p3d_ModelViewProjectionMatrix` for you and it is the same matrix for each vertex.
-The `in` keyword means this global variable is being given to the shader.
-The vertex shader receives each vertex that makes up the geometry the vertex shader is attached to.
+注意关键字 `uniform` 和 `in`。
+`uniform` 表示这个全局变量对所有 vertex 都相同。
+Panda3D 会设置 `p3d_ModelViewProjectionMatrix`，每个 vertex 用的是同一个 matrix。
+`in` 表示这个全局变量是交给 shader 的输入。
+vertex shader 会收到它所附着的几何体的每一个 vertex。
 
 ```c
 #version 150
@@ -63,20 +63,20 @@ void main() {
 }
 ```
 
-Here is a stripped down GLSL fragment shader that outputs the fragment color as solid green.
-Keep in mind that a fragment affects at most one screen pixel but a single pixel can be affected by many fragments.
+这是一份精简的 GLSL fragment shader，把 fragment 颜色输出为纯绿。
+记住：一个 fragment 最多影响一个屏幕 pixel，但一个 pixel 可以被很多 fragment 影响。
 
-Take note of the `out` keyword.
-The `out` keyword means this global variable is being set by the shader.
-The name `fragColor` is arbitrary so feel free to choose a different one.
+注意关键字 `out`。
+`out` 表示这个全局变量由 shader 写出。
+`fragColor` 这个名字是随意的，可以换成别的。
 
 <p align="center">
-<img src="https://i.imgur.com/V25UzMa.gif" alt="Output of the stripped down shaders." title="Output of the stripped down shaders.">
+<img src="https://i.imgur.com/V25UzMa.gif" alt="精简 shader 的输出。" title="精简 shader 的输出。">
 </p>
 
-This is the output of the two shaders shown above.
+这是上面两份 shader 的输出。
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

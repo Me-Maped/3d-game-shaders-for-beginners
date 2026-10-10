@@ -12,16 +12,16 @@
 <img src="https://i.imgur.com/eTnhpLr.gif" alt="Motion Blur" title="Motion Blur">
 </p>
 
-To really sell the illusion of speed, you can do no better than motion blur.
-From high speed car chases to moving at warp speed,
-motion blur greatly improves the look and feel of fast moving objects.
+要让速度的错觉成立，motion blur 几乎是最好的办法。
+从高速追车到曲速移动，
+motion blur 都会明显改善快速物体的观感。
 
-There are a few ways to implement motion blur as a screen space technique.
-The less involved implementation will only blur the scene in relation to the camera's movements
-while the more involved version will blur any moving objects even with the camera remaining still.
-The less involved technique is described below but the principle is the same.
+把 motion blur 做成 screen space 技术有几种办法。
+较简单的实现只根据 camera 的运动模糊场景，
+更复杂的版本即使 camera 不动，也会模糊任何运动物体。
+下面讲较简单的做法，但原理相同。
 
-### Textures
+### Texture
 
 ```c
 uniform sampler2D positionTexture;
@@ -30,10 +30,10 @@ uniform sampler2D colorTexture;
 // ...
 ```
 
-The input textures needed are the vertex positions in view space and the scene's colors.
-Refer back to [SSAO](ssao.md#vertex-positions) for acquiring the vertex positions.
+需要的输入 texture 是 view space 里的 vertex position，以及场景颜色。
+如何取得 vertex position，见 [SSAO](ssao.md#vertex-positions)。
 
-### Matrices
+### Matrix
 
 ```c
 // ...
@@ -45,13 +45,13 @@ uniform mat4 lensProjection;
 // ...
 ```
 
-The motion blur technique determines the blur direction by comparing
-the previous frame's vertex positions with the current frame's vertex positions.
-To do this, you'll need the previous frame's view-to-world matrix,
-the current frame's world-to-view matrix,
-and the camera lens' projection matrix.
+Motion blur 通过比较
+上一帧和当前帧的 vertex position 来确定 blur 方向。
+为此需要上一帧的 view-to-world matrix、
+当前帧的 world-to-view matrix，
+以及 camera lens 的 projection matrix。
 
-### Parameters
+### 参数
 
 ```c
 // ...
@@ -67,13 +67,13 @@ void main() {
 // ...
 ```
 
-The adjustable parameters are `size` and `separation`.
-`size` controls how many samples are taken along the blur direction.
-Increasing `size` increases the amount of blur at the cost of performance.
-`separation` controls how spread out the samples are along the blur direction.
-Increasing `separation` increases the amount of blur at the cost of accuracy.
+可调参数是 `size` 和 `separation`。
+`size` 控制沿 blur 方向取多少个采样。
+增大 `size` 会增加模糊，但性能下降。
+`separation` 控制采样沿 blur 方向散开多少。
+增大 `separation` 会增加模糊，但精度下降。
 
-### Blur Direction
+### Blur 方向
 
 ```c
   // ...
@@ -87,15 +87,15 @@ Increasing `separation` increases the amount of blur at the cost of accuracy.
   // ...
 ```
 
-To determine which way to blur this fragment,
-you'll need to know where things were last frame and where things are this frame.
-To figure out where things are now,
-sample the current vertex position.
-To figure out where things were last frame,
-transform the current position from view space to world space,
-using the previous frame's view-to-world matrix,
-and then transform it back to view space from world space using this frame's world-to-view matrix.
-This transformed position is this fragment's previous interpolated vertex position.
+要确定这个 fragment 往哪边模糊，
+需要知道物体上一帧在哪里、这一帧在哪里。
+要知道现在在哪里，
+采样当前 vertex position。
+要知道上一帧在哪里，
+用上一帧的 view-to-world matrix
+把当前位置从 view space 变到 world space，
+再用这一帧的 world-to-view matrix 从 world space 变回 view space。
+这个变换后的位置就是该 fragment 上一帧插值后的 vertex position。
 
 <p align="center">
 <img src="https://i.imgur.com/oQqdxM9.gif" alt="Position Projection" title="Position Projection">
@@ -115,10 +115,10 @@ This transformed position is this fragment's previous interpolated vertex positi
   // ...
 ```
 
-Now that you have the current and previous positions,
-transform them to screen space.
-With the positions in screen space,
-you can trace out the 2D direction you'll need to blur the onscreen image.
+有了当前和上一帧的 position 之后，
+把它们变换到 screen space。
+位置到了 screen space，
+就能描出模糊屏幕图像所需的 2D 方向。
 
 ```c
   // ...
@@ -131,9 +131,9 @@ you can trace out the 2D direction you'll need to blur the onscreen image.
   // ...
 ```
 
-The blur direction goes from the previous position to the current position.
+Blur 方向从上一帧位置指向当前位置。
 
-### Blurring
+### 模糊
 
 ```c
   // ...
@@ -143,8 +143,8 @@ The blur direction goes from the previous position to the current position.
   // ...
 ```
 
-Sample the current fragment's color.
-This will be the first of the colors blurred together.
+采样当前 fragment 的颜色。
+这是要混在一起模糊的第一种颜色。
 
 ```c
   // ...
@@ -154,7 +154,7 @@ This will be the first of the colors blurred together.
   // ...
 ```
 
-Multiply the direction vector by the separation.
+把方向 vector 乘以 separation。
 
 ```c
   // ...
@@ -165,9 +165,9 @@ Multiply the direction vector by the separation.
   // ...
 ```
 
-For a more seamless blur,
-sample in the direction of the blur and in the opposite direction of the blur.
-For now, set the two vectors to the fragment's UV coordinate.
+为了让模糊更连贯，
+既沿 blur 方向采样，也沿相反方向采样。
+先把这两个 vector 设成 fragment 的 UV 坐标。
 
 ```c
   // ...
@@ -177,8 +177,8 @@ For now, set the two vectors to the fragment's UV coordinate.
   // ...
 ```
 
-`count` is used to average all of the samples taken.
-It starts at one since you've already sampled the current fragment's color.
+`count` 用来对所有采样取平均。
+它从 1 开始，因为已经采样过当前 fragment 的颜色。
 
 ```c
   // ...
@@ -204,8 +204,8 @@ It starts at one since you've already sampled the current fragment's color.
   // ...
 ```
 
-Sample the screen's colors both in the forward and backward direction of the blur.
-Be sure to add these samples together as you travel along.
+沿 blur 的正向和反向采样屏幕颜色。
+沿途一定要把这些采样加在一起。
 
 ```c
   // ...
@@ -214,16 +214,16 @@ Be sure to add these samples together as you travel along.
 }
 ```
 
-The final fragment color is the average color of the samples taken.
+最终的 fragment 颜色是这些采样的平均颜色。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [position.frag](../demonstration/shaders/fragment/position.frag)
 - [motion-blur.frag](../demonstration/shaders/fragment/motion-blur.frag)
 
-## Copyright
+## 版权
 
 (C) 2020 David Lettier
 <br>

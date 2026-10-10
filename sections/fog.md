@@ -12,8 +12,8 @@
 <img src="https://i.imgur.com/uNRxZl4.gif" alt="Fog" title="Fog">
 </p>
 
-Fog (or mist as it's called in Blender) adds atmospheric haze to a scene,
-providing mystique and softening pop-ins (geometry suddenly entering into the camera's frustum).
+Fog（在 Blender 里也叫 mist）给场景加上大气雾霾，
+带来神秘感，并柔化 pop-in（几何体突然进入 camera 的 frustum）。
 
 ```c
 // ...
@@ -25,7 +25,7 @@ uniform vec2 nearFar;
 // ...
 ```
 
-To calculate the fog, you'll need its color, near distance, and far distance.
+计算 fog 需要它的颜色、near 距离和 far 距离。
 
 ```c
 // ...
@@ -42,15 +42,15 @@ uniform sampler2D positionTexture;
   // ...
 ```
 
-In addition to the fog's attributes, you'll also need the fragment's vertex `position`.
+除了 fog 自身的属性，还需要 fragment 对应 vertex 的 `position`。
 
 ```c
   float fogMin = 0.00;
   float fogMax = 0.97;
 ```
 
-`fogMax` controls how much of the scene is still visible when the fog is most intense.
-`fogMin` controls how much of the fog is still visible when the fog is least intense.
+`fogMax` 控制 fog 最浓时场景还剩多少可见。
+`fogMin` 控制 fog 最淡时 fog 本身还剩多少可见。
 
 ```c
   // ...
@@ -69,12 +69,12 @@ In addition to the fog's attributes, you'll also need the fragment's vertex `pos
   // ...
 ```
 
-The example code uses a linear model for calculating the fog's intensity.
-There's also an exponential model you could use.
+示例代码用线性模型计算 fog 强度。
+也可以用指数模型。
 
-The fog's intensity is `fogMin` before or at the start of the fog's `near` distance.
-As the vertex `position` gets closer to the end of the fog's `far` distance, the `intensity` moves closer to `fogMax`.
-For any vertexes after the end of the fog, the `intensity` is clamped to `fogMax`.
+在 fog 的 `near` 距离之前或正好到达时，强度是 `fogMin`。
+vertex 的 `position` 越接近 fog 的 `far` 距离终点，`intensity` 越接近 `fogMax`。
+超过 fog 终点的 vertex，`intensity` 被 clamp 到 `fogMax`。
 
 ```c
   // ...
@@ -84,9 +84,9 @@ For any vertexes after the end of the fog, the `intensity` is clamped to `fogMax
   // ...
 ```
 
-Set the fragment's color to the fog `color` and the fragment's alpha channel to the `intensity`.
-As `intensity` gets closer to one, you'll have less of the scene's color and more of the fog color.
-When `intensity` reaches one, you'll have all fog color and nothing else.
+把 fragment 颜色设为 fog 的 `color`，alpha 通道设为 `intensity`。
+`intensity` 越接近 1，场景颜色越少，fog 颜色越多。
+`intensity` 到达 1 时，就只剩 fog 颜色。
 
 ```c
 // ...
@@ -111,12 +111,12 @@ uniform sampler2D fogTexture;
   // ...
 ```
 
-Normally you calculate the fog in the same shader that does the lighting calculations.
-However, you can also break it out into its own framebuffer texture.
-Here you see the fog color being applied to the rest of the scene much like you would apply a layer in GIMP.
-This allows you to calculate the fog once instead calculating it in every shader that eventually needs it.
+通常 fog 和 lighting 在同一个 shader 里计算。
+也可以把它拆到自己的 framebuffer texture。
+这里像在 GIMP 里叠一层一样，把 fog 颜色应用到场景其余部分。
+这样 fog 只算一次，而不用在每个最终需要它的 shader 里各算一遍。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
@@ -126,7 +126,7 @@ This allows you to calculate the fog once instead calculating it in every shader
 - [outline.frag](../demonstration/shaders/fragment/outline.frag)
 - [scene-combine.frag](../demonstration/shaders/fragment/scene-combine.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

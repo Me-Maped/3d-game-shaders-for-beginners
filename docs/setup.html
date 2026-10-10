@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
-    <meta property="og:title" content="Setup | 3D Game Shaders For Beginners" />
-    <meta property="og:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
+    <meta property="og:title" content="Setup | 3D Game Shaders For
+Beginners" />
+    <meta property="og:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:image" content="https://i.imgur.com/JIDwVTm.png" />
-    <meta name="twitter:title" content="Setup | 3D Game Shaders For Beginners" />
-    <meta name="twitter:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="twitter:title" content="Setup | 3D Game Shaders For
+Beginners" />
+    <meta name="twitter:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta name="twitter:image" content="https://i.imgur.com/JIDwVTm.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -21,19 +23,20 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
     </style>
     <style>
-      code.sourceCode > span { display: inline-block; line-height: 1.25; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      code.sourceCode > span:empty { height: 1.2em; }
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
       .sourceCode { overflow: visible; }
-      code.sourceCode { white-space: pre; position: relative; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
       div.sourceCode { margin: 1em 0; }
       pre.sourceCode { margin: 0; }
       @media screen {
       div.sourceCode { overflow: auto; }
       }
       @media print {
-      code.sourceCode { white-space: pre-wrap; }
-      code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -54,33 +57,33 @@
       div.sourceCode
         { color: #cfcfc2; background-color: #232629; }
       @media screen {
-      code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span. { color: #cfcfc2; } /* Normal */
-      code span.al { color: #95da4c; } /* Alert */
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
       code span.an { color: #3f8058; } /* Annotation */
       code span.at { color: #2980b9; } /* Attribute */
       code span.bn { color: #f67400; } /* BaseN */
       code span.bu { color: #7f8c8d; } /* BuiltIn */
-      code span.cf { color: #fdbc4b; } /* ControlFlow */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
       code span.ch { color: #3daee9; } /* Char */
-      code span.cn { color: #27aeae; } /* Constant */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
       code span.co { color: #7a7c7d; } /* Comment */
       code span.cv { color: #7f8c8d; } /* CommentVar */
       code span.do { color: #a43340; } /* Documentation */
       code span.dt { color: #2980b9; } /* DataType */
       code span.dv { color: #f67400; } /* DecVal */
-      code span.er { color: #da4453; } /* Error */
-      code span.ex { color: #0099ff; } /* Extension */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
       code span.fl { color: #f67400; } /* Float */
       code span.fu { color: #8e44ad; } /* Function */
       code span.im { color: #27ae60; } /* Import */
       code span.in { color: #c45b00; } /* Information */
-      code span.kw { color: #cfcfc2; } /* Keyword */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
       code span.op { color: #cfcfc2; } /* Operator */
       code span.ot { color: #27ae60; } /* Other */
       code span.pp { color: #27ae60; } /* Preprocessor */
-      code span.re { color: #2980b9; } /* RegionMarker */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
       code span.sc { color: #3daee9; } /* SpecialChar */
       code span.ss { color: #da4453; } /* SpecialString */
       code span.st { color: #f44f4f; } /* String */
@@ -94,16 +97,24 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-<p><a href="gamma-correction.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="building-the-demo.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
-<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For Beginners</h1>
-<h2 id="setup">Setup</h2>
+<p><a href="gamma-correction.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="building-the-demo.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
+<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For
+Beginners</h1>
+<h2 id="环境准备">环境准备</h2>
 <p align="center">
 <img src="https://i.imgur.com/fYpIWNk.gif" alt="Setup" title="Setup">
 </p>
 
-<p>Below is the setup used to develop and test the example code.</p>
-<h3 id="environment">Environment</h3>
-<p>The example code was developed and tested using the following environment.</p>
+<p>下面是开发和测试示例代码时使用的环境。</p>
+<h3 id="环境">环境</h3>
+<p>示例代码在下面这个环境里开发和测试。</p>
 <ul>
 <li>Linux manjaro 5.10.42-1-MANJARO</li>
 <li>OpenGL renderer string: GeForce GTX 970/PCIe/SSE2</li>
@@ -111,8 +122,10 @@
 <li>g++ (GCC) 11.1.0</li>
 <li>Panda3D 1.10.9</li>
 </ul>
-<h3 id="materials">Materials</h3>
-<p>Each <a href="https://blender.org">Blender</a> material used to build <code>mill-scene.egg</code> has five textures in the following order.</p>
+<h3 id="材质">材质</h3>
+<p>用来构建 <code>mill-scene.egg</code> 的每个 <a
+href="https://blender.org">Blender</a> 材质都有五张 texture，
+顺序如下。</p>
 <ul>
 <li>Diffuse</li>
 <li>Normal</li>
@@ -120,37 +133,75 @@
 <li>Reflection</li>
 <li>Refraction</li>
 </ul>
-<p>By having the same maps in the same positions for all models, the shaders can be generalized, reducing the need to duplicate code.</p>
-<p>If an object uses its vertex normals, a "flat blue" normal map is used.</p>
+<p>所有模型都把同样的 map 放在同样的位置， shader
+就可以通用，减少重复代码。</p>
+<p>如果物体使用自己的 vertex normal，就会用一张 "flat blue" normal
+map。</p>
 <p align="center">
-<img src="https://i.imgur.com/tFmKgoH.png" alt="A flat normal map." title="A flat normal map.">
+<img src="https://i.imgur.com/tFmKgoH.png" alt="一张 flat normal map。" title="一张 flat normal map。">
 </p>
 
-<p>Here is an example of a flat normal map. The only color it contains is flat blue <code>(red = 128, green = 128, blue = 255)</code>. This color represents a unit (length one) normal pointing in the positive z-axis <code>(0, 0, 1)</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1"></a>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>) =</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  ( round((<span class="dv">0</span> * <span class="fl">0.5</span> + <span class="fl">0.5</span>) * <span class="dv">255</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  , round((<span class="dv">0</span> * <span class="fl">0.5</span> + <span class="fl">0.5</span>) * <span class="dv">255</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  , round((<span class="dv">1</span> * <span class="fl">0.5</span> + <span class="fl">0.5</span>) * <span class="dv">255</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a>  ) =</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    (<span class="dv">128</span>, <span class="dv">128</span>, <span class="dv">255</span>) =</span>
-<span id="cb1-7"><a href="#cb1-7"></a>      ( round(<span class="dv">128</span> / <span class="dv">255</span> * <span class="dv">2</span> - <span class="dv">1</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>      , round(<span class="dv">128</span> / <span class="dv">255</span> * <span class="dv">2</span> - <span class="dv">1</span>)</span>
-<span id="cb1-9"><a href="#cb1-9"></a>      , round(<span class="dv">255</span> / <span class="dv">255</span> * <span class="dv">2</span> - <span class="dv">1</span>)</span>
-<span id="cb1-10"><a href="#cb1-10"></a>      ) =</span>
-<span id="cb1-11"><a href="#cb1-11"></a>        (<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div>
-<p>Here you see the unit normal <code>(0, 0, 1)</code> converted to flat blue <code>(128, 128, 255)</code> and flat blue converted to the unit normal. You'll learn more about this in the <a href="normal-mapping.html">normal mapping</a> technique.</p>
+<p>这是一张 flat normal map 的例子。 它只包含一种 flat blue
+<code>(red = 128, green = 128, blue = 255)</code>。 这个颜色表示指向正 z
+轴、长度为 1 的单位 normal <code>(0, 0, 1)</code>。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span> <span class="op">=</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">(</span> round<span class="op">((</span><span class="dv">0</span> <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">*</span> <span class="dv">255</span><span class="op">)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">,</span> round<span class="op">((</span><span class="dv">0</span> <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">*</span> <span class="dv">255</span><span class="op">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">,</span> round<span class="op">((</span><span class="dv">1</span> <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">*</span> <span class="dv">255</span><span class="op">)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">)</span> <span class="op">=</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dv">128</span><span class="op">,</span> <span class="dv">128</span><span class="op">,</span> <span class="dv">255</span><span class="op">)</span> <span class="op">=</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">(</span> round<span class="op">(</span><span class="dv">128</span> <span class="op">/</span> <span class="dv">255</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">,</span> round<span class="op">(</span><span class="dv">128</span> <span class="op">/</span> <span class="dv">255</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">,</span> round<span class="op">(</span><span class="dv">255</span> <span class="op">/</span> <span class="dv">255</span> <span class="op">*</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="op">)</span> <span class="op">=</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">)</span></span></code></pre></div>
+<p>这里可以看到单位 normal <code>(0, 0, 1)</code> 转换成 flat blue
+<code>(128, 128, 255)</code>， 以及 flat blue 转回单位 normal。 <a
+href="normal-mapping.html">normal mapping</a> 一节会进一步说明。</p>
 <p align="center">
 <img src="https://i.imgur.com/R9FgZKx.png" alt="Specular Map" title="Specular Map">
 </p>
 
-<p>Up above is one of the specular maps used. The red and blue channel work to control the amount of specular reflection seen based on the camera angle. The green channel controls the shininess factor. You'll learn more about this in the <a href="lighting.html">lighting</a> and <a href="fresnel-factor.html">fresnel factor</a> sections.</p>
-<p>The reflection and refraction textures mask off the objects that are either reflective, refractive, or both. For the reflection texture, the red channel controls the amount of reflection and the green channel controls how clear or blurry the reflection is.</p>
+<p>上面是用到的一张 specular map。 red 和 blue 通道根据 camera
+角度控制能看到多少 specular reflection。 green 通道控制 shininess。
+更多内容见 <a href="lighting.html">lighting</a> 和 <a
+href="fresnel-factor.html">fresnel factor</a>。</p>
+<p>reflection 和 refraction texture
+用来标出反射、折射，或两者都有的物体。 reflection texture 的 red
+通道控制 reflection 的量，green 通道控制 reflection 有多清晰或模糊。</p>
 <h3 id="panda3d">Panda3D</h3>
-<p>The example code uses <a href="https://www.panda3d.org/">Panda3D</a> as the glue between the shaders. This has no real influence over the techniques described, meaning you'll be able to take what you learn here and apply it to your stack or game engine of choice. Panda3D does provide some conveniences. I have pointed these out so you can either find an equivalent convenience provided by your stack or replicate it yourself, if your stack doesn't provide something equivalent.</p>
-<p>Three Panda3D configurations were changed for the purposes of the demo program. You can find these in <a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/config.prc">config.prc</a>. The configurations changed were <code>gl-coordinate-system default</code>, <code>textures-power-2 down</code>, and <code>textures-auto-power-2 1</code>. Refer to the <a href="http://www.panda3d.org/manual/?title=Configuring_Panda3D" target="_blank" rel="noopener noreferrer">Panda3D configuration</a> page in the manual for more details.</p>
-<p>Panda3D defaults to a z-up, right-handed coordinate system while OpenGL uses a y-up, right-handed system. <code>gl-coordinate-system default</code> keeps you from having to translate between the two inside your shaders. <code>textures-auto-power-2 1</code> allows us to use texture sizes that are not a power of two if the system supports it. This comes in handy when doing SSAO and other screen/window sized related techniques since the screen/window size is usually not a power of two. <code>textures-power-2 down</code> downsizes our textures to a power of two if the system only supports texture sizes being a power of two.</p>
-<h2 id="copyright">Copyright</h2>
-<p>(C) 2019 David Lettier <br> <a href="https://www.lettier.com">lettier.com</a></p>
-<p><a href="gamma-correction.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="building-the-demo.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
+<p>示例代码用 <a href="https://www.panda3d.org/">Panda3D</a> 把各个
+shader 粘在一起。 这并不影响这里讲的技术本身，
+你可以把学到的东西用到自己的技术栈或游戏引擎上。 Panda3D
+确实提供了一些便利。
+我把它们标出来，这样你可以在自己的技术栈里找等价功能，
+如果没有，也可以自己复现。</p>
+<p>为了这个 demo，改了三项 Panda3D 配置。 它们在 <a
+href="../demonstration/config.prc">config.prc</a>。 改动的是
+<code>gl-coordinate-system default</code>、
+<code>textures-power-2 down</code> 和
+<code>textures-auto-power-2 1</code>。 更多细节见手册里的 <a
+href="http://www.panda3d.org/manual/?title=Configuring_Panda3D">Panda3D
+配置</a> 页面。</p>
+<p>Panda3D 默认是 z 轴朝上的右手坐标系，OpenGL 使用 y
+轴朝上的右手坐标系。 <code>gl-coordinate-system default</code>
+让你不用在 shader 里在两者之间转换。
+<code>textures-auto-power-2 1</code> 允许在系统支持时使用不是 2 的幂的
+texture 尺寸。 做 SSAO
+以及其他和屏幕或窗口尺寸相关的技术时这很有用，因为屏幕或窗口尺寸
+通常不是 2 的幂。 如果系统只支持 2 的幂的 texture
+尺寸，<code>textures-power-2 down</code> 会把 texture 缩小到 2
+的幂。</p>
+<h2 id="版权">版权</h2>
+<p>(C) 2019 David Lettier <br> <a
+href="https://www.lettier.com">lettier.com</a></p>
+<p><a href="gamma-correction.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="building-the-demo.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
   </body>
 </html>

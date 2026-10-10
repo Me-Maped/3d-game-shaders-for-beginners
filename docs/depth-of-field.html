@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
-    <meta property="og:title" content="Depth Of Field | 3D Game Shaders For Beginners" />
-    <meta property="og:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
+    <meta property="og:title" content="Depth Of Field | 3D Game Shaders
+For Beginners" />
+    <meta property="og:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:image" content="https://i.imgur.com/JIDwVTm.png" />
-    <meta name="twitter:title" content="Depth Of Field | 3D Game Shaders For Beginners" />
-    <meta name="twitter:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="twitter:title" content="Depth Of Field | 3D Game Shaders
+For Beginners" />
+    <meta name="twitter:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta name="twitter:image" content="https://i.imgur.com/JIDwVTm.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -21,19 +23,20 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
     </style>
     <style>
-      code.sourceCode > span { display: inline-block; line-height: 1.25; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      code.sourceCode > span:empty { height: 1.2em; }
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
       .sourceCode { overflow: visible; }
-      code.sourceCode { white-space: pre; position: relative; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
       div.sourceCode { margin: 1em 0; }
       pre.sourceCode { margin: 0; }
       @media screen {
       div.sourceCode { overflow: auto; }
       }
       @media print {
-      code.sourceCode { white-space: pre-wrap; }
-      code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -54,33 +57,33 @@
       div.sourceCode
         { color: #cfcfc2; background-color: #232629; }
       @media screen {
-      code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span. { color: #cfcfc2; } /* Normal */
-      code span.al { color: #95da4c; } /* Alert */
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
       code span.an { color: #3f8058; } /* Annotation */
       code span.at { color: #2980b9; } /* Attribute */
       code span.bn { color: #f67400; } /* BaseN */
       code span.bu { color: #7f8c8d; } /* BuiltIn */
-      code span.cf { color: #fdbc4b; } /* ControlFlow */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
       code span.ch { color: #3daee9; } /* Char */
-      code span.cn { color: #27aeae; } /* Constant */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
       code span.co { color: #7a7c7d; } /* Comment */
       code span.cv { color: #7f8c8d; } /* CommentVar */
       code span.do { color: #a43340; } /* Documentation */
       code span.dt { color: #2980b9; } /* DataType */
       code span.dv { color: #f67400; } /* DecVal */
-      code span.er { color: #da4453; } /* Error */
-      code span.ex { color: #0099ff; } /* Extension */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
       code span.fl { color: #f67400; } /* Float */
       code span.fu { color: #8e44ad; } /* Function */
       code span.im { color: #27ae60; } /* Import */
       code span.in { color: #c45b00; } /* Information */
-      code span.kw { color: #cfcfc2; } /* Keyword */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
       code span.op { color: #cfcfc2; } /* Operator */
       code span.ot { color: #27ae60; } /* Other */
       code span.pp { color: #27ae60; } /* Preprocessor */
-      code span.re { color: #2980b9; } /* RegionMarker */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
       code span.sc { color: #3daee9; } /* SpecialChar */
       code span.ss { color: #da4453; } /* SpecialString */
       code span.st { color: #f44f4f; } /* String */
@@ -94,83 +97,121 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-<p><a href="outlining.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="posterization.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
-<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For Beginners</h1>
+<p><a href="outlining.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="posterization.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
+<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For
+Beginners</h1>
 <h2 id="depth-of-field">Depth Of Field</h2>
 <p align="center">
 <img src="https://i.imgur.com/DEa77Bh.gif" alt="Depth Of Field" title="Depth Of Field">
 </p>
 
-<p>Like <a href="ssao.html">SSAO</a>, depth of field is an effect you can't live without once you've used it. Artistically, you can use it to draw your viewer's eye to a certain subject. But in general, depth of field adds a lot of realism for a little bit of effort.</p>
-<h3 id="in-focus">In Focus</h3>
-<p>The first step is to render your scene completely in focus. Be sure to render this into a framebuffer texture. This will be one of the inputs to the depth of field shader.</p>
-<h3 id="out-of-focus">Out Of Focus</h3>
-<p>The second step is to blur the scene as if it was completely out of focus. Like bloom and SSAO, you can use a <a href="blur.html#box-blur">box blur</a>. Be sure to render this out-of-focus-scene into a framebuffer texture. This will be one of the inputs to the depth of field shader.</p>
+<p>和 <a href="ssao.html">SSAO</a> 一样，depth of field
+一旦用过就很难不用。 从表现上，可以用它把观者的视线引到某个主体。
+总体上，它用不多的功夫换来不少真实感。</p>
+<h3 id="对焦清晰">对焦清晰</h3>
+<p>第一步是把场景完全清晰地渲染出来。 一定要渲染进一张 framebuffer
+texture。 它会成为 depth of field shader 的输入之一。</p>
+<h3 id="失焦">失焦</h3>
+<p>第二步是把场景模糊成完全失焦的样子。 和 bloom、SSAO 一样，可以用 <a
+href="blur.html#box-blur">box blur</a>。 一定要把这个失焦场景渲染进一张
+framebuffer texture。 它会成为 depth of field shader 的另一个输入。</p>
 <h4 id="bokeh">Bokeh</h4>
 <p align="center">
 <img src="https://i.imgur.com/aQ9Ga8J.gif" alt="Bokeh" title="Bokeh">
 </p>
 
-<p>For a great bokeh effect, dilate the out of focus texture and use that as the out of focus input. See <a href="dilation.html">dilation</a> for more details.</p>
-<h3 id="mixing">Mixing</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1"></a>  <span class="co">// ...</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>  <span class="dt">float</span> minDistance = <span class="fl">1.0</span>;</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  <span class="dt">float</span> maxDistance = <span class="fl">3.0</span>;</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>Feel free to tweak these two parameters. All positions at or below <code>minDistance</code> will be completely in focus. All positions at or beyond <code>maxDistance</code> will be completely out of focus.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="co">// ...</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>  vec4 focusColor      = texture(focusTexture, texCoord);</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  vec4 outOfFocusColor = texture(outOfFocusTexture, texCoord);</span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>You'll need the in focus and out of focus colors.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="co">// ...</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>  vec4 position = texture(positionTexture, texCoord);</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>You'll also need the vertex position in view space. You can reuse the position framebuffer texture you used for <a href="ssao.html#vertex-positions">SSAO</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="co">// ...</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  vec4 focusPoint = texture(positionTexture, mouseFocusPoint);</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>The focus point is a position somewhere in your scene. All of the points in your scene are measured from the focus point.</p>
-<p>Choosing the focus point is up to you. The demo uses the scene position directly under the mouse when clicking the middle mouse button. However, it could be a constant distance from the camera or a static position.</p>
+<p>想要好的 bokeh，先对失焦 texture 做 dilation，再把它当作失焦输入。
+细节见 <a href="dilation.html">dilation</a>。</p>
+<h3 id="混合">混合</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> minDistance <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> maxDistance <span class="op">=</span> <span class="fl">3.0</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>这两个参数可以按需要调整。 小于等于 <code>minDistance</code>
+的位置会完全清晰。 大于等于 <code>maxDistance</code>
+的位置会完全失焦。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  vec4 focusColor      <span class="op">=</span> texture<span class="op">(</span>focusTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  vec4 outOfFocusColor <span class="op">=</span> texture<span class="op">(</span>outOfFocusTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>需要清晰和失焦两种颜色。</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  vec4 position <span class="op">=</span> texture<span class="op">(</span>positionTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>还需要 view space 里的 vertex position。 可以复用 <a
+href="ssao.html#vertex-positions">SSAO</a> 用过的 position framebuffer
+texture。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec4 focusPoint <span class="op">=</span> texture<span class="op">(</span>positionTexture<span class="op">,</span> mouseFocusPoint<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p>焦点是场景中的某个位置。 场景里所有点都相对这个焦点来度量。</p>
+<p>焦点怎么选由你决定。 Demo
+在按下鼠标中键时，使用鼠标正下方的场景位置。 它也可以是离 camera
+的固定距离，或一个静态位置。</p>
 <p align="center">
 <img src="https://i.imgur.com/idDZr62.png" alt="smoothstep" title="smoothstep">
 </p>
 
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1"></a>  <span class="co">// ...</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="dt">float</span> blur =</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    smoothstep</span>
-<span id="cb5-5"><a href="#cb5-5"></a>      ( minDistance</span>
-<span id="cb5-6"><a href="#cb5-6"></a>      , maxDistance</span>
-<span id="cb5-7"><a href="#cb5-7"></a>      , abs(position.y - focusPoint.y)</span>
-<span id="cb5-8"><a href="#cb5-8"></a>      );</span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p><code>smoothstep</code> returns values from zero to one. The <code>minDistance</code> is the left-most edge. Any position less than the minimum distance, from the focus point, will be in focus or have a blur of zero. The <code>maxDistance</code> is the right-most edge. Any position greater than the maximum distance, from the focus point, will be out of focus or have a blur or one. For distances between the edges, blur will be between zero and one. These values are interpolated along a s-shaped curve.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="co">// ...</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a></span>
-<span id="cb6-4"><a href="#cb6-4"></a>  fragColor = mix(focusColor, outOfFocusColor, blur);</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="co">// ...</span></span></code></pre></div>
-<p>The <code>fragColor</code> is a mixture of the in focus and out of focus color. The closer <code>blur</code> is to one, the more it will use the <code>outOfFocusColor</code>. Zero <code>blur</code> means this fragment is entirely in focus. At <code>blur &gt;= 1</code>, this fragment is completely out of focus.</p>
-<h3 id="source">Source</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> blur <span class="op">=</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    smoothstep</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">(</span> minDistance</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">,</span> maxDistance</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="op">,</span> abs<span class="op">(</span>position<span class="op">.</span>y <span class="op">-</span> focusPoint<span class="op">.</span>y<span class="op">)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="op">);</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p><code>smoothstep</code> 返回 0 到 1。 <code>minDistance</code>
+是最左端。 相对焦点的距离小于最小距离的位置会保持清晰，blur 为 0。
+<code>maxDistance</code> 是最右端。
+相对焦点的距离大于最大距离的位置会失焦，blur 为 1。 两端之间的距离，
+blur 位于 0 和 1 之间。 这些值沿一条 S 形曲线插值。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> mix<span class="op">(</span>focusColor<span class="op">,</span> outOfFocusColor<span class="op">,</span> blur<span class="op">);</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
+<p><code>fragColor</code> 是清晰颜色和失焦颜色的混合。 <code>blur</code>
+越接近 1，就越使用 <code>outOfFocusColor</code>。 <code>blur</code> 为 0
+表示这个 fragment 完全清晰。 <code>blur &gt;= 1</code> 时，这个 fragment
+完全失焦。</p>
+<h3 id="源码">源码</h3>
 <ul>
 <li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/src/main.cxx" target="_blank" rel="noopener noreferrer">main.cxx</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/vertex/basic.vert" target="_blank" rel="noopener noreferrer">basic.vert</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/fragment/box-blur.frag" target="_blank" rel="noopener noreferrer">box-blur.frag</a></li>
-<li><a href="https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/demonstration/shaders/fragment/depth-of-field.frag" target="_blank" rel="noopener noreferrer">depth-of-field.frag</a></li>
+<li><a
+href="../demonstration/shaders/vertex/basic.vert">basic.vert</a></li>
+<li><a
+href="../demonstration/shaders/fragment/box-blur.frag">box-blur.frag</a></li>
+<li><a
+href="../demonstration/shaders/fragment/depth-of-field.frag">depth-of-field.frag</a></li>
 </ul>
-<h2 id="copyright">Copyright</h2>
-<p>(C) 2019 David Lettier <br> <a href="https://www.lettier.com">lettier.com</a></p>
-<p><a href="outlining.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="posterization.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
+<h2 id="版权">版权</h2>
+<p>(C) 2019 David Lettier <br> <a
+href="https://www.lettier.com">lettier.com</a></p>
+<p><a href="outlining.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="posterization.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
   </body>
 </html>

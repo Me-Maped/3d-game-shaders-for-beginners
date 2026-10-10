@@ -12,36 +12,36 @@
 <img src="https://i.imgur.com/SVLPYKn.gif" alt="Foam" title="Foam">
 </p>
 
-Foam is typically used when simulating some body of water.
-Anywhere the water's flow is disrupted, you add some foam.
-The foam isn't much by itself but it can really connect the water with the rest of the scene.
+Foam 通常用在模拟一片水体时。
+水流被扰乱的地方就加上一些 foam。
+Foam 本身不算什么，但它能把水和场景的其余部分连起来。
 
 <p align="center">
 <img src="https://i.imgur.com/HCqvd8c.gif" alt="Lava River" title="Lava River">
 </p>
 
-But don't stop at just water.
-You can use the same technique to make a river of lava for example.
+不必只用于水。
+例如可以用同样的技术做一条熔岩河。
 
-### Vertex Positions
+### Vertex Position
 
-Like
-[screen space refraction](screen-space-refraction.md),
-you'll need both the foreground and background vertex positions.
-The foreground being the scene with the foamy surface
-and the background being the scene without the foamy surface.
-Referrer back to [SSAO](ssao.md#vertex-positions) for the details
-on how to acquire the vertex positions in view space.
+和
+[screen space refraction](screen-space-refraction.md) 一样，
+需要前景和背景的 vertex position。
+前景是带有 foam 表面的场景，
+背景是没有 foam 表面的场景。
+如何取得 view space 里的 vertex position，
+见 [SSAO](ssao.md#vertex-positions)。
 
-### Mask
+### 遮罩
 
 <p align="center">
 <img src="https://i.imgur.com/N6TWBw8.gif" alt="Foam Mask" title="Foam Mask">
 </p>
 
-You'll need to texture your scene with a foam mask.
-The demo masks everything off except the water.
-For the water, it textures it with a foam pattern.
+需要用一张 foam mask 给场景做 texturing。
+Demo 把除水以外的一切都遮掉。
+水则贴上 foam pattern。
 
 ```c
 // ...
@@ -59,9 +59,9 @@ void main() {
 }
 ```
 
-Here you see the fragment shader that generates the foam mask.
-It takes a foam pattern texture and UV maps it to the scene's geometry using the diffuse UV coordinates.
-For every model, except the water, the shader is given a solid black texture as the `foamPatternTexture`.
+这里是生成 foam mask 的 fragment shader。
+它取出 foam pattern texture，并用 diffuse UV 坐标把它 UV 映射到场景几何体上。
+除了水，每个模型给这个 shader 的 `foamPatternTexture` 都是纯黑 texture。
 
 ```c
   // ...
@@ -71,9 +71,9 @@ For every model, except the water, the shader is given a solid black texture as 
   // ...
 ```
 
-The fragment color is converted to greyscale,
-as a precaution,
-since the foam shader expects the foam mask to be greyscale.
+fragment 颜色会被转成 greyscale。
+这是预防措施，
+因为 foam shader 期望 foam mask 是 greyscale。
 
 ### Uniforms
 
@@ -87,11 +87,11 @@ uniform sampler2D positionToTexture;
 // ...
 ```
 
-The foam shader accepts a mask texture,
-the foreground vertex positions (`positionFromTexture`),
-and the background vertex positions (`positionToTexture`).
+Foam shader 接收一张 mask texture、
+前景 vertex position（`positionFromTexture`），
+以及背景 vertex position（`positionToTexture`）。
 
-### Parameters
+### 参数
 
 ```c
   // ...
@@ -102,11 +102,11 @@ and the background vertex positions (`positionToTexture`).
   // ...
 ```
 
-The adjustable parameters for the foam shader are the foam depth and color.
-The foam depth controls how much foam is shown.
-As the foam depth increases, the amount of foam shown increases.
+Foam shader 可调的参数是 foam depth 和颜色。
+Foam depth 控制显示出多少 foam。
+foam depth 越大，显示的 foam 越多。
 
-### Distance
+### 距离
 
 ```c
   // ...
@@ -119,10 +119,10 @@ As the foam depth increases, the amount of foam shown increases.
   // ...
 ```
 
-Compute the distance from the foreground position to the background position.
-Since the positions are in view (camera) space, we only need the y value since it goes into the screen.
+计算前景 position 到背景 position 的距离。
+这些 position 在 view（camera）space，所以只需要 y，因为它指向屏幕内部。
 
-### Amount
+### 数量
 
 ```c
   // ...
@@ -135,7 +135,7 @@ Since the positions are in view (camera) space, we only need the y value since i
   // ...
 ```
 
-The amount of foam is based on the depth, the foam depth parameter, and the mask value.
+Foam 的数量由 depth、foam depth 参数和 mask 值决定。
 
 <p align="center">
 <img src="https://i.imgur.com/CDIPmin.png" alt="Easing equation." title="Easing equation.">
@@ -149,10 +149,10 @@ The amount of foam is based on the depth, the foam depth parameter, and the mask
         // ...
 ```
 
-Reshape the amount using the ease in and out easing function.
-This will give a lot of foam near depth zero and little to no foam near `foamDepth`.
+用 ease in and out 这种 easing 函数重塑这个数量。
+这样在 depth 接近 0 时 foam 很多，接近 `foamDepth` 时几乎没有 foam。
 
-### Fragment Color
+### Fragment 颜色
 
 ```c
   // ...
@@ -162,9 +162,9 @@ This will give a lot of foam near depth zero and little to no foam near `foamDep
   // ...
 ```
 
-The fragment color is a mix between transparent black and the foam color based on the amount.
+fragment 颜色按这个数量，在透明黑和 foam 颜色之间混合。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
@@ -174,7 +174,7 @@ The fragment color is a mix between transparent black and the foam color based o
 - [foam.frag](../demonstration/shaders/fragment/foam.frag)
 - [base-combine.frag](../demonstration/shaders/fragment/base-combine.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

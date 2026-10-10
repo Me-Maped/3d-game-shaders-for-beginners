@@ -12,28 +12,28 @@
 <img src="https://i.imgur.com/EKaZRkR.gif" alt="Outlined Scene" title="Outlined Scene">
 </p>
 
-Outlining your scene's geometry can give your game a distinctive look,
-reminiscent of comic books and cartoons.
+给场景几何体做 outlining，可以让游戏有一种鲜明的样子，
+让人想起漫画和卡通。
 
-### Discontinuities
+### 不连续处
 
-The process of outlining is the process of finding and labeling discontinuities or differences.
-Every time you find what you consider a significant difference,
-you mark it with your line color.
-As you go about labeling or coloring in the differences, outlines or edges will start to form.
+Outlining 就是寻找并标记不连续处，也就是差异。
+每当你认为某个差异足够显著，
+就用线条颜色标出来。
+一边标记这些差异，轮廓或边缘就会形成。
 
-Where you choose to search for the discontinuities is up to you.
-It could be the diffuse colors in your scene,
-the normals of your models,
-the depth buffer,
-or some other scene related data.
+到哪里去找这些不连续处由你决定。
+可以是场景里的 diffuse 颜色、
+模型的 normal、
+depth buffer，
+或其他和场景有关的数据。
 
-The demo uses the interpolated vertex positions to render the outlines.
-However,
-a less straightforward but more typical way is to use both the
-scene's normals and depth buffer values to construct the outlines.
+Demo 用插值后的 vertex position 来渲染轮廓。
+不过，
+更常见、也没那么直接的做法是同时用
+场景的 normal 和 depth buffer 来构造轮廓。
 
-### Vertex Positions
+### Vertex Position
 
 ```c
 // ...
@@ -43,10 +43,10 @@ uniform sampler2D positionTexture;
 // ...
 ```
 
-Like SSAO, you'll need the vertex positions in view space.
-Referrer back to [SSAO](ssao.md#vertex-positions) for details.
+和 SSAO 一样，需要 view space 里的 vertex position。
+细节见 [SSAO](ssao.md#vertex-positions)。
 
-### Scene Colors
+### 场景颜色
 
 ```c
 // ...
@@ -56,11 +56,11 @@ uniform sampler2D colorTexture;
 // ...
 ```
 
-The demo darkens the colors of the scene where there's an outline.
-This tends to look nicer than a constant color since it provides
-some color variation to the edges.
+有轮廓的地方，demo 会把场景颜色压暗。
+这通常比固定颜色更好看，因为边缘会有
+一些颜色变化。
 
-### Parameters
+### 参数
 
 ```c
   // ...
@@ -75,11 +75,11 @@ some color variation to the edges.
   // ...
 ```
 
-The min and max separation parameters control the thickness of the outline
-depending on the fragment's distance from the camera or depth.
-The min and max distance control the significance of any changes found.
-The `size` parameter controls the constant thickness of the line no matter the fragment's position.
-The outline color is based on `colorModifier` and the current fragment's color.
+最小和最大 separation 根据 fragment 离 camera 的距离或 depth
+控制轮廓粗细。
+最小和最大 distance 控制发现的变化有多显著。
+无论 fragment 在哪里，`size` 都控制线条的固定粗细。
+轮廓颜色基于 `colorModifier` 和当前 fragment 的颜色。
 
 ### Fragment Position
 
@@ -95,9 +95,9 @@ The outline color is based on `colorModifier` and the current fragment's color.
   // ...
 ```
 
-Sample the position texture for the current fragment's position in the scene.
-Recall that the position texture is just a screen shaped quad making the UV coordinate
-the current fragment's screen coordinate divided by the dimensions of the screen.
+从 position texture 采样当前 fragment 在场景中的 position。
+回忆一下，position texture 只是一块屏幕形状的 quad，所以 UV 坐标就是
+当前 fragment 的屏幕坐标除以屏幕尺寸。
 
 ### Fragment Depth
 
@@ -119,13 +119,13 @@ the current fragment's screen coordinate divided by the dimensions of the screen
   // ...
 ```
 
-The fragment's depth ranges from zero to one.
-When the fragment's view-space y coordinate matches the far clipping plane,
-the depth is one.
-When the fragment's view-space y coordinate matches the near clipping plane,
-the depth is zero.
-In other words,
-the depth ranges from zero at the near clipping plane all the way up to one at the far clipping plane.
+Fragment 的 depth 范围是 0 到 1。
+fragment 的 view-space y 坐标等于 far clipping plane 时，
+depth 是 1。
+等于 near clipping plane 时，
+depth 是 0。
+换句话说，
+depth 从 near clipping plane 的 0 一直到 far clipping plane 的 1。
 
 ```c
   // ...
@@ -135,13 +135,13 @@ the depth ranges from zero at the near clipping plane all the way up to one at t
   // ...
 ```
 
-Converting the position to a depth value isn't necessary
-but it allows you to vary the thickness of the outline based on how far
-away the fragment is from the camera.
-Far away fragments get a thinner line while nearer fragments get a thicker outline.
-This tends to look nicer than a constant thickness since it gives depth to the outline.
+把 position 转成 depth 并不是必须的，
+但它让你可以根据 fragment 离 camera 有多远
+改变轮廓粗细。
+远处的 fragment 线条更细，近处的更粗。
+这通常比固定粗细更好看，因为轮廓本身有了深度。
 
-### Finding The Discontinuities
+### 寻找不连续处
 
 <p align="center">
 <img src="https://i.imgur.com/xAMRGhn.gif" alt="Edge Finding" title="Edge Finding">
@@ -162,8 +162,8 @@ This tends to look nicer than a constant thickness since it gives depth to the o
   // ...
 ```
 
-Now that you have the current fragment's position,
-loop through an i by j grid or window surrounding the current fragment.
+有了当前 fragment 的 position 之后，
+遍历包围当前 fragment 的 i 乘 j 网格或 window。
 
 
 ```c
@@ -186,9 +186,9 @@ loop through an i by j grid or window surrounding the current fragment.
       // ...
 ```
 
-With each iteration,
-find the biggest distance between this fragment's
-and the surrounding fragments' positions.
+每次迭代
+找出这个 fragment 的 position
+和周围 fragment position 之间的最大距离。
 
 <p align="center">
 <img src="https://i.imgur.com/idDZr62.png" alt="smoothstep" title="smoothstep">
@@ -202,17 +202,17 @@ and the surrounding fragments' positions.
   // ...
 ```
 
-Calculate the significance of any difference discovered using the `minDistance`, `maxDistance`, and `smoothstep`.
-`smoothstep` returns values from zero to one.
-The `minDistance` is the left-most edge.
-Any difference less than the minimum distance will be zero.
-The `maxDistance` is the right-most edge.
-Any difference greater than the maximum distance will be one.
-For distances between the edges,
-the difference will be between zero and one.
-These values are interpolated along a s-shaped curve.
+用 `minDistance`、`maxDistance` 和 `smoothstep` 计算发现的差异有多显著。
+`smoothstep` 返回 0 到 1。
+`minDistance` 是最左端。
+小于最小距离的差异会是 0。
+`maxDistance` 是最右端。
+大于最大距离的差异会是 1。
+两端之间的距离，
+差异位于 0 和 1 之间。
+这些值沿一条 S 形曲线插值。
 
-### Line Color
+### 线条颜色
 
 ```c
   // ...
@@ -222,9 +222,9 @@ These values are interpolated along a s-shaped curve.
   // ...
 ```
 
-The line color is the current fragment color either darkened or lightened.
+线条颜色是当前 fragment 颜色被压暗或提亮后的结果。
 
-### Fragment Color
+### Fragment 颜色
 
 <p align="center">
 <img src="https://i.imgur.com/yWNdPZe.gif" alt="Outlines" title="Outlines">
@@ -238,15 +238,15 @@ The line color is the current fragment color either darkened or lightened.
   // ...
 ```
 
-The fragment's RGB color is the `lineColor` and its alpha channel is `diff`.
+Fragment 的 RGB 是 `lineColor`，alpha 通道是 `diff`。
 
-### Sketchy
+### 手绘感
 
 <p align="center">
 <img src="https://i.imgur.com/FRBkSm1.gif" alt="Sketchy Outline" title="Sketchy Outline">
 </p>
 
-For a sketchy outline, you can distort the UV coordinates used to sample the position vectors.
+想要手绘感的轮廓，可以扭曲用来采样 position vector 的 UV 坐标。
 
 <p align="center">
 <img src="https://i.imgur.com/qgZNtnN.png" alt="Outline Noise" title="Outline Noise">
@@ -260,10 +260,10 @@ uniform sampler2D noiseTexture;
 // ...
 ```
 
-Start by creating a RGB noise texture.
-A good size is either 128 by 128 or 512 by 512.
-Be sure to blur it and make it tileable.
-This will produce a nice wavy, inky outline.
+先做一张 RGB noise texture。
+比较合适的尺寸是 128 乘 128，或 512 乘 512。
+记得把它模糊，并做成可平铺的。
+这样会得到好看的波浪状、像墨水一样的轮廓。
 
 ```c
   // ...
@@ -273,8 +273,8 @@ This will produce a nice wavy, inky outline.
   // ...
 ```
 
-The `noiseScale` parameter controls how distorted the outline is.
-The bigger the `noiseScale`, the sketchier the line.
+`noiseScale` 控制轮廓扭曲多少。
+`noiseScale` 越大，线条越像手绘。
 
 ```c
   // ...
@@ -288,11 +288,11 @@ The bigger the `noiseScale`, the sketchier the line.
   // ...
 ```
 
-Sample the noise texture using the current screen/fragment position and the size of the noise texture.
-Since you're distorting the UV coordinates used to sample the position vectors,
-you'll only need two of the three color channels.
-Map the two color channels from `[0, 1]` to `[-1, 1]`.
-Finally, scale the noise by the scale chosen earlier.
+用当前屏幕或 fragment 位置以及 noise texture 的尺寸采样 noise texture。
+因为你扭曲的是采样 position vector 用的 UV 坐标，
+三个颜色通道里只需要两个。
+把这两个通道从 `[0, 1]` 映射到 `[-1, 1]`。
+最后用前面选定的 scale 缩放这份 noise。
 
 ```c
   // ...
@@ -305,15 +305,15 @@ Finally, scale the noise by the scale chosen earlier.
   // ...
 ```
 
-When sampling the current position,
-subtract the noise vector from the current fragment's coordinates.
+采样当前位置时，
+从当前 fragment 坐标里减去 noise vector。
 
 <p align="center">
 <img src="https://i.imgur.com/wk43ybP.png" alt="Squiggly Outline" title="Squiggly Outline">
 </p>
 
-You could instead add it to the current fragment's coordinates
-which will create more of a squiggly line that loosely follows the geometry.
+也可以把它加到当前 fragment 坐标上，
+这样线条会更弯，并大致沿着几何体走。
 
 ```c
   // ...
@@ -333,11 +333,11 @@ which will create more of a squiggly line that loosely follows the geometry.
       // ...
 ```
 
-When sampling the surrounding positions inside the loop,
-add the noise vector to the current fragment's coordinates.
-The rest of the calculations are the same.
+在循环里采样周围 position 时，
+把 noise vector 加到当前 fragment 坐标上。
+其余计算不变。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
@@ -345,7 +345,7 @@ The rest of the calculations are the same.
 - [position.frag](../demonstration/shaders/fragment/position.frag)
 - [outline.frag](../demonstration/shaders/fragment/outline.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

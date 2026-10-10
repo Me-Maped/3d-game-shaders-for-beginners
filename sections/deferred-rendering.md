@@ -9,62 +9,60 @@
 ## Deferred Rendering
 
 <p align="center">
-<img src="https://i.imgur.com/rxTYLGv.png" alt="Deferred vs Forward" title="Deferred vs Forward">
+<img src="https://i.imgur.com/rxTYLGv.png" alt="Deferred 与 Forward" title="Deferred 与 Forward">
 </p>
 
-Deferred rendering (deferred shading) is a screen space lighting technique.
-Instead of calculating the lighting for a scene while you traverse its
-geometry—you defer or wait to perform the lighting calculations until
-after the scene's geometry fragments have been culled or discarded.
-This can give you a performance boost depending on the complexity of your scene.
+Deferred rendering（deferred shading）是一种 screen space lighting 技术。
+它不是在遍历场景几何体时就计算 lighting，
+而是推迟到场景几何体的 fragment 被剔除或丢弃之后再算。
+场景复杂度较高时，这可以带来性能提升。
 
-### Phases
+### 阶段
 
 <p align="center">
 <img src="https://i.imgur.com/uTimQJj.gif" alt="G-buffer" title="G-buffer">
 </p>
 
-Deferred rendering is performed in two phases.
-The first phase involves going through the scene's geometry and rendering its
-positions or depths,
-normals,
-and materials
-into a framebuffer known as the geometry buffer or G-buffer.
-With the exception of some transformations,
-this is mostly a read-only phase so its performance cost is minimal.
-After this phase, you're only dealing with 2D textures in the shape of the screen.
+Deferred rendering 分两个阶段。
+第一阶段遍历场景几何体，把
+position 或 depth、
+normal、
+以及 material
+渲染进一个叫 geometry buffer 或 G-buffer 的 framebuffer。
+除了一些变换，
+这一阶段基本是只读的，性能开销很小。
+这一阶段之后，你处理的就只是屏幕形状的 2D texture。
 
 <p align="center">
-<img src="https://i.imgur.com/frYp6to.gif" alt="Lighting Phase" title="Lighting Phase">
+<img src="https://i.imgur.com/frYp6to.gif" alt="Lighting 阶段" title="Lighting 阶段">
 </p>
 
-The second and last phase is where you perform your lighting calculations using the output of the first phase.
-This is when you calculate the ambient, diffuse, and specular colors.
-Shadow and normal mapping are performed in this phase as well.
+第二阶段，也是最后一阶段，用第一阶段的输出做 lighting 计算。
+这时计算 ambient、diffuse 和 specular 颜色。
+Shadow 和 normal mapping 也在这一阶段完成。
 
-### Advantages
+### 优点
 
-The reason for using deferred rendering is to reduce the number of lighting calculations made.
-With forward rendering, the number of lighting calculations scales with the number of fragments and lights.
-However, with deferred shading, the number of lighting calculations scales with the number of pixels and lights.
-Recall that for a single pixel, there can be multiple fragments produced.
-As you add geometry,
-the number of lighting calculations per pixel increases when using forward but not when using deferred.
+使用 deferred rendering 是为了减少 lighting 计算次数。
+Forward rendering 的 lighting 计算次数随 fragment 数量和光源数量增长。
+Deferred shading 的 lighting 计算次数则随 pixel 数量和光源数量增长。
+记住，一个 pixel 可能产生多个 fragment。
+增加几何体时，
+forward 下每个 pixel 的 lighting 计算会变多，deferred 则不会。
 
-For simple scenes,
-deferred rendering doesn't provide much of a performance boost and may even hurt performance.
-However, for complex scenes with lots of lighting, it becomes the better option.
-Deferred becomes faster than forward because you're only calculating the lighting per light, per pixel.
-In forward rendering,
-you're calculating the lighting per light per fragment which can be multiple times per pixel.
+简单场景里，
+deferred rendering 提供不了多少性能提升，甚至可能更慢。
+但在光源很多的复杂场景里，它会成为更好的选择。
+Deferred 比 forward 快，是因为每个光源、每个 pixel 只算一次 lighting。
+Forward rendering 则是每个光源、每个 fragment 都算一次，而一个 pixel 可能对应多次。
 
-### Disadvantages
+### 缺点
 
-Deferred rendering allows you render complex scenes using many lights but it does come with its own set of tradeoffs.
-Transparency becomes an issue because the geometry data you could see through a semitransparent object is discarded in the first phase.
-Other tradesoffs include increased memory consumption due to the G-buffer and the extra workarounds needed to deal with aliasing.
+Deferred rendering 让你可以用很多光源渲染复杂场景，但有自己的取舍。
+半透明会成为问题，因为第一阶段会丢掉你本可以透过半透明物体看到的几何数据。
+其他取舍包括 G-buffer 带来的内存增加，以及处理 aliasing 所需的额外办法。
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

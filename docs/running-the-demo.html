@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <meta name="description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
-    <meta property="og:title" content="Running The Demo | 3D Game Shaders For Beginners" />
-    <meta property="og:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
+    <meta property="og:title" content="Running The Demo | 3D Game
+Shaders For Beginners" />
+    <meta property="og:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta property="og:image" content="https://i.imgur.com/JIDwVTm.png" />
-    <meta name="twitter:title" content="Running The Demo | 3D Game Shaders For Beginners" />
-    <meta name="twitter:description" content="Interested in adding textures, lighting, shadows, normal maps, glowing objects, ambient occlusion, reflections, refractions, and more to your 3D game? Great! 3D Game Shaders For Beginners is a collection of shading techniques that will take your game visuals to new heights." />
+    <meta name="twitter:title" content="Running The Demo | 3D Game
+Shaders For Beginners" />
+    <meta name="twitter:description" content="想给 3D 游戏加上 texture、lighting、shadow、normal map、发光物体、ambient occlusion、reflection、refraction 以及其他效果吗？很好！3D Game Shaders For Beginners 是一组 shading 技术，可以把画面再推高一层。" />
     <meta name="twitter:image" content="https://i.imgur.com/JIDwVTm.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -21,19 +23,20 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
     </style>
     <style>
-      code.sourceCode > span { display: inline-block; line-height: 1.25; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      code.sourceCode > span:empty { height: 1.2em; }
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
       .sourceCode { overflow: visible; }
-      code.sourceCode { white-space: pre; position: relative; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
       div.sourceCode { margin: 1em 0; }
       pre.sourceCode { margin: 0; }
       @media screen {
       div.sourceCode { overflow: auto; }
       }
       @media print {
-      code.sourceCode { white-space: pre-wrap; }
-      code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
       }
       pre.numberSource code
         { counter-reset: source-line 0; }
@@ -54,33 +57,33 @@
       div.sourceCode
         { color: #cfcfc2; background-color: #232629; }
       @media screen {
-      code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
       }
-      code span. { color: #cfcfc2; } /* Normal */
-      code span.al { color: #95da4c; } /* Alert */
+      code span { color: #cfcfc2; } /* Normal */
+      code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
       code span.an { color: #3f8058; } /* Annotation */
       code span.at { color: #2980b9; } /* Attribute */
       code span.bn { color: #f67400; } /* BaseN */
       code span.bu { color: #7f8c8d; } /* BuiltIn */
-      code span.cf { color: #fdbc4b; } /* ControlFlow */
+      code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
       code span.ch { color: #3daee9; } /* Char */
-      code span.cn { color: #27aeae; } /* Constant */
+      code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
       code span.co { color: #7a7c7d; } /* Comment */
       code span.cv { color: #7f8c8d; } /* CommentVar */
       code span.do { color: #a43340; } /* Documentation */
       code span.dt { color: #2980b9; } /* DataType */
       code span.dv { color: #f67400; } /* DecVal */
-      code span.er { color: #da4453; } /* Error */
-      code span.ex { color: #0099ff; } /* Extension */
+      code span.er { color: #da4453; text-decoration: underline; } /* Error */
+      code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
       code span.fl { color: #f67400; } /* Float */
       code span.fu { color: #8e44ad; } /* Function */
       code span.im { color: #27ae60; } /* Import */
       code span.in { color: #c45b00; } /* Information */
-      code span.kw { color: #cfcfc2; } /* Keyword */
+      code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
       code span.op { color: #cfcfc2; } /* Operator */
       code span.ot { color: #27ae60; } /* Other */
       code span.pp { color: #27ae60; } /* Preprocessor */
-      code span.re { color: #2980b9; } /* RegionMarker */
+      code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
       code span.sc { color: #3daee9; } /* SpecialChar */
       code span.ss { color: #da4453; } /* SpecialString */
       code span.st { color: #f44f4f; } /* String */
@@ -94,103 +97,125 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-<p><a href="building-the-demo.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="reference-frames.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
-<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For Beginners</h1>
-<h2 id="running-the-demo">Running The Demo</h2>
+<p><a href="building-the-demo.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="reference-frames.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
+<h1 id="3d-game-shaders-for-beginners">3D Game Shaders For
+Beginners</h1>
+<h2 id="运行-demo">运行 Demo</h2>
 <p align="center">
 <img src="https://i.imgur.com/y5XcReP.gif" alt="Running The Demo" title="Running The Demo">
 </p>
 
-<p>After you've built the example code, you can now run the executable or demo.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">./3d-game-shaders-for-beginners</span></span></code></pre></div>
-<p>Here's how you run it on Linux or Mac.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">3d-game-shaders-for-beginners.exe</span></span></code></pre></div>
-<p>Here's how you run it on Windows.</p>
-<h3 id="demo-controls">Demo Controls</h3>
-<p>The demo comes with both keyboard and mouse controls to move the camera around, toggle on and off the different effects, adjust the fog, and view the various different framebuffer textures.</p>
-<h4 id="mouse">Mouse</h4>
-<p>You can rotate the scene around by holding down the <kbd>Left Mouse</kbd> button and dragging. Hold down the <kbd>Right Mouse</kbd> button and drag to move up, down, left, and/or right. To zoom in, roll the <kbd>Mouse Wheel</kbd> forward. To zoom out, roll the <kbd>Mouse Wheel</kbd> backward.</p>
-<p>You can also change the focus point using the mouse. To change the focus point, click anywhere on the scene using the <kbd>Middle Mouse</kbd> button.</p>
-<h4 id="keyboard">Keyboard</h4>
+<p>示例代码构建完成之后，就可以运行可执行文件，也就是 demo。</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./3d-game-shaders-for-beginners</span></span></code></pre></div>
+<p>在 Linux 或 Mac 上这样运行。</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">3d-game-shaders-for-beginners.exe</span></span></code></pre></div>
+<p>在 Windows 上这样运行。</p>
+<h3 id="demo-操作">Demo 操作</h3>
+<p>Demo 同时提供键盘和鼠标操作，用来移动 camera、 开关各种效果、 调整
+fog， 以及查看不同的 framebuffer texture。</p>
+<h4 id="鼠标">鼠标</h4>
+<p>按住 <kbd>Left Mouse</kbd> 拖动可以旋转场景。 按住 <kbd>Right
+Mouse</kbd> 拖动可以上下左右移动。 <kbd>Mouse Wheel</kbd> 向前滚是拉近。
+<kbd>Mouse Wheel</kbd> 向后滚是拉远。</p>
+<p>也可以用鼠标改变焦点。 要改变焦点， 用 <kbd>Middle Mouse</kbd>
+点击场景中的任意位置。</p>
+<h4 id="键盘">键盘</h4>
 <ul>
-<li><kbd>w</kbd> to rotate the scene down.</li>
-<li><kbd>a</kbd> to rotate the scene clockwise.</li>
-<li><kbd>s</kbd> to rotate the scene up.</li>
-<li><kbd>d</kbd> to rotate the scene counterclockwise.</li>
-<li><kbd>z</kbd> to zoom in to the scene.</li>
-<li><kbd>x</kbd> to zoom out of the scene.</li>
-<li><kbd>⬅</kbd> to move left.</li>
-<li><kbd>➡</kbd> to move right.</li>
-<li><kbd>⬆</kbd> to move up.</li>
-<li><kbd>⬇</kbd> to move down.</li>
+<li><kbd>w</kbd> 让场景向下旋转。</li>
+<li><kbd>a</kbd> 让场景顺时针旋转。</li>
+<li><kbd>s</kbd> 让场景向上旋转。</li>
+<li><kbd>d</kbd> 让场景逆时针旋转。</li>
+<li><kbd>z</kbd> 拉近场景。</li>
+<li><kbd>x</kbd> 拉远场景。</li>
+<li><kbd>⬅</kbd> 向左移动。</li>
+<li><kbd>➡</kbd> 向右移动。</li>
+<li><kbd>⬆</kbd> 向上移动。</li>
+<li><kbd>⬇</kbd> 向下移动。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>1</kbd> to show midday.</li>
-<li><kbd>2</kbd> to show midnight.</li>
+<li><kbd>1</kbd> 显示正午。</li>
+<li><kbd>2</kbd> 显示午夜。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>Delete</kbd> to toggle the sound.</li>
-<li><kbd>3</kbd> to toggle fresnel.</li>
-<li><kbd>4</kbd> to toggle rim lighting.</li>
-<li><kbd>5</kbd> to toggle particles.</li>
-<li><kbd>6</kbd> to toggle motion blur.</li>
-<li><kbd>7</kbd> to toggle Kuwahara filtering.</li>
-<li><kbd>8</kbd> to toggle cel shading.</li>
-<li><kbd>9</kbd> to toggle lookup table processing.</li>
-<li><kbd>0</kbd> to toggle between Phong and Blinn-Phong.</li>
-<li><kbd>y</kbd> to toggle SSAO.</li>
-<li><kbd>u</kbd> to toggle outlining.</li>
-<li><kbd>i</kbd> to toggle bloom.</li>
-<li><kbd>o</kbd> to toggle normal mapping.</li>
-<li><kbd>p</kbd> to toggle fog.</li>
-<li><kbd>h</kbd> to toggle depth of field.</li>
-<li><kbd>j</kbd> to toggle posterization.</li>
-<li><kbd>k</kbd> to toggle pixelization.</li>
-<li><kbd>l</kbd> to toggle sharpen.</li>
-<li><kbd>n</kbd> to toggle film grain.</li>
-<li><kbd>m</kbd> to toggle screen space reflection.</li>
-<li><kbd>,</kbd> to toggle screen space refraction.</li>
-<li><kbd>.</kbd> to toggle flow mapping.</li>
-<li><kbd>/</kbd> to toggle the sun animation.</li>
-<li><kbd>\</kbd> to toggle chromatic aberration.</li>
+<li><kbd>Delete</kbd> 开关声音。</li>
+<li><kbd>3</kbd> 开关 fresnel。</li>
+<li><kbd>4</kbd> 开关 rim lighting。</li>
+<li><kbd>5</kbd> 开关粒子。</li>
+<li><kbd>6</kbd> 开关 motion blur。</li>
+<li><kbd>7</kbd> 开关 Kuwahara filtering。</li>
+<li><kbd>8</kbd> 开关 cel shading。</li>
+<li><kbd>9</kbd> 开关 lookup table 处理。</li>
+<li><kbd>0</kbd> 在 Phong 和 Blinn-Phong 之间切换。</li>
+<li><kbd>y</kbd> 开关 SSAO。</li>
+<li><kbd>u</kbd> 开关 outlining。</li>
+<li><kbd>i</kbd> 开关 bloom。</li>
+<li><kbd>o</kbd> 开关 normal mapping。</li>
+<li><kbd>p</kbd> 开关 fog。</li>
+<li><kbd>h</kbd> 开关 depth of field。</li>
+<li><kbd>j</kbd> 开关 posterization。</li>
+<li><kbd>k</kbd> 开关 pixelization。</li>
+<li><kbd>l</kbd> 开关 sharpen。</li>
+<li><kbd>n</kbd> 开关 film grain。</li>
+<li><kbd>m</kbd> 开关 screen space reflection。</li>
+<li><kbd>,</kbd> 开关 screen space refraction。</li>
+<li><kbd>.</kbd> 开关 flow mapping。</li>
+<li><kbd>/</kbd> 开关太阳动画。</li>
+<li><kbd>\</kbd> 开关 chromatic aberration。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>r</kbd> to reset the scene.</li>
+<li><kbd>r</kbd> 重置场景。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>[</kbd> to decrease the fog near distance.</li>
-<li><kbd>Shift</kbd>+<kbd>[</kbd> to increase the fog near distance.</li>
-<li><kbd>]</kbd> to increase the fog far distance.</li>
-<li><kbd>Shift</kbd>+<kbd>]</kbd> to decrease the fog far distance.</li>
+<li><kbd>[</kbd> 减小 fog 的 near 距离。</li>
+<li><kbd>Shift</kbd>+<kbd>[</kbd> 增大 fog 的 near 距离。</li>
+<li><kbd>]</kbd> 增大 fog 的 far 距离。</li>
+<li><kbd>Shift</kbd>+<kbd>]</kbd> 减小 fog 的 far 距离。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>Shift</kbd>+<kbd>-</kbd> to decrease the amount of foam.</li>
-<li><kbd>-</kbd> to increase the amount of foam.</li>
+<li><kbd>Shift</kbd>+<kbd>-</kbd> 减少 foam 的量。</li>
+<li><kbd>-</kbd> 增加 foam 的量。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>Shift</kbd>+<kbd>=</kbd> to decrease the relative index of refraction.</li>
-<li><kbd>=</kbd> to increase the relative index of refraction.</li>
+<li><kbd>Shift</kbd>+<kbd>=</kbd> 减小相对 refraction index。</li>
+<li><kbd>=</kbd> 增大相对 refraction index。</li>
 </ul>
 <p></p>
 
 <ul>
-<li><kbd>Tab</kbd> to move forward through the framebuffer textures.</li>
-<li><kbd>Shift</kbd>+<kbd>Tab</kbd> to move backward through the framebuffer textures.</li>
+<li><kbd>Tab</kbd> 向前切换 framebuffer texture。</li>
+<li><kbd>Shift</kbd>+<kbd>Tab</kbd> 向后切换 framebuffer texture。</li>
 </ul>
-<h2 id="copyright">Copyright</h2>
-<p>(C) 2019 David Lettier <br> <a href="https://www.lettier.com">lettier.com</a></p>
-<p><a href="building-the-demo.html"><span class="emoji" data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a> <a href="#copyright"><span class="emoji" data-emoji="arrow_down_small">🔽</span></a> <a href="reference-frames.html"><span class="emoji" data-emoji="arrow_forward">▶️</span></a></p>
+<h2 id="版权">版权</h2>
+<p>(C) 2019 David Lettier <br> <a
+href="https://www.lettier.com">lettier.com</a></p>
+<p><a href="building-the-demo.html"><span class="emoji"
+data-emoji="arrow_backward">◀️</span></a> <a href="index.html"><span
+class="emoji" data-emoji="arrow_double_up">⏫</span></a> <a
+href="#"><span class="emoji" data-emoji="arrow_up_small">🔼</span></a>
+<a href="#copyright"><span class="emoji"
+data-emoji="arrow_down_small">🔽</span></a> <a
+href="reference-frames.html"><span class="emoji"
+data-emoji="arrow_forward">▶️</span></a></p>
   </body>
 </html>

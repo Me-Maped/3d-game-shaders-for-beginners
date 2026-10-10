@@ -12,26 +12,25 @@
 <img src="https://i.imgur.com/o7lCukD.gif" alt="SSAO" title="SSAO">
 </p>
 
-SSAO is one of those effects you never knew you needed and can't live without once you have it.
-It can take a scene from mediocre to wow!
-For fairly static scenes, you can bake ambient occlusion into a texture but for more dynamic scenes, you'll need a shader.
-SSAO is one of the more fairly involved shading techniques, but once you pull it off, you'll feel like a shader master.
+SSAO 是那种你原本不知道自己需要、一旦有了就离不开的效果。
+它能把平庸的场景变得很亮眼。
+比较静态的场景可以把 ambient occlusion 烘焙进 texture，但更动态的场景就需要 shader。
+SSAO 是比较费事的 shading 技术之一，但一旦做出来，你会觉得自己像个 shader 高手。
 
-By using only a handful of textures, SSAO can approximate the
-[ambient occlusion](https://en.wikipedia.org/wiki/Ambient_occlusion)
-of a scene.
-This is faster than trying to compute the ambient occlusion by going through all of the scene's geometry.
-These handful of textures all originate in screen space giving screen space ambient occlusion its name.
+只用少数几张 texture，SSAO 就能近似场景的
+[ambient occlusion](https://en.wikipedia.org/wiki/Ambient_occlusion)。
+这比遍历场景全部几何体去算 ambient occlusion 更快。
+这几张 texture 都来自 screen space，所以它叫 screen space ambient occlusion。
 
-### Inputs
+### 输入
 
-The SSAO shader will need the following inputs.
+SSAO shader 需要下面这些输入。
 
-- Vertex position vectors in view space.
-- Vertex normal vectors in view space.
-- Sample vectors in tangent space.
-- Noise vectors in tangent space.
-- The camera lens' projection matrix.
+- view space 里的 vertex position vector。
+- view space 里的 vertex normal vector。
+- tangent space 里的采样 vector。
+- tangent space 里的 noise vector。
+- camera lens 的 projection matrix。
 
 ### Vertex Positions
 
@@ -39,10 +38,10 @@ The SSAO shader will need the following inputs.
 <img src="https://i.imgur.com/gr7IxKv.png" alt="Panda3D Vertex Positions" title="Panda3D Vertex Positions">
 </p>
 
-Storing the vertex positions into a framebuffer texture is not a necessity.
-You can recreate them from the [camera's depth buffer](http://theorangeduck.com/page/pure-depth-ssao).
-This being a beginners guide, I'll avoid this optimization and keep it straight forward.
-Feel free to use the depth buffer, however, for your implementation.
+把 vertex position 存进 framebuffer texture 并不是必须的。
+可以从 [camera 的 depth buffer](http://theorangeduck.com/page/pure-depth-ssao) 把它们重建出来。
+这是一份入门指南，我会避开这个优化，保持直接。
+你自己实现时当然可以用 depth buffer。
 
 ```cpp
 PT(Texture) depthTexture =
@@ -77,7 +76,7 @@ PT(DisplayRegion) depthBufferRegion =
 depthBufferRegion->set_camera(depthCameraNP);
 ```
 
-If you do decide to use the depth buffer, here's how you can set it up using Panda3D.
+如果决定使用 depth buffer，可以这样用 Panda3D 设置。
 
 ```c
 in vec4 vertexPosition;
@@ -89,11 +88,11 @@ void main() {
 }
 ```
 
-Here's the simple shader used to render out the view space vertex positions into a framebuffer texture.
-The more involved work is setting up the framebuffer texture such that the fragment vector components it receives
-are not clamped to `[0, 1]` and that each one has a high enough precision (a high enough number of bits).
-For example, if a particular interpolated vertex position is `<-139.444444566, 0.00000034343, 2.5>`,
-you don't want it stored into the texture as `<0.0, 0.0, 1.0>`.
+这是把 view space vertex position 渲染进 framebuffer texture 的简单 shader。
+更费事的是设置 framebuffer texture，让它收到的 fragment vector 分量
+不被 clamp 到 `[0, 1]`，并且每个分量都有足够精度（足够的 bit 数）。
+例如某个插值后的 vertex position 是 `<-139.444444566, 0.00000034343, 2.5>`，
+你不会希望它被存成 `<0.0, 0.0, 1.0>`。
 
 ```c
   // ...
@@ -109,9 +108,9 @@ you don't want it stored into the texture as `<0.0, 0.0, 1.0>`.
   // ...
 ```
 
-Here's how the example code sets up the framebuffer texture to store the vertex positions.
-It wants 32 bits per red, green, blue, and alpha components and disables clamping the values to `[0, 1]`
-The `set_rgba_bits(32, 32, 32, 32)` call sets the bits and also disables the clamping.
+示例代码这样设置用来保存 vertex position 的 framebuffer texture。
+它希望 red、green、blue、alpha 每个分量 32 bit，并关闭把值 clamp 到 `[0, 1]`。
+`set_rgba_bits(32, 32, 32, 32)` 既设置 bit 数，也关闭 clamp。
 
 ```c
   glTexImage2D
@@ -127,15 +126,15 @@ The `set_rgba_bits(32, 32, 32, 32)` call sets the bits and also disables the cla
     );
 ```
 
-Here's the equivalent OpenGL call.
-`GL_RGB32F` sets the bits and also disables the clamping.
+等价的 OpenGL 调用是这样。
+`GL_RGB32F` 既设置 bit 数，也关闭 clamp。
 
 <blockquote>
-If the color buffer is fixed-point, the components of the source and destination
-values and blend factors are each clamped to [0, 1] or [−1, 1] respectively for
-an unsigned normalized or signed normalized color buffer prior to evaluating the blend
-equation.
-If the color buffer is floating-point, no clamping occurs.
+如果 color buffer 是定点数，在计算 blend
+equation 之前，source 和 destination 的分量
+以及 blend factor 会分别被 clamp 到 [0, 1] 或 [−1, 1]，
+对应 unsigned normalized 或 signed normalized color buffer。
+如果 color buffer 是浮点，则不会 clamp。
 <br>
 <br>
 <footer>
@@ -147,11 +146,11 @@ If the color buffer is floating-point, no clamping occurs.
 <img src="https://i.imgur.com/V4nETME.png" alt="OpenGL Vertex Positions" title="OpenGL Vertex Positions">
 </p>
 
-Here you see the vertex positions with y being the up vector.
+这里看到的 vertex position 以 y 为向上的 vector。
 
-Recall that Panda3D sets z as the up vector but OpenGL uses y as the up vector.
-The position shader outputs the vertex positions with z being up since Panda3D
-was configured with `gl-coordinate-system default`.
+回忆一下，Panda3D 把 z 当作向上的 vector，OpenGL 把 y 当作向上的 vector。
+因为 Panda3D 配置了 `gl-coordinate-system default`，
+position shader 输出的 vertex position 以 z 为向上。
 
 ### Vertex Normals
 
@@ -159,9 +158,9 @@ was configured with `gl-coordinate-system default`.
 <img src="https://i.imgur.com/ilnbkzq.gif" alt="Panda3d Vertex Normals" title="Panda3d Vertex Normals">
 </p>
 
-You'll need the vertex normals to correctly orient the samples you'll take in the SSAO shader.
-The example code generates multiple sample vectors distributed in a hemisphere
-but you could use a sphere and do away with the need for normals all together.
+需要 vertex normal，才能在 SSAO shader 里把采样摆对方向。
+示例代码生成分布在半球里的多个采样 vector，
+你也可以改用球体，这样就完全不需要 normal。
 
 ```c
 in vec3 vertexNormal;
@@ -175,25 +174,25 @@ void main() {
 }
 ```
 
-Like the position shader, the normal shader is simple as well.
-Be sure to normalize the vertex normal and remember that they are in view space.
+和 position shader 一样，normal shader 也很简单。
+记得 normalize vertex normal，并记住它们在 view space。
 
 <p align="center">
 <img src="https://i.imgur.com/ucdx9Kp.gif" alt="OpenGL Vertex Normals" title="OpenGL Vertex Normals">
 </p>
 
-Here you see the vertex normals with y being the up vector.
+这里看到的 vertex normal 以 y 为向上的 vector。
 
-Recall that Panda3D sets z as the up vector but OpenGL uses y as the up vector.
-The normal shader outputs the vertex positions with z being up since Panda3D
-was configured with `gl-coordinate-system default`.
+回忆一下，Panda3D 把 z 当作向上的 vector，OpenGL 把 y 当作向上的 vector。
+因为 Panda3D 配置了 `gl-coordinate-system default`，
+normal shader 输出的 vertex position 以 z 为向上。
 
 <p align="center">
 <img src="https://i.imgur.com/fiHXBex.gif" alt="SSAO using the normal maps." title="SSAO using the normal maps.">
 </p>
 
-Here you see SSAO being used with the normal maps instead of the vertex normals.
-This adds an extra level of detail and will pair nicely with the normal mapped lighting.
+这里 SSAO 用的是 normal map，而不是 vertex normal。
+这会多一层细节，也能和 normal mapping 的 lighting 配得很好。
 
 ```c
     // ...
@@ -217,15 +216,15 @@ This adds an extra level of detail and will pair nicely with the normal mapped l
     // ...
 ```
 
-To use the normal maps instead,
-you'll need to transform the normal mapped normals from tangent space to view space
-just like you did in the lighting calculations.
+如果改用 normal map，
+需要像 lighting 计算那样，把 normal map 里的 normal
+从 tangent space 变换到 view space。
 
-### Samples
+### 采样
 
-To determine the amount of ambient occlusion for any particular fragment,
-you'll need to sample the surrounding area.
-The more samples you use, the better the approximation at the cost of performance.
+要确定某个 fragment 有多少 ambient occlusion，
+需要采样周围区域。
+采样越多，近似越好，但性能越差。
 
 ```cpp
   // ...
@@ -255,8 +254,8 @@ The more samples you use, the better the approximation at the cost of performanc
   // ...
 ```
 
-The example code generates a number of random samples distributed in a hemisphere.
-These `ssaoSamples` will be sent to the SSAO shader.
+示例代码生成若干分布在半球里的随机采样。
+这些 `ssaoSamples` 会送给 SSAO shader。
 
 ```cpp
     LVecBase3f sample =
@@ -267,8 +266,8 @@ These `ssaoSamples` will be sent to the SSAO shader.
         ).normalized();
 ```
 
-If you'd like to distribute your samples in a sphere instead,
-change the random `z` component to range from negative one to one.
+如果想把采样分布到球体里，
+把随机的 `z` 分量改成从 -1 到 1。
 
 ### Noise
 
@@ -289,8 +288,8 @@ change the random `z` component to range from negative one to one.
   // ...
 ```
 
-To get a good sweep of the sampled area, you'll need to generate some noise vectors.
-These noise vectors will randomly tilt the hemisphere around the current fragment.
+想把采样区域扫得比较均匀，需要生成一些 noise vector。
+这些 noise vector 会在当前 fragment 周围随机倾斜那个半球。
 
 ### Ambient Occlusion
 
@@ -298,18 +297,18 @@ These noise vectors will randomly tilt the hemisphere around the current fragmen
 <img src="https://i.imgur.com/KKt74VE.gif" alt="SSAO Texture" title="SSAO Texture">
 </p>
 
-SSAO works by sampling the view space around a fragment.
-The more samples that are below a surface, the darker the fragment color.
-These samples are positioned at the fragment and pointed in the general direction of the vertex normal.
-Each sample is used to look up a position in the position framebuffer texture.
-The position returned is compared to the sample.
-If the sample is farther away from the camera than the position, the sample counts towards the fragment being occluded.
+SSAO 通过采样 fragment 周围的 view space 来工作。
+落在表面之下的采样越多，fragment 颜色越暗。
+这些采样放在 fragment 上，并大致指向 vertex normal 的方向。
+每个采样用来在 position framebuffer texture 里查一个 position。
+返回的 position 再和采样比较。
+如果采样比这个 position 离 camera 更远，这个采样就算作该 fragment 被遮挡。
 
 <p align="center">
 <img src="https://i.imgur.com/Nm4CJDN.gif" alt="SSAO Sampling" title="SSAO Sampling">
 </p>
 
-Here you see the space above the surface being sampled for occlusion.
+这里可以看到表面上方正在为 occlusion 采样的空间。
 
 ```c
   // ...
@@ -322,13 +321,13 @@ Here you see the space above the surface being sampled for occlusion.
   // ...
 ```
 
-Like some of the other techniques,
-the SSAO shader has a few control knobs you can tweak to get the exact look you're going for.
-The `bias` adds to the sample's distance from the camera.
-You can use the bias to combat "acne".
-The `radius` increases or decreases the coverage area of the sample space.
-The `magnitude` either lightens or darkens the occlusion map.
-The `contrast` either washes out or increases the starkness of the occlusion map.
+和其他一些技术一样，
+SSAO shader 有几个可以拧的旋钮，用来得到你想要的样子。
+`bias` 会加到采样离 camera 的距离上。
+可以用 bias 对付 "acne"。
+`radius` 增大或减小采样空间的覆盖范围。
+`magnitude` 让 occlusion map 变亮或变暗。
+`contrast` 让 occlusion map 变淡，或让它更强烈。
 
 ```c
   // ...
@@ -343,9 +342,9 @@ The `contrast` either washes out or increases the starkness of the occlusion map
   // ...
 ```
 
-Retrieve the position, normal, and random vector for later use.
-Recall that the example code created a set number of random vectors.
-The random vector is chosen based on the current fragment's screen position.
+取出 position、normal 和随机 vector，供后面使用。
+回忆一下，示例代码创建了固定数量的随机 vector。
+随机 vector 根据当前 fragment 的屏幕位置选取。
 
 ```c
   // ...
@@ -357,8 +356,8 @@ The random vector is chosen based on the current fragment's screen position.
   // ...
 ```
 
-Using the random and normal vectors, assemble the tangent, binormal, and normal matrix.
-You'll need this matrix to transform the sample vectors from tangent space to view space.
+用随机 vector 和 normal 组装 tangent、binormal、normal matrix。
+需要这个 matrix 把采样 vector 从 tangent space 变换到 view space。
 
 ```c
   // ...
@@ -372,7 +371,7 @@ You'll need this matrix to transform the sample vectors from tangent space to vi
   // ...
 ```
 
-With the matrix in hand, the shader can now loop through the samples, subtracting how many are not occluded.
+有了这个 matrix，shader 就可以遍历采样，减去没有被遮挡的数量。
 
 ```c
     // ...
@@ -383,7 +382,7 @@ With the matrix in hand, the shader can now loop through the samples, subtractin
     // ...
 ```
 
-Using the matrix, position the sample near the vertex/fragment position and scale it by the radius.
+用这个 matrix 把采样放到 vertex 或 fragment position 附近，再按 radius 缩放。
 
 ```c
     // ...
@@ -396,15 +395,15 @@ Using the matrix, position the sample near the vertex/fragment position and scal
     // ...
 ```
 
-Using the sample's position in view space, transform it from view space to clip space to UV space.
+用采样在 view space 的 position，把它从 view space 变到 clip space，再变到 UV space。
 
 ```c
 -1 * 0.5 + 0.5 = 0
  1 * 0.5 + 0.5 = 1
 ```
 
-Recall that clip space components range from negative one to one and that UV coordinates range from zero to one.
-To transform clip space coordinates to UV coordinates, multiply by one half and add one half.
+回忆一下，clip space 分量范围是 -1 到 1，UV 坐标范围是 0 到 1。
+把 clip space 坐标变到 UV 坐标，先乘二分之一，再加二分之一。
 
 ```c
     // ...
@@ -417,13 +416,13 @@ To transform clip space coordinates to UV coordinates, multiply by one half and 
     // ...
 ```
 
-Using the offset UV coordinates,
-created by projecting the 3D sample onto the 2D position texture,
-find the corresponding position vector.
-This takes you from view space to clip space to UV space back to view space.
-The shader takes this round trip to find out if some geometry is behind, at, or in front of this sample.
-If the sample is in front of or at some geometry, this sample doesn't count towards the fragment being occluded.
-If the sample is behind some geometry, this sample counts towards the fragment being occluded.
+用把 3D 采样投影到 2D position texture 得到的
+偏移 UV 坐标，
+找出对应的 position vector。
+这一路是从 view space 到 clip space，到 UV space，再回到 view space。
+shader 绕这一圈，是为了判断有没有几何体在这个采样后面、上面或前面。
+如果采样在某几何体前面或正好在它上面，这个采样不算该 fragment 被遮挡。
+如果采样在某几何体后面，这个采样就算该 fragment 被遮挡。
 
 ```c
     // ...
@@ -442,8 +441,8 @@ If the sample is behind some geometry, this sample counts towards the fragment b
     // ...
 ```
 
-Now weight this sampled position by how far it is inside or outside the radius.
-Finally, subtract this sample from the occlusion factor since it assumes all of the samples are occluded before the loop.
+现在按这个采样 position 在 radius 之内或之外多远来加权。
+最后从这个 occlusion 因子里减去这个采样，因为循环开始前它假设所有采样都被遮挡。
 
 ```c
     // ...
@@ -457,9 +456,9 @@ Finally, subtract this sample from the occlusion factor since it assumes all of 
     // ...
 ```
 
-Divide the occluded count by the number of samples to scale the occlusion factor from `[0, NUM_SAMPLES]` to `[0, 1]`.
-Zero means full occlusion and one means no occlusion.
-Now assign the occlusion factor to the fragment's color and you're done.
+用被遮挡的计数除以采样数，把 occlusion 因子从 `[0, NUM_SAMPLES]` 缩放到 `[0, 1]`。
+0 表示完全遮挡，1 表示没有遮挡。
+现在把 occlusion 因子赋给 fragment 颜色，这一步就完成了。
 
 ```c
     // ...
@@ -469,21 +468,21 @@ Now assign the occlusion factor to the fragment's color and you're done.
     // ...
 ```
 
-For the demo's purposes,
-the example code sets the alpha channel to alpha channel of the position framebuffer texture to avoid covering up the background.
+为了 demo 的需要，
+示例代码把 alpha 通道设成 position framebuffer texture 的 alpha，避免盖住背景。
 
-### Blurring
+### 模糊
 
 <p align="center">
 <img src="https://i.imgur.com/QsqOhFR.gif" alt="SSAO Blur Texture" title="SSAO Blur Texture">
 </p>
 
-The SSAO framebuffer texture is noisy as is.
-You'll want to blur it to remove the noise.
-Refer back to the section on [blurring](blur.md).
-For the best results, use a median or Kuwahara filter to preserve the sharp edges.
+SSAO framebuffer texture 本身是有噪声的。
+需要把它模糊一下来去掉噪声。
+见 [模糊](blur.md) 一节。
+想要最好的结果，用 median 或 Kuwahara filter 来保住锐利边缘。
 
-### Ambient Color
+### Ambient 颜色
 
 ```c
   // ...
@@ -497,11 +496,11 @@ For the best results, use a median or Kuwahara filter to preserve the sharp edge
   // ...
 ```
 
-The final stop for SSAO is back in the lighting calculation.
-Here you see the occlusion factor being looked up in the
-SSAO framebuffer texture and then included in the ambient light calculation.
+SSAO 的最后一站回到 lighting 计算。
+这里从 SSAO framebuffer texture 查出
+occlusion 因子，再放进 ambient light 的计算。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
@@ -513,7 +512,7 @@ SSAO framebuffer texture and then included in the ambient light calculation.
 - [median-filter.frag](../demonstration/shaders/fragment/median-filter.frag)
 - [kuwahara-filter.frag](../demonstration/shaders/fragment/kuwahara-filter.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>

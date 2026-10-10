@@ -12,27 +12,27 @@
 <img src="https://i.imgur.com/M4eHo9I.gif" alt="Normal Mapping" title="Normal Mapping">
 </p>
 
-Normal mapping allows you to add surface details without adding any geometry.
-Typically, in a modeling program like Blender, you create a high poly and a low poly version of your mesh.
-You take the vertex normals from the high poly mesh and bake them into a texture.
-This texture is the normal map.
-Then inside the fragment shader, you replace the low poly mesh's vertex normals with the
-high poly mesh's normals you baked into the normal map.
-Now when you light your mesh, it will appear to have more polygons than it really has.
-This will keep your FPS high while at the same time retain most of the details from the high poly version.
+Normal mapping 让你不加几何体也能增加表面细节。
+通常在 Blender 这类建模软件里，你会做 mesh 的 high poly 和 low poly 两个版本。
+把 high poly mesh 的 vertex normal 烘焙进一张 texture。
+这张 texture 就是 normal map。
+然后在 fragment shader 里，用烘焙进 normal map 的
+high poly normal 替换 low poly mesh 的 vertex normal。
+再给 mesh 打光时，它看起来会比实际 polygon 更多。
+这样既能保持较高的 FPS，又能保留 high poly 版本的大部分细节。
 
 <p align="center">
 <img src="https://i.imgur.com/nSY9AW4.gif" alt="From high to low poly with normal mapping." title="From high to low poly with normal mapping.">
 </p>
 
-Here you see the progression from the high poly model to the low poly model to the low poly model with the normal map applied.
+这里可以看到从 high poly 模型到 low poly 模型，再到贴上 normal map 的 low poly 模型。
 
 <p align="center">
 <img src="https://i.imgur.com/jvkRPE7.gif" alt="Normal Map Illusion" title="Normal Map Illusion">
 </p>
 
-Keep in mind though, normal mapping is only an illusion.
-After a certain angle, the surface will look flat again.
+不过要记住，normal mapping 只是错觉。
+超过某个角度，表面又会看起来是平的。
 
 ### Vertex
 
@@ -59,16 +59,16 @@ in vec3 p3d_Tangent;
   // ...
 ```
 
-Starting in the vertex shader,
-you'll need to output to the fragment shader the normal vector, binormal vector, and the tangent vector.
-These vectors are used, in the fragment shader, to transform the normal map normal from tangent space to view space.
+从 vertex shader 开始，
+需要把 normal、binormal 和 tangent 输出给 fragment shader。
+fragment shader 用这些 vector 把 normal map 里的 normal 从 tangent space 变换到 view space。
 
-`p3d_NormalMatrix` transforms the vertex normal, binormal, and tangent vectors to view space.
-Remember that in view space, all of the coordinates are relative to the camera's position.
+`p3d_NormalMatrix` 把 vertex normal、binormal 和 tangent 变换到 view space。
+记住，在 view space 里，所有坐标都相对 camera 的位置。
 
 <blockquote>
-[p3d_NormalMatrix] is the upper 3x3 of the inverse transpose of the ModelViewMatrix.
-It is used to transform the normal vector into view-space coordinates.
+[p3d_NormalMatrix] 是 ModelViewMatrix 的逆转置的左上 3x3。
+它用来把 normal vector 变换到 view-space 坐标。
 <br>
 <br>
 <footer>
@@ -96,13 +96,13 @@ out vec2 normalCoord;
 <img src="https://i.imgur.com/tLIA6Hu.gif" alt="Normal Maps" title="Normal Maps">
 </p>
 
-You'll also need to output, to the fragment shader, the UV coordinates for the normal map.
+还需要把 normal map 的 UV 坐标输出给 fragment shader。
 
 ### Fragment
 
-Recall that the vertex normal was used to calculate the lighting.
-However, the normal map provides us with different normals to use when calculating the lighting.
-In the fragment shader, you need to swap out the vertex normals for the normals found in the normal map.
+回忆一下，计算 lighting 时用的是 vertex normal。
+但 normal map 提供了另一组 normal，用来计算 lighting。
+在 fragment shader 里，要用 normal map 里的 normal 换掉 vertex normal。
 
 ```c
 // ...
@@ -121,7 +121,7 @@ in vec2 normalCoord;
   // ...
 ```
 
-Using the normal map coordinates the vertex shader sent, pull out the normal from the normal map.
+用 vertex shader 传来的 normal map 坐标，从 normal map 里取出 normal。
 
 ```c
   // ...
@@ -141,8 +141,8 @@ Using the normal map coordinates the vertex shader sent, pull out the normal fro
     // ...
 ```
 
-Earlier I showed how the normals are mapped to colors to create the normal map.
-Now this process needs to be reversed so you can get back the original normals that were baked into the map.
+前面讲过 normal 如何映射成颜色来制作 normal map。
+现在要把这个过程反过来，取回烘焙进这张 map 的原始 normal。
 
 ```c
 (r, g, b) =
@@ -153,7 +153,7 @@ Now this process needs to be reversed so you can get back the original normals t
     (x, y, z)
 ```
 
-Here's the process for unpacking the normals from the normal map.
+下面是从 normal map 解包 normal 的过程。
 
 ```c
     // ...
@@ -172,28 +172,28 @@ Here's the process for unpacking the normals from the normal map.
     // ...
 ```
 
-The normals you get back from the normal map are typically in tangent space.
-They could be in another space, however.
-For example, Blender allows you to bake the normals in tangent, object, world, or camera space.
+从 normal map 取回的 normal 通常在 tangent space。
+它们也可以在别的 space。
+例如 Blender 允许把 normal 烘焙到 tangent、object、world 或 camera space。
 
 <p align="center">
 <img src="https://i.imgur.com/EzHJPd4.gif" alt="Replacing the vertex normals with the normal map normals." title="Replacing the vertex normals with the normal map normals.">
 </p>
 
-To take the normal map normal from tangent space to view pace,
-construct a three by three matrix using the tangent, binormal, and vertex normal vectors.
-Multiply the normal by this matrix and be sure to normalize it.
+要把 normal map 的 normal 从 tangent space 转到 view space，
+用 tangent、binormal 和 vertex normal 构造一个 3 乘 3 的 matrix。
+用这个 matrix 乘 normal，并记得 normalize。
 
-At this point, you're done.
-The rest of the lighting calculations are the same.
+到这里就完成了。
+其余 lighting 计算不变。
 
-### Source
+### 源码
 
 - [main.cxx](../demonstration/src/main.cxx)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## 版权
 
 (C) 2019 David Lettier
 <br>
